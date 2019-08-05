@@ -7,11 +7,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
+import { NavbarComponent } from './elements/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddBookComponent
+    AddBookComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, CoreModule, BrowserAnimationsModule, ToastrModule.forRoot()
