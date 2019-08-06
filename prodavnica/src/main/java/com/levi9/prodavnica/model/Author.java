@@ -3,13 +3,7 @@ package com.levi9.prodavnica.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,8 +24,9 @@ public class Author {
 
 	private String lastName;
 
-	@OneToMany(mappedBy = "author", cascade = CascadeType.REFRESH)
-	private Set<BookAuthor> authorBook = new HashSet<BookAuthor>();
+	@ManyToMany(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST ,CascadeType.MERGE})
+	@JoinTable(name = "book_author", joinColumns = { @JoinColumn(name = "author_id") }, inverseJoinColumns = {@JoinColumn(name = "book_id") })
+	private Set<Book> books;
 
 	public Author(String firstName, String lastName) {
 		this.firstName = firstName;
