@@ -3,17 +3,12 @@ package com.levi9.prodavnica.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Getter
@@ -34,11 +29,11 @@ public class Book {
 
 	private boolean isDeleted;
 
-	@OneToMany(mappedBy = "book", cascade = CascadeType.REFRESH)
-	private Set<BookAuthor> bookAuthor = new HashSet<BookAuthor>();
+	@ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+	private Set<Author> authors;
 
-	@OneToMany(mappedBy = "book", cascade = CascadeType.REFRESH)
-	private Set<BookCategory> bookCategory = new HashSet<BookCategory>();
+	@ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+	private Set<Category> categories;
 
 	public Book(String name, double price, int amount, boolean isDeleted) {
 		this.name = name;

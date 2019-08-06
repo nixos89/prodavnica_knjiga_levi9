@@ -3,17 +3,13 @@ package com.levi9.prodavnica.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Getter
@@ -28,8 +24,10 @@ public class Category {
 
 	private String name;
 
-	@OneToMany(mappedBy = "category", cascade = CascadeType.REFRESH)
-	private Set<BookCategory> categoryBook = new HashSet<BookCategory>();
+	@ManyToMany(fetch =FetchType.EAGER ,cascade = CascadeType.ALL)
+	@JoinTable(name = "book_category", joinColumns = { @JoinColumn(name = "category_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "book_id") })
+	private Set<Book> books = new HashSet<Book>();
 
 	public Category(String name) {
 		this.name = name;
