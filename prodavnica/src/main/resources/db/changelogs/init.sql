@@ -1,0 +1,14 @@
+drop table if exists author;
+drop table if exists book;
+drop table if exists book_author;
+drop table if exists book_category;
+drop table if exists category;
+create table author (author_id bigint not null auto_increment, first_name varchar(255), last_name varchar(255), primary key (author_id)) engine=InnoDB;
+create table book (book_id bigint not null auto_increment, amount integer not null, is_deleted bit not null, name varchar(255), price double precision not null, primary key (book_id)) engine=InnoDB;
+create table book_author (book_author_id bigint not null auto_increment, author_id bigint, book_id bigint, primary key (book_author_id)) engine=InnoDB;
+create table book_category (book_category_id bigint not null auto_increment, book_id bigint, category_id bigint, primary key (book_category_id)) engine=InnoDB;
+create table category (category_id bigint not null auto_increment, name varchar(255), primary key (category_id)) engine=InnoDB;
+alter table book_author add constraint FKbjqhp85wjv8vpr0beygh6jsgo foreign key (author_id) references author (author_id);
+alter table book_author add constraint FKhwgu59n9o80xv75plf9ggj7xn foreign key (book_id) references book (book_id);
+alter table book_category add constraint FKnyegcbpvce2mnmg26h0i856fd foreign key (book_id) references book (book_id);
+alter table book_category add constraint FKam8llderp40mvbbwceqpu6l2s foreign key (category_id) references category (category_id);
