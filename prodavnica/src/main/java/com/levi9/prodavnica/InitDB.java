@@ -20,4 +20,6 @@ public class InitDB {
 		
 	}
 	
+	private int brojac;
+	
 }
