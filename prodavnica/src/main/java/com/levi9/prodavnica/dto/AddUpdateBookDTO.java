@@ -1,5 +1,7 @@
 package com.levi9.prodavnica.dto;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,5 +15,7 @@ public class AddUpdateBookDTO {
 	private double price;
 	private int amount;
 	private boolean isDeleted;
+	private Set<Long> categoryIds;
+	private Set<Long> authorIds;
 
 }
