@@ -24,7 +24,7 @@ public class Author {
 
 	private String lastName;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade =  {CascadeType.PERSIST ,CascadeType.MERGE})
 	@JoinTable(name = "book_author", joinColumns = { @JoinColumn(name = "author_id") }, inverseJoinColumns = {@JoinColumn(name = "book_id") })
 	private Set<Book> books;
 

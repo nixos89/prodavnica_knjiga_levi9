@@ -24,7 +24,7 @@ public class Category {
 
 	private String name;
 
-	@ManyToMany(fetch =FetchType.EAGER ,cascade = CascadeType.ALL)
+	@ManyToMany(fetch =FetchType.EAGER ,cascade =  {CascadeType.PERSIST ,CascadeType.MERGE})
 	@JoinTable(name = "book_category", joinColumns = { @JoinColumn(name = "category_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "book_id") })
 	private Set<Book> books = new HashSet<Book>();

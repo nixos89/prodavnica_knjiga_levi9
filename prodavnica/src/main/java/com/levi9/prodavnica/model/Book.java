@@ -29,10 +29,10 @@ public class Book {
 
 	private boolean isDeleted;
 
-	@ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "books", cascade =  {CascadeType.PERSIST ,CascadeType.MERGE})
 	private Set<Author> authors;
 
-	@ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "books", cascade =  {CascadeType.PERSIST ,CascadeType.MERGE})
 	private Set<Category> categories;
 
 	public Book(String name, double price, int amount, boolean isDeleted) {
