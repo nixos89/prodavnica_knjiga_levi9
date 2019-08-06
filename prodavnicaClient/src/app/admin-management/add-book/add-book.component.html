@@ -1,8 +1,12 @@
 <div class="container">
     <div>
-        <form id="insertBookForm">
-            
-
+        <form id="insertBookForm" [(ngModel)]="bookToInsert">
+            <label for="bookName">Name: </label>
+            <input type="text" id="bookName"/>
+            <label for="bookPrice">Price: </label>
+            <input type="number" id="bookPrice"/>
+            <label for="bookAmount">Amount: </label>
+            <input type="number" id="bookAmount"/>
         </form>
     </div>
 
