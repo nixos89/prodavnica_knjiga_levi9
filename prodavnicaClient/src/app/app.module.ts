@@ -8,12 +8,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { NavbarComponent } from './elements/navbar/navbar.component';
+import { HomepageComponent } from './book/homepage/homepage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddBookComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, CoreModule, BrowserAnimationsModule, ToastrModule.forRoot()
