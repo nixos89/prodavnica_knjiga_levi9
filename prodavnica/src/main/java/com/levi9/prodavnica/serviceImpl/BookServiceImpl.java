@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.levi9.prodavnica.dto.UpdateBookDTO;
+import com.levi9.prodavnica.dto.AddUpdateBookDTO;
 import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.model.Book;
 import com.levi9.prodavnica.repository.BookRepository;
@@ -32,7 +32,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public boolean updateBook(UpdateBookDTO bookRequest, long idBook) {
+	public boolean updateBook(AddUpdateBookDTO bookRequest, long idBook) {
 		Book book = bookRepository.getOne(idBook);
 		if (book != null) {
 
@@ -48,5 +48,18 @@ public class BookServiceImpl implements BookService {
 			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
 		}
 
+	}
+
+	@Override
+	public boolean addBook(AddUpdateBookDTO addUpdateBookDTO) {
+		Book book = new Book();
+		book.setAmount(addUpdateBookDTO.getAmount());
+		book.setDeleted(addUpdateBookDTO.isDeleted());
+		book.setName(addUpdateBookDTO.getName());
+		book.setPrice(addUpdateBookDTO.getPrice());
+
+		bookRepository.save(book);
+
+		return true;
 	}
 }
