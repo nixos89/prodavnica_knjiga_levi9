@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,11 +23,9 @@ public class BookCategory {
 	private Long bookCategoryId;
 
 	@ManyToOne
-	@JoinColumn(name = "bookId")
 	private Book book;
 
 	@ManyToOne
-	@JoinColumn(name = "categoryId")
 	private Category category;
 
 	public BookCategory(Book book, Category category) {
