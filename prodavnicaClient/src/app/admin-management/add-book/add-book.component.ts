@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from 'src/app/core/models/book.model';
+import { AdminManagementService } from 'src/app/core/services/admin-management.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-book',
@@ -7,18 +10,22 @@ import { Book } from 'src/app/core/models/book.model';
   styleUrls: ['./add-book.component.css']
 })
 export class AddBookComponent implements OnInit {
-  bookToInsert: Book;
+  addBook: Book = new Book();
 
-  constructor() {
-
+  constructor(private adminService: AdminManagementService, private toastr: ToastrService, private router: Router) {
   }
 
   ngOnInit() {
 
   }
 
-  insertBook() {
-    
+  onInsertBook() {
+    this.adminService.addBook(this.addBook).subscribe(response =>{
+      this.toastr.success("Successfuly added book");
+      this.router.navigate(["/"]);
+    }, error =>{
+      this.toastr.error("Failed to add book");
+    })
   }
 
 

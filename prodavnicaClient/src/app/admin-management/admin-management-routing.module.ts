@@ -6,7 +6,7 @@ import { UpdateBookComponent } from './update-book/update-book.component';
 
 const routes: Routes = [
   { path: 'add-book', component: AddBookComponent },
-  { path: 'update-book', component: UpdateBookComponent }
+  { path: 'update-book/:idBook', component: UpdateBookComponent }
 ];
 
 @NgModule({
