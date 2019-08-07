@@ -10,10 +10,15 @@
 		<sqlFile path="changelogs/init.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
+
 	<changeSet id="addIsDeletedInCat" author="AJ">
 		<sqlFile path="changelogs/addIsDeletedInCat.sql"
-				 relativeToChangelogFile="true" />
+			relativeToChangelogFile="true" />
 	</changeSet>
 
+	<changeSet id="fillDummyData" author="Nikola Stevanovic">
+		<sqlFile path="changelogs/fillDummyData.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
 
 </databaseChangeLog>
