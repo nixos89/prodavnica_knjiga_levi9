@@ -1,11 +1,14 @@
 package com.levi9.prodavnica.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import com.levi9.prodavnica.dto.BookDTO;
+import com.levi9.prodavnica.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,14 +34,26 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	CategoryRepository categoryRepository;
 
+	@Autowired
+	BookMapper bookMapper;
+
 	@Override
-	public List<Book> findAllBooks() {
-		return bookRepository.findAll();
+	public List<BookDTO> findAllBooks() {
+		List<BookDTO> bookDTOS = new ArrayList<>();
+		List<Book> books = bookRepository.findAll();
+
+		if(!books.isEmpty()){
+			for(Book book :books){
+				bookDTOS.add(bookMapper.map(book));
+			}
+		}
+		return bookDTOS;
 	}
 
 	@Override
-	public Book findBook(Long id) {
-		return bookRepository.getOne(id);
+	public BookDTO findBook(Long id) {
+		Book book = bookRepository.getOne(id);
+		return bookMapper.map(book);
 	}
 
 	@Override

@@ -15,9 +15,14 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
+	@GetMapping("/all")
 	public ResponseEntity<?> getAllBooks() {
+		return ResponseEntity.ok(bookService.findAllBooks());
+	}
 
-		return null;
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getOneBook(@PathVariable Long id){
+		return ResponseEntity.ok(bookService.findBook(id));
 	}
 
 	@PostMapping(value = "/add",consumes = MediaType.APPLICATION_JSON_VALUE)
