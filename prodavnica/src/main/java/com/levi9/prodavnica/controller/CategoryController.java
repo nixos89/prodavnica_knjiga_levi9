@@ -1,23 +1,32 @@
 package com.levi9.prodavnica.controller;
 
+import com.levi9.prodavnica.dto.AddCategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.levi9.prodavnica.service.CategoryService;
 
 @RestController
-@RequestMapping("api/category")
+@RequestMapping("api/categories")
 public class CategoryController {
 	
 	@Autowired
 	CategoryService categoryService;
 
-	@GetMapping("/all")
+	@GetMapping
 	public ResponseEntity<?> getAllCategories(){
 		return ResponseEntity.ok(categoryService.findAllCategories());
 	}
+	@GetMapping("/id")
+	public ResponseEntity<?> getCategory(@PathVariable Long id){
+		return ResponseEntity.ok(categoryService.getOne(id));
+	}
+	@PostMapping
+	public ResponseEntity<?> addCategory(@RequestBody AddCategoryDTO addCategoryDTO){
+		return null;
+	}
+
+
 	
 }
