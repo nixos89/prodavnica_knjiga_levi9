@@ -8,11 +8,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring",uses = {CategoryMapper.class,AuthorMapper.class})
-@Component
+@Mapper(componentModel = "spring", uses = { CategoryMapper.class, AuthorMapper.class })
 public interface BookMapper {
-    BookDTO map(Book book);
+	BookDTO map(Book book);
 
-    Book map(BookDTO source);
+	Book map(BookDTO source);
 
 }

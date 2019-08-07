@@ -1,14 +1,12 @@
 package com.levi9.prodavnica.service;
 
-import java.util.List;
-
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
 import com.levi9.prodavnica.dto.BookDTO;
-import com.levi9.prodavnica.model.Book;
+import com.levi9.prodavnica.dto.BookListDTO;
 
 public interface BookService {
 
-	public List<BookDTO> findAllBooks();
+	public BookListDTO findAllBooks();
 
 	public BookDTO findBook(Long id);
 
