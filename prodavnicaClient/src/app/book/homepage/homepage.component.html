@@ -1,83 +1,128 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FrontEnd</title>
-  </head>
-  <body>
-    <div class="u-center u-mb-large">Start Coding !!</div>
-    <div class="row">
-      <div class="col-1-of-4">
-        <div class="card">
-          <div class="card__side card__side--front">
-            <div class="card__picture card__picture--1"></div>
-            <div class="card__heading">
-              <span class="card__heading-span card__heading-span--1">
-                Card Heading 1
-              </span>
-            </div>
-            <div class="card__info u-padding">
-              <p>Book title: Harry Potter</p>
-              <p>Price: 49$</p>
-              <p>Amount: 999</p>
-              <p>U prodaji: JESTE / NIJE</p>
-            </div>
-          </div>
-          <div class="card__side card__side--back card__side--back-1">
-            <p><button type="button">Nije u prodaji!</button></p>
-          </div>
-        </div>
+
+<body> -->
+
+<!-- Page Content -->
+<div class="container at-da-top">
+
+  <div class="row">
+
+    <div class="col-lg-3">
+
+      <h1 class="my-4">Levi9 Bookstore</h1>
+      <div class="list-group">
+        <!-- *ngFor = category of categories; i = index; -->
+        <ul>
+          <li><a href="#" class="list-group-item">Category 1</a></li>
+          <li><a href="#" class="list-group-item">Category 2</a></li>
+        </ul>
       </div>
-      <div class="col-1-of-4">
-        <div class="card">
-          <div class="card__side card__side--front">
-            <div class="card__picture card__picture--2"></div>
-            <div class="card__heading">
-              <span class="card__heading-span card__heading-span--2">
-                Card Heading 2
-              </span>
-            </div>
-            <div class="card__info u-padding">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea quia et ex. Culpa rerum, aspernatur doloribus ut architecto reiciendis. Distinctio, necessitatibus incidunt sapiente voluptates eligendi beatae soluta ullam suscipit provident!</div>
-          </div>
-          <div class="card__side card__side--back card__side--back-2">
-            Card Back
-            asdasdasdasdasdasd
-          </div>
-        </div>
-      </div>
-      <div class="col-1-of-4">
-        <div class="card">
-          <div class="card__side card__side--front">
-            <div class="card__picture card__picture--3"></div>
-            <div class="card__heading">
-              <span class="card__heading-span card__heading-span--3">
-                Card Heading 3
-              </span>
-            </div>
-            <div class="card__info u-padding">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea quia et ex. Culpa rerum, aspernatur doloribus ut architecto reiciendis. Distinctio, necessitatibus incidunt sapiente voluptates eligendi beatae soluta ullam suscipit provident!</div>
-          </div>
-          <div class="card__side card__side--back card__side--back-3">
-            Card Back
-          </div>
-        </div>
-      </div>
-      <div class="col-1-of-4">
-        <div class="card">
-          <div class="card__side card__side--front">
-            <div class="card__picture card__picture--4"></div>
-            <div class="card__heading">
-              <span class="card__heading-span card__heading-span--4">
-                Card Heading 4
-              </span>
-            </div>
-            <div class="card__info u-padding">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea quia et ex. Culpa rerum, aspernatur doloribus ut architecto reiciendis. Distinctio, necessitatibus incidunt sapiente voluptates eligendi beatae soluta ullam suscipit provident!</div>
-          </div>
-          <div class="card__side card__side--back card__side--back-4">
-            Card Back
-          </div>
-        </div>
-      </div>
+
     </div>
-  </body>
-</html>
+    <!-- /.col-lg-3 -->
+
+    <div class="col-lg-9">
+      <div class="row">
+
+        <!-- START::Card-->
+        <!-- TODO: insert this in next line as directive *ngFor="let book of top10Books; i = index" -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h4 class="card-title">
+                <!-- {{book.name}} -->
+                <a routerLink="">{{title}}</a>
+              </h4>
+              <!-- {{book.price}} -->
+              <h5>Price: 555333$</h5>
+              <p>Author: Miroljub Petrovic</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            </div>
+          </div>
+        </div>
+        <!-- END::Card-->
+
+        <!-- START::Card-->
+        <!-- TODO: insert this in next line as directive *ngFor="let book of top10Books; i = index" -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h4 class="card-title">
+                <!-- {{book.name}} -->
+                <a href="#">Title</a>
+              </h4>
+              <!-- {{book.price}} -->
+              <h5>Price: 555333$</h5>
+              <p>Author: Miroljub Petrovic</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            </div>
+          </div>
+        </div>
+        <!-- END::Card-->
+
+        <!-- START::Card-->
+        <!-- TODO: insert this in next line as directive *ngFor="let book of top10Books; i = index" -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h4 class="card-title">
+                <!-- {{book.name}} -->
+                <a href="#">Title</a>
+              </h4>
+              <!-- {{book.price}} -->
+              <h5>Price: 555333$</h5>
+              <p>Author: Miroljub Petrovic</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            </div>
+          </div>
+        </div>
+        <!-- END::Card-->
+
+        <!-- START::Card-->
+        <!-- TODO: insert this in next line as directive *ngFor="let book of top10Books; i = index" -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h4 class="card-title">
+                <!-- {{book.name}} -->
+                <a href="#">Title</a>
+              </h4>
+              <!-- {{book.price}} -->
+              <h5>Price: 555333$</h5>
+              <p>Author: Miroljub Petrovic</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            </div>
+          </div>
+        </div>
+        <!-- END::Card-->
+
+
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.col-lg-9 -->
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<!-- <footer class="py-5 bg-dark">
+    <div class="container at-da-bottom">
+      <p class="m-0 text-center text-white">Copyright &copy; Levi9 AMN Interns of August 2019</p>
+    </div> -->
+<!-- /.container -->
+<!-- </footer> -->

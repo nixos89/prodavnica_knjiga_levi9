@@ -5,11 +5,16 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AdminManagementService {
+  
+  configUrl = '../../assets/config1.json'
 
   constructor(private http: HttpClient) {
-    
-
   }
 
+  getConfig() {
+    return this.http.get(this.configUrl);
+  }
+
+  
 
 }
