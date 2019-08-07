@@ -1,5 +1,13 @@
 export class Category {
-    id?: String;
-    name: String;
-    books?: [];
+  categoryId?: number;
+  name: string;
+  checked?: boolean;
+  books?: [];
+
+  constructor() {
+    this.categoryId;
+    this.name = "";
+    this.checked;
+    this.books = [];
+  }
 }
