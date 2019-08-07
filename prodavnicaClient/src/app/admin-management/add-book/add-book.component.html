@@ -10,3 +10,91 @@
         </form>
     </div>
 </div>
+  <div>
+    <form #addBookForm="ngForm">
+      <input
+        type="text"
+        name="name"
+        [(ngModel)]="bookData.name"
+        id="name"
+        #name="ngModel"
+        class="form-control"
+        placeholder="Title"
+        required
+      />
+      <span
+        class="validation-message"
+        style="text-align: justify; display:block;"
+        *ngIf="name.errors?.required && name.touched"
+        class="text-danger"
+        >Title is required</span
+      >
+      <input
+        type="text"
+        name="price"
+        [(ngModel)]="bookData.price"
+        id="price"
+        #price="ngModel"
+        class="form-control"
+        placeholder="Price"
+        required
+      />
+      <span
+        class="validation-message"
+        style="text-align: justify; display:block;"
+        *ngIf="price.errors?.required && price.touched"
+        class="text-danger"
+        >Price is required</span
+      >
+      <input
+        type="text"
+        name="amount"
+        [(ngModel)]="bookData.amount"
+        id="amount"
+        #amount="ngModel"
+        class="form-control"
+        placeholder="Amount"
+        required
+      />
+      <span
+        class="validation-message"
+        style="text-align: justify; display:block;"
+        *ngIf="amount.errors?.required && amount.touched"
+        class="text-danger"
+        >Amount is required</span
+      >
+
+      <div *ngFor="let author of authorData.authors; let i = index">
+        <input
+          type="checkbox"
+          name="{{ author.id }}"
+          class="form-control"
+          [(ngModel)]="authorData.authors[i].checked"
+          id="{{ author.id }}"
+          (change)="onChangeAuthorsData()"
+        />
+        <label for="{{ author.id }}"
+          >{{ author.firstName }} {{ author.lastName }}</label
+        >
+      </div>
+
+      <div *ngFor="let category of categoryData.categories; let i = index">
+        <input
+          type="checkbox"
+          name="{{ category.id }}"
+          class="form-control"
+          [(ngModel)]="categoryData.categories[i].checked"
+          id="{{ category.id }}"
+          (change)="onChangeCategoriesData()"
+        />
+        <label for="{{ category.id }}">{{ category.name }}</label>
+      </div>
+
+      <button
+        [disabled]="!addBookForm.valid"
+        class="btn btn-lg btn-primary btn-block"
+        (click)="onAddBook()"
+      ></button>
+    </form>
+  </div>
+</div>
