@@ -12,10 +12,11 @@ import { NavbarComponent } from './elements/navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, CoreModule, BrowserAnimationsModule, ToastrModule.forRoot()],
+    BrowserModule, AppRoutingModule, CoreModule, BrowserAnimationsModule, ToastrModule.forRoot()
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
