@@ -8,6 +8,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root"
 })
 export class AdminManagementService {
+
   constructor(private http: HttpClient) {}
 
   public addBook(book: Book): Observable<any> {
@@ -17,4 +18,5 @@ export class AdminManagementService {
   public updateBook(book: Book, idBook: number): Observable<any> {
     return this.http.put(environment.url + "api/book/update" + idBook, book);
   }
+
 }
