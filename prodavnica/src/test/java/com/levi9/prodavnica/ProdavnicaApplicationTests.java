@@ -11,6 +11,7 @@ public class ProdavnicaApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		
 	}
 
 }
