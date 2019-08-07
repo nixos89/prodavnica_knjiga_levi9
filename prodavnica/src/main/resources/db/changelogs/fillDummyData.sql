@@ -19,10 +19,10 @@ INSERT INTO book_author(author_id, book_id) VALUES(4, 1);
 INSERT INTO book_author(author_id, book_id) VALUES(2, 3);
 
 -- inserting categories
-INSERT INTO category(category_id, name) VALUES(1, "Motivacija");
-INSERT INTO category(category_id, name) VALUES(2, "Lirika");
-INSERT INTO category(category_id, name) VALUES(3, "Tragedija");
-INSERT INTO category(category_id, name) VALUES(4, "Komedija");
+INSERT INTO category(category_id, name, is_deleted) VALUES(1, "Motivacija", 0);
+INSERT INTO category(category_id, name, is_deleted) VALUES(2, "Lirika", 0);
+INSERT INTO category(category_id, name, is_deleted) VALUES(3, "Tragedija", 0);
+INSERT INTO category(category_id, name, is_deleted) VALUES(4, "Komedija", 0);
 
 -- connecting category and book
 INSERT INTO book_category(category_id, book_id) VALUES(1, 4);
