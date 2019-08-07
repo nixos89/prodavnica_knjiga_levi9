@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.levi9.prodavnica.dto.CategoryDTO;
 import com.levi9.prodavnica.dto.CategoryListDTO;
 import com.levi9.prodavnica.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,12 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return categoryListDTO;
 	}
+
+	@Override
+	public CategoryDTO getOne(Long id) {
+		return categoryMapper.map(categoryRepository.getOne(id));
+	}
+
+
 
 }
