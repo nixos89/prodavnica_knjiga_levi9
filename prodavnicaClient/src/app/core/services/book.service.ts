@@ -10,11 +10,11 @@ export class BookService {
   constructor(private http: HttpClient) {}
 
   public getBookInfo(idBook: number): Observable<any> {
-    return this.http.get(environment.url + "api/book/getInfo");
+    return this.http.get(environment.url + "api/books/" + idBook);
   }
 
   public getAllBooks(): Observable<any> {
-    return this.http.get(environment.url + "api/book/getAll");
+    return this.http.get(environment.url + "api/books");
   }  
 
 }
