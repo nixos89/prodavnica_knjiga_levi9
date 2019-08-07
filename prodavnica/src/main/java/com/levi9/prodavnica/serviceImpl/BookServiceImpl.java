@@ -1,20 +1,21 @@
 package com.levi9.prodavnica.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import com.levi9.prodavnica.dto.BookDTO;
-import com.levi9.prodavnica.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
+import com.levi9.prodavnica.dto.BookDTO;
+import com.levi9.prodavnica.dto.BookListDTO;
 import com.levi9.prodavnica.exception.StoreException;
+import com.levi9.prodavnica.mapper.BookMapper;
 import com.levi9.prodavnica.model.Author;
 import com.levi9.prodavnica.model.Book;
 import com.levi9.prodavnica.model.Category;
@@ -38,13 +39,14 @@ public class BookServiceImpl implements BookService {
 	BookMapper bookMapper;
 
 	@Override
-	public List<BookDTO> findAllBooks() {
-		List<BookDTO> bookDTOS = new ArrayList<>();
-		List<Book> books = bookRepository.findAll();
+	public BookListDTO findAllBooks() {
+		BookListDTO bookDTOS = new BookListDTO();
+		List<Book> books = bookRepository.findAll().stream().filter(x -> x.isDeleted() != false)
+				.collect(Collectors.toList());
 
-		if(!books.isEmpty()){
-			for(Book book :books){
-				bookDTOS.add(bookMapper.map(book));
+		if (!books.isEmpty()) {
+			for (Book book : books) {
+				bookDTOS.getBooks().add(bookMapper.map(book));
 			}
 		}
 		return bookDTOS;

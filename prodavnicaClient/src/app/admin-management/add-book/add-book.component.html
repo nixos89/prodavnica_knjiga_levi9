@@ -1,15 +1,4 @@
 <div class="container">
-    <div>
-        <form id="insertBookForm" >
-            <label for="bookName">Name: </label>
-            <input type="text" id="bookName"/>
-            <label for="bookPrice">Price: </label>
-            <input type="number" id="bookPrice"/>
-            <label for="bookAmount">Amount: </label>
-            <input type="number" id="bookAmount"/>
-        </form>
-    </div>
-</div>
   <div>
     <form #addBookForm="ngForm">
       <input
@@ -80,7 +69,7 @@
 
       <div *ngFor="let category of categoryData.categories; let i = index">
         <input
-          type="checkbox"
+          type=""
           name="{{ category.id }}"
           class="form-control"
           [(ngModel)]="categoryData.categories[i].checked"
@@ -89,6 +78,24 @@
         />
         <label for="{{ category.id }}">{{ category.name }}</label>
       </div>
+
+      <input
+        type="checkbox"
+        name="isDeleted"
+        [(ngModel)]="bookData.isDeleted"
+        id="isDeleted"
+        #isDeleted="ngModel"
+        class="form-control"
+        placeholder="Status..."
+        required
+      />
+      <span
+        class="validation-message"
+        style="text-align: justify; display:block;"
+        *ngIf="isDeleted.errors?.required && isDeleted.touched"
+        class="text-danger"
+        >Status is required</span
+      >
 
       <button
         [disabled]="!addBookForm.valid"

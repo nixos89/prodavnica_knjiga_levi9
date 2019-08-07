@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.levi9.prodavnica.service.AuthorService;
 
 @RestController
-@RequestMapping("api/author")
+@RequestMapping("api/authors")
 public class AuthorController {
-	
+
 	@Autowired
 	AuthorService authorService;
 
-	@GetMapping("/all")
-	public ResponseEntity<?> getAllAuthors(){
+	@GetMapping
+	public ResponseEntity<?> getAllAuthors() {
 		return ResponseEntity.ok(authorService.findAllAuthors());
 	}
+
 	@GetMapping("{id}")
-	public ResponseEntity<?> getAuthor(@PathVariable Long id){
+	public ResponseEntity<?> getAuthor(@PathVariable Long id) {
 		return ResponseEntity.ok(authorService.getOne(id));
 	}
-
 
 }
