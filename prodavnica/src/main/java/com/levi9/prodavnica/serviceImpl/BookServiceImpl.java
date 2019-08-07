@@ -41,7 +41,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public BookListDTO findAllBooks() {
 		BookListDTO bookDTOS = new BookListDTO();
-		List<Book> books = bookRepository.findAll().stream().filter(x -> x.isDeleted() != false)
+		List<Book> books = bookRepository.findAll().stream().filter(x -> x.isDeleted() == false)
 				.collect(Collectors.toList());
 
 		if (!books.isEmpty()) {
