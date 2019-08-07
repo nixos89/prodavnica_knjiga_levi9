@@ -10,20 +10,19 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-book.component.css']
 })
 export class AddBookComponent implements OnInit {
-  addBook: Book = new Book();
+  bookData: Book = new Book();
 
   constructor(private adminService: AdminManagementService, private toastr: ToastrService, private router: Router) {
   }
 
   ngOnInit() {
-
   }
 
-  onInsertBook() {
-    this.adminService.addBook(this.addBook).subscribe(response =>{
+  onAddBook() {
+    this.adminService.addBook(this.bookData).subscribe(response => {
       this.toastr.success("Successfuly added book");
       this.router.navigate(["/"]);
-    }, error =>{
+    }, error => {
       this.toastr.error("Failed to add book");
     })
   }

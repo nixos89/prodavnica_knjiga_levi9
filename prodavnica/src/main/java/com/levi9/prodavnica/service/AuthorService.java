@@ -6,9 +6,8 @@ import com.levi9.prodavnica.model.Author;
 
 public interface AuthorService {
 
-    public List<Author> findAllAuthors();
+	public List<Author> findAllAuthors();
 
-    public Author getOne(Long id);
-
+	public Author getOne(Long id);
 
 }
