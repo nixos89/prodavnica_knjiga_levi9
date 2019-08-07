@@ -1,5 +1,4 @@
 <div class="container">
-
   <div>
     <form #addBookForm="ngForm">
       <input
@@ -54,11 +53,11 @@
         >Amount is required</span
       >
 
-      <div *ngFor="let author of authorData.authors; let i = index">
+      <!-- <div *ngFor="let author of authorData.authors; let i = index">
         <input
           type="text"
           name="name"
-          [(ngModel)]="bookData.name"
+          [(ngModel)]="author.name"
           id="name"
           #name="ngModel"
           class="form-control"
@@ -80,7 +79,7 @@
           required
         />
         <label for="{{ category.id }}">{{ category.name }}</label>
-      </div>
+      </div> -->
 
       <input
         type="checkbox"
@@ -92,6 +91,7 @@
         placeholder="Status..."
         required
       />
+      <label for="isDeleted">Status ???</label>
       <span
         class="validation-message"
         style="text-align: justify; display:block;"

@@ -10,6 +10,6 @@ export class CategoryService {
   constructor(private http: HttpClient) {}
 
   public getAll(): Observable<any> {
-    return this.http.get(environment.url + "api/category/getAll");
+    return this.http.get(environment.url + "api/categories");
   }
 }

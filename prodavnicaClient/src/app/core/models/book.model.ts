@@ -3,7 +3,7 @@ export class Book {
   name: string;
   amount: number;
   price: number;
-  isDeleted: boolean;
+  isDeleted?: boolean;
   categories?: [];
   authors?: [];
 

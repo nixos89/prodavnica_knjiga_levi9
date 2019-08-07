@@ -9,6 +9,7 @@ import com.levi9.prodavnica.service.CategoryService;
 
 @RestController
 @RequestMapping("api/categories")
+@CrossOrigin(origins = "*")
 public class CategoryController {
 	
 	@Autowired

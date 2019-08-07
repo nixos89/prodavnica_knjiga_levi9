@@ -10,6 +10,6 @@ export class AuthorService {
   constructor(private http: HttpClient) {}
 
   public getAll(): Observable<any> {
-    return this.http.get(environment.url + "api/author/getAll");
+    return this.http.get(environment.url + "api/authors");
   }
 }
