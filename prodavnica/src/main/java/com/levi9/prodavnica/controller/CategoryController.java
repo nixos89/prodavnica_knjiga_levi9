@@ -2,6 +2,7 @@ package com.levi9.prodavnica.controller;
 
 import com.levi9.prodavnica.dto.AddCategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class CategoryController {
 
 	@PostMapping
 	public ResponseEntity<?> addCategory(@RequestBody AddCategoryDTO addCategoryDTO) {
-		return ResponseEntity.ok(categoryService.addCategory(addCategoryDTO));
+		return new ResponseEntity<>(categoryService.addCategory(addCategoryDTO), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")

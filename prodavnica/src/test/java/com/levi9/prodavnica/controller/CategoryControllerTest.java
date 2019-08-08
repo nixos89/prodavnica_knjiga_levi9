@@ -1,39 +1,33 @@
 package com.levi9.prodavnica.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levi9.prodavnica.config.CategoryConstants;
 import com.levi9.prodavnica.config.UrlPrefix;
 import com.levi9.prodavnica.dto.CategoryDTO;
 import com.levi9.prodavnica.dto.CategoryListDTO;
-import com.levi9.prodavnica.model.Category;
-import com.levi9.prodavnica.repository.CategoryRepository;
 import com.levi9.prodavnica.service.CategoryService;
 import org.assertj.core.util.Lists;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.result.JsonPathResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CategoryController.class)
+@AutoConfigureRestDocs(outputDir = "target/generated-sources/snippets")
 public class CategoryControllerTest {
 
     @Autowired
@@ -41,6 +35,9 @@ public class CategoryControllerTest {
 
     @MockBean
     CategoryService categoryService;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     public void findAllCategories() throws Exception{
@@ -51,14 +48,39 @@ public class CategoryControllerTest {
         mockMvc.perform(get(UrlPrefix.GET_CATEGORIES).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories.[0].name").value(CategoryConstants.category0name))
                 .andExpect(jsonPath("$.categories.[0].categoryId").value(CategoryConstants.category0id))
-                .andExpect(jsonPath("$.categories.[0].isDeleted").value(CategoryConstants.category0isDeleted))
+                .andExpect(jsonPath("$.categories.[0].deleted").value(CategoryConstants.category0isDeleted))
                 .andExpect(jsonPath("$.categories.[1].categoryId").value(CategoryConstants.category1id))
-                .andExpect(jsonPath("$.categories.[1].name").value(CategoryConstants.category1name));
+                .andExpect(jsonPath("$.categories.[1].name").value(CategoryConstants.category1name))
+                .andExpect(jsonPath("$.categories.[1].deleted").value(CategoryConstants.category1isDeleted))
+                .andDo(document("{class-name}/{method-name}"));
     }
 
     @Test
     public void findOneCategory() throws Exception{
-        
+        when(categoryService.getOne(CategoryConstants.category0id)).thenReturn(CategoryConstants.create());
+        mockMvc.perform(get(UrlPrefix.GET_CATEGORIES+"/"+CategoryConstants.category0id).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(CategoryConstants.category0name))
+                .andExpect(jsonPath("$.categoryId").value(CategoryConstants.category0id))
+                .andExpect(jsonPath("$.deleted").value(CategoryConstants.category0isDeleted));
     }
+
+    @Test
+    public void addCategory() throws Exception{
+        mockMvc.perform(post(UrlPrefix.GET_CATEGORIES).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void updateCategory() throws Exception{
+        mockMvc.perform(put(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteCategory() throws Exception{
+        mockMvc.perform(delete(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+    }
+
 
 }
