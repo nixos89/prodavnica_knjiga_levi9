@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levi9.prodavnica.config.BookConstants;
 import com.levi9.prodavnica.config.UrlPrefix;
-import com.levi9.prodavnica.dto.AddUpdateBookDTO;
 import com.levi9.prodavnica.dto.BookDTO;
 import com.levi9.prodavnica.dto.BookListDTO;
 import com.levi9.prodavnica.service.BookService;
@@ -73,26 +72,18 @@ public class BookControllerTest {
 
 	@Test
 	public void addBook() throws Exception {
-		AddUpdateBookDTO addDTO = new AddUpdateBookDTO(BookConstants.book0name, BookConstants.book0price,
-				BookConstants.book0amount, BookConstants.book0deleted, BookConstants.book0authors,
-				BookConstants.book0categories);
-
-		when(bookService.addBook(addDTO)).thenReturn(true);
+		when(bookService.addBook(BookConstants.addUpdateDTO)).thenReturn(true);
 		mockMvc.perform(post(UrlPrefix.GET_BOOKS).accept(MediaType.APPLICATION_JSON_VALUE)
-				.contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(addDTO)))
-				.andExpect(status().isOk());
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk());
 	}
 
 	@Test
 	public void updateBook() throws Exception {
-		AddUpdateBookDTO updateDTO = new AddUpdateBookDTO(BookConstants.book0name, BookConstants.book0price,
-				BookConstants.book0amount, BookConstants.book0deleted, BookConstants.book0authors,
-				BookConstants.book0categories);
-
-		when(bookService.updateBook(updateDTO, BookConstants.book0id)).thenReturn(true);
+		when(bookService.updateBook(BookConstants.addUpdateDTO, BookConstants.book0id)).thenReturn(true);
 		mockMvc.perform(put(UrlPrefix.GET_BOOKS + "/" + BookConstants.book0id).accept(MediaType.APPLICATION_JSON_VALUE)
-				.contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updateDTO)))
-				.andExpect(status().isOk());
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk());
 	}
 
 }

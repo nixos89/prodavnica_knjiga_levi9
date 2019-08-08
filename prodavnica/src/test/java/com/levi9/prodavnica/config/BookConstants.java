@@ -3,6 +3,8 @@ package com.levi9.prodavnica.config;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.levi9.prodavnica.dto.AddUpdateBookDTO;
+
 public class BookConstants {
 
 	public static final Long book0id = 1L;
@@ -24,4 +26,8 @@ public class BookConstants {
 	public static final double book1price = 100;
 	public static final int book1amount = 100;
 	public static final boolean book1deleted = false;
+
+	public static final AddUpdateBookDTO addUpdateDTO = new AddUpdateBookDTO(BookConstants.book0name,
+			BookConstants.book0price, BookConstants.book0amount, BookConstants.book0deleted, BookConstants.book0authors,
+			BookConstants.book0categories);
 }
