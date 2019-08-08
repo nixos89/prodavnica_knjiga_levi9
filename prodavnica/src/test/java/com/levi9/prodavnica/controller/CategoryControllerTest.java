@@ -14,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
+import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,6 +24,8 @@ import static org.mockito.Mockito.when;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -52,7 +56,7 @@ public class CategoryControllerTest {
                 .andExpect(jsonPath("$.categories.[1].categoryId").value(CategoryConstants.category1id))
                 .andExpect(jsonPath("$.categories.[1].name").value(CategoryConstants.category1name))
                 .andExpect(jsonPath("$.categories.[1].deleted").value(CategoryConstants.category1isDeleted))
-                .andDo(document("{class-name}/{method-name}"));
+                .andDo(document("{class-name}/{method-name}",categoryFindAllCollection()));
     }
 
     @Test
@@ -61,7 +65,8 @@ public class CategoryControllerTest {
         mockMvc.perform(get(UrlPrefix.GET_CATEGORIES+"/"+CategoryConstants.category0id).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(CategoryConstants.category0name))
                 .andExpect(jsonPath("$.categoryId").value(CategoryConstants.category0id))
-                .andExpect(jsonPath("$.deleted").value(CategoryConstants.category0isDeleted));
+                .andExpect(jsonPath("$.deleted").value(CategoryConstants.category0isDeleted))
+                .andDo(document("{class-name}/{method-name}",categoryCollection()));
     }
 
     @Test
@@ -80,6 +85,20 @@ public class CategoryControllerTest {
     public void deleteCategory() throws Exception{
         mockMvc.perform(delete(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
+    }
+
+    private ResponseFieldsSnippet categoryFindAllCollection(){
+        return responseFields(
+                fieldWithPath("categories.[].categoryId").description("The unique identifier for gentre/category"),
+                fieldWithPath("categories.[].name").description("Tha name of genre/category"),
+                fieldWithPath("categories.[].deleted").description("Logical for genre/category")
+        );
+    }private ResponseFieldsSnippet categoryCollection(){
+        return responseFields(
+                fieldWithPath("categoryId").description("The unique identifier for gentre/category"),
+                fieldWithPath("name").description("Tha name of genre/category"),
+                fieldWithPath("deleted").description("Logical for genre/category")
+        );
     }
 
 
