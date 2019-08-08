@@ -10,6 +10,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -60,8 +64,10 @@ public class AuthorControllerTest {
 				.andExpect(jsonPath("$.authors.[2].authorId").value(AuthorConstants.JOVA_ID))
 				.andExpect(jsonPath("$.authors.[2].firstName").value(AuthorConstants.FIRST_NAME_JOVA))
 				.andExpect(jsonPath("$.authors.[2].lastName").value(AuthorConstants.LAST_NAME_JOVA))
-				.andDo(document("{class-name}/{method-name}"))
-				;
+				.andDo(document("{class-name}/{method-name}", 
+									preprocessResponse(prettyPrint()),
+									responseFields(authorListResponseFields())
+						));				
 	}
 
 	@Test
@@ -72,7 +78,7 @@ public class AuthorControllerTest {
 						AuthorConstants.FIRST_NAME_DESA, 
 						AuthorConstants.LAST_NAME_DESA));
 
-		mockMvc.perform(get(UrlPrefix.GET_AUTHORS +"/" + "/{id}", AuthorConstants.DESA_ID)
+		mockMvc.perform(get(UrlPrefix.GET_AUTHORS + "/{id}", AuthorConstants.DESA_ID)
 				.accept(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.authorId").value(AuthorConstants.DESA_ID))
@@ -89,5 +95,15 @@ public class AuthorControllerTest {
             fieldWithPath("firstName").description("The first name of the author"),
             fieldWithPath("lastName").description("The first name of the author"));
     }
+	
+	 private FieldDescriptor[] authorListResponseFields() {
+		    return new FieldDescriptor[] {
+		    		fieldWithPath("authors.[].authorId").description("The unique identifier of the author"),
+		            fieldWithPath("authors.[].firstName").description("The first name of the author"),
+		            fieldWithPath("authors.[].lastName").description("The first name of the author")
+
+		    };
+		  }
+
 
 }
