@@ -19,12 +19,11 @@ public class AuthorController {
 	AuthorService authorService;
 
 	@GetMapping
-
 	public ResponseEntity<?> getAllAuthors() {
 		return ResponseEntity.ok(authorService.findAllAuthors());
 	}
 
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> getAuthor(@PathVariable Long id) {
 		return ResponseEntity.ok(authorService.getOne(id));
 	}
