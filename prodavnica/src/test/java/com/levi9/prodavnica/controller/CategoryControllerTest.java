@@ -1,5 +1,6 @@
 package com.levi9.prodavnica.controller;
 
+import com.levi9.prodavnica.config.CategoryConstants;
 import com.levi9.prodavnica.config.UrlPrefix;
 import com.levi9.prodavnica.dto.CategoryDTO;
 import com.levi9.prodavnica.dto.CategoryListDTO;
@@ -43,9 +44,21 @@ public class CategoryControllerTest {
 
     @Test
     public void findAllCategories() throws Exception{
-        when(categoryService.findAllCategories()).thenReturn(new CategoryListDTO(Lists.newArrayList(new CategoryDTO(1L,"asd",false))));
-        mockMvc.perform(get(UrlPrefix.GET_CATEGORIES).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk()).andExpect(jsonPath("$.categories.[0].name").value("asd"));
+        when(categoryService.findAllCategories()).thenReturn(new CategoryListDTO(Lists.newArrayList(
+                new CategoryDTO(CategoryConstants.category0id,CategoryConstants.category0name,CategoryConstants.category0isDeleted),
+                new CategoryDTO(CategoryConstants.category1id,CategoryConstants.category1name,CategoryConstants.category1isDeleted),
+                new CategoryDTO(CategoryConstants.category2id,CategoryConstants.category2name,CategoryConstants.category2isDeleted))));
+        mockMvc.perform(get(UrlPrefix.GET_CATEGORIES).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.categories.[0].name").value(CategoryConstants.category0name))
+                .andExpect(jsonPath("$.categories.[0].categoryId").value(CategoryConstants.category0id))
+                .andExpect(jsonPath("$.categories.[0].isDeleted").value(CategoryConstants.category0isDeleted))
+                .andExpect(jsonPath("$.categories.[1].categoryId").value(CategoryConstants.category1id))
+                .andExpect(jsonPath("$.categories.[1].name").value(CategoryConstants.category1name));
+    }
 
+    @Test
+    public void findOneCategory() throws Exception{
+        
     }
 
 }
