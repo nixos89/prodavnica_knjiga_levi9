@@ -11,32 +11,33 @@ import com.levi9.prodavnica.service.CategoryService;
 @RequestMapping("api/categories")
 @CrossOrigin(origins = "*")
 public class CategoryController {
-	
+
 	@Autowired
 	CategoryService categoryService;
 
 	@GetMapping
-	public ResponseEntity<?> getAllCategories(){
+	public ResponseEntity<?> getAllCategories() {
 		return ResponseEntity.ok(categoryService.findAllCategories());
 	}
-	@GetMapping("/id")
-	public ResponseEntity<?> getCategory(@PathVariable Long id){
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.getOne(id));
 	}
+
 	@PostMapping
-	public ResponseEntity<?> addCategory(@RequestBody AddCategoryDTO addCategoryDTO){
+	public ResponseEntity<?> addCategory(@RequestBody AddCategoryDTO addCategoryDTO) {
 		return ResponseEntity.ok(categoryService.addCategory(addCategoryDTO));
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateCategory(@RequestBody AddCategoryDTO addCategoryDTO,@PathVariable Long id){
-		return ResponseEntity.ok(categoryService.updateCategory(addCategoryDTO,id));
+	public ResponseEntity<?> updateCategory(@RequestBody AddCategoryDTO addCategoryDTO, @PathVariable Long id) {
+		return ResponseEntity.ok(categoryService.updateCategory(addCategoryDTO, id));
 	}
+
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteCategory(@PathVariable Long id){
+	public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.deleteCategory(id));
 	}
 
-
-	
 }
