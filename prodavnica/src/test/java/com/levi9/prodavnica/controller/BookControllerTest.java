@@ -1,6 +1,7 @@
 package com.levi9.prodavnica.controller;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -11,6 +12,7 @@ import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,6 +28,7 @@ import com.levi9.prodavnica.service.BookService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BookController.class)
+@AutoConfigureRestDocs(outputDir = "target/generated-sources/snippets")
 public class BookControllerTest {
 
 	@Autowired
@@ -54,7 +57,8 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.books.[1].name").value(BookConstants.book1name))
 				.andExpect(jsonPath("$.books.[1].price").value(BookConstants.book1price))
 				.andExpect(jsonPath("$.books.[1].amount").value(BookConstants.book1amount))
-				.andExpect(jsonPath("$.books.[1].deleted").value(BookConstants.book1deleted));
+				.andExpect(jsonPath("$.books.[1].deleted").value(BookConstants.book1deleted))
+				.andDo(document("{class-name}/{method-name}"));
 	}
 
 	@Test
@@ -67,7 +71,8 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.name").value(BookConstants.book0name))
 				.andExpect(jsonPath("$.price").value(BookConstants.book0price))
 				.andExpect(jsonPath("$.amount").value(BookConstants.book0amount))
-				.andExpect(jsonPath("$.deleted").value(BookConstants.book0deleted));
+				.andExpect(jsonPath("$.deleted").value(BookConstants.book0deleted))
+				.andDo(document("{class-name}/{method-name}"));
 	}
 
 	@Test
@@ -75,7 +80,8 @@ public class BookControllerTest {
 		when(bookService.addBook(BookConstants.addUpdateDTO)).thenReturn(true);
 		mockMvc.perform(post(UrlPrefix.GET_BOOKS).accept(MediaType.APPLICATION_JSON_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk());
+				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk())
+				.andDo(document("{class-name}/{method-name}"));
 	}
 
 	@Test
@@ -83,7 +89,8 @@ public class BookControllerTest {
 		when(bookService.updateBook(BookConstants.addUpdateDTO, BookConstants.book0id)).thenReturn(true);
 		mockMvc.perform(put(UrlPrefix.GET_BOOKS + "/" + BookConstants.book0id).accept(MediaType.APPLICATION_JSON_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk());
+				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk())
+				.andDo(document("{class-name}/{method-name}"));
 	}
 
 }
