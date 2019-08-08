@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { BookService } from "src/app/core/services/book.service";
 import { AuthorInfo } from "src/app/core/models/authorInfo.model";
 import { CategoryInfo } from "src/app/core/models/categoryInfo.model";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-update-book",
@@ -16,6 +17,8 @@ export class UpdateBookComponent implements OnInit {
   bookData: Book = new Book();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
+
+  updateBookForm: NgForm;
 
   constructor(
     private adminService: AdminManagementService,
@@ -35,6 +38,9 @@ export class UpdateBookComponent implements OnInit {
         this.bookService.getBookInfo(params["idBook"]).subscribe(
           response => {
             this.bookData = response;
+            if (response.isDeleted == null) {
+              this.bookData.isDeleted = true;
+            }
           },
           error => {
             this.toastr.error("Failed to get info about book");
