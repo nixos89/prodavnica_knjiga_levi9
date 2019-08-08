@@ -1,62 +1,93 @@
-<div class="container">
-  <div>
+<div class="wrapper">
+  <div class="formContent">
+    <div class="fadeIn first">
+      <h2>Update book</h2>
+    </div>
     <form #updateBookForm="ngForm">
-      <input
-        type="text"
-        name="name"
-        [(ngModel)]="bookData.name"
-        id="name"
-        #name="ngModel"
-        class="form-control"
-        placeholder="Title"
-        required
-      />
-      <span
-        class="validation-message"
-        style="text-align: justify; display:block;"
-        *ngIf="name.errors?.required && name.touched"
-        class="text-danger"
-        >Title is required</span
-      >
-      <input
-        type="text"
-        name="price"
-        [(ngModel)]="bookData.price"
-        id="price"
-        #price="ngModel"
-        class="form-control"
-        placeholder="Price"
-        required
-      />
-      <span
-        class="validation-message"
-        style="text-align: justify; display:block;"
-        *ngIf="price.errors?.required && price.touched"
-        class="text-danger"
-        >Price is required</span
-      >
-      <input
-        type="text"
-        name="amount"
-        [(ngModel)]="bookData.amount"
-        id="amount"
-        #amount="ngModel"
-        class="form-control"
-        placeholder="Amount"
-        required
-      />
-      <span
-        class="validation-message"
-        style="text-align: justify; display:block;"
-        *ngIf="amount.errors?.required && amount.touched"
-        class="text-danger"
-        >Amount is required</span
-      >
+      <div>
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="bookData.name"
+          id="name"
+          #name="ngModel"
+          class="fadeIn second"
+          placeholder="Title"
+          required
+        />
+        <span
+          class="validation-message"
+          style="text-align: justify; display:block;"
+          *ngIf="name.errors?.required && name.touched"
+          class="text-danger"
+          >Title is required</span
+        >
+      </div>
+      <div>
+        <input
+          type="text"
+          name="price"
+          [(ngModel)]="bookData.price"
+          id="price"
+          #price="ngModel"
+          class="fadeIn second"
+          placeholder="Price"
+          required
+        />
+        <span
+          class="validation-message"
+          style="text-align: justify; display:block;"
+          *ngIf="price.errors?.required && price.touched"
+          class="text-danger"
+          >Price is required</span
+        >
+      </div>
+      <div>
+        <input
+          type="text"
+          name="amount"
+          [(ngModel)]="bookData.amount"
+          id="amount"
+          #amount="ngModel"
+          class="fadeIn second"
+          placeholder="Amount"
+          required
+        />
+        <span
+          class="validation-message"
+          style="text-align: justify; display:block;"
+          *ngIf="amount.errors?.required && amount.touched"
+          class="text-danger"
+          >Amount is required</span
+        >
+      </div>
+      <div>
+        <div class="funkyradio">
+          <div class="funkyradio-primary">
+            <input
+              type="checkbox"
+              name="isDeleted"
+              [(ngModel)]="bookData.isDeleted"
+              id="isDeleted"
+              #isDeleted="ngModel"
+              required
+            />
+            <label for="isDeleted">Active?</label>
+            <span
+              class="validation-message"
+              style="text-align: justify; display:block;"
+              *ngIf="isDeleted.errors?.required && isDeleted.touched"
+              class="text-danger"
+              >Status is required</span
+            >
+          </div>
+        </div>
+      </div>
       <div *ngFor="let author of authorData.authors; let i = index">
         <input
           type="checkbox"
           name="{{ author.id }}"
-          class="form-control"
+          class="fadeIn second"
           [(ngModel)]="authorData.authors[i].checked"
           id="{{ author.id }}"
           (change)="onChangeAuthorsData()"
@@ -70,7 +101,7 @@
         <input
           type="checkbox"
           name="{{ category.id }}"
-          class="form-control"
+          class="fadeIn second"
           [(ngModel)]="categoryData.categories[i].checked"
           id="{{ category.id }}"
           (change)="onChangeCategoriesData()"
@@ -80,9 +111,11 @@
 
       <button
         [disabled]="!updateBookForm.valid"
-        class="btn btn-lg btn-primary btn-block"
+        class="fadeIn"
         (click)="onUpdateBook()"
-      ></button>
+      >
+        Update
+      </button>
     </form>
   </div>
 </div>

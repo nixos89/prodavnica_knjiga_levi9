@@ -68,4 +68,9 @@ export class AddBookComponent implements OnInit {
   onChangeAuthorsData() {}
 
   onChangeCategoriesData() {}
+
+  onChange() {
+    console.log("aa");
+    console.log(this.bookData.isDeleted);
+  }
 }

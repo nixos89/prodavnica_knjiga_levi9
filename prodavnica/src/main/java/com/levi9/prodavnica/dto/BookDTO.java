@@ -1,31 +1,31 @@
 package com.levi9.prodavnica.dto;
 
-import com.levi9.prodavnica.mapper.AuthorMapper;
-import com.levi9.prodavnica.mapper.CategoryMapper;
-import com.levi9.prodavnica.model.Author;
-import com.levi9.prodavnica.model.Book;
-import com.levi9.prodavnica.model.Category;
-import lombok.AllArgsConstructor;
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+@NoArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class BookDTO {
 
-    private Long bookId;
-    private String name;
-    private double price;
-    private int amount;
-    private Set<AuthorDTO> authors = new HashSet<>();
-    private Set<CategoryDTO> categories = new HashSet<>();
+	private Long bookId;
+	private String name;
+	private double price;
+	private int amount;
+	private boolean deleted;
+	private Set<AuthorDTO> authors = new HashSet<>();
+	private Set<CategoryDTO> categories = new HashSet<>();
 
-    }
+	public BookDTO(Long bookId, String name, double price, int amount, boolean deleted) {
+		this.bookId = bookId;
+		this.name = name;
+		this.price = price;
+		this.amount = amount;
+		this.deleted = deleted;
+	}
 
+}
