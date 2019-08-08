@@ -1,4 +1,4 @@
 [[users_find_all]]
-=== Find all users
+=== Book API
 
 include::find-all-books/findAllBooks.adoc[]
