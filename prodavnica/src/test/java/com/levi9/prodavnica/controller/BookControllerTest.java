@@ -2,6 +2,8 @@ package com.levi9.prodavnica.controller;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -58,7 +61,7 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.books.[1].price").value(BookConstants.book1price))
 				.andExpect(jsonPath("$.books.[1].amount").value(BookConstants.book1amount))
 				.andExpect(jsonPath("$.books.[1].deleted").value(BookConstants.book1deleted))
-				.andDo(document("{class-name}/{method-name}"));
+				.andDo(document("{class-name}/{method-name}", booksListResponseFields()));
 	}
 
 	@Test
@@ -91,6 +94,16 @@ public class BookControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk())
 				.andDo(document("{class-name}/{method-name}"));
+	}
+
+	private ResponseFieldsSnippet booksListResponseFields() {
+		return responseFields(fieldWithPath("books.[].bookId").description("Id of the book"),
+				fieldWithPath("books.[].name").description("Title of the book"),
+				fieldWithPath("books.[].price").description("Price of the book"),
+				fieldWithPath("books.[].amount").description("Amount of the book"),
+				fieldWithPath("books.[].deleted").description("Status of the book"),
+				fieldWithPath("books.[].authors").description("Authors of the book"),
+				fieldWithPath("books.[].categories").description("Categories of the book"));
 	}
 
 }

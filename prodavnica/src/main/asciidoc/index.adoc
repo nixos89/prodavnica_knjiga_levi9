@@ -2,3 +2,4 @@
 === Book API
 
 include::find-all-books/findAllBooks.adoc[]
+include::find-one-book/findOneBook.adoc[]
