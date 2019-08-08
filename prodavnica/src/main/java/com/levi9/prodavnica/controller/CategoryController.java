@@ -30,12 +30,12 @@ public class CategoryController {
 		return ResponseEntity.ok(categoryService.addCategory(addCategoryDTO));
 	}
 
-	@PutMapping("/update/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<?> updateCategory(@RequestBody AddCategoryDTO addCategoryDTO, @PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.updateCategory(addCategoryDTO, id));
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.deleteCategory(id));
 	}

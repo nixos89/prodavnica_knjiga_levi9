@@ -1,8 +1,11 @@
 package com.levi9.prodavnica.controller;
 
 import com.levi9.prodavnica.config.UrlPrefix;
+import com.levi9.prodavnica.dto.CategoryDTO;
+import com.levi9.prodavnica.dto.CategoryListDTO;
 import com.levi9.prodavnica.model.Category;
 import com.levi9.prodavnica.repository.CategoryRepository;
+import com.levi9.prodavnica.service.CategoryService;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,25 +32,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@WebMvcTest(CategoryController.class)
 public class CategoryControllerTest {
 
+    @Autowired
     MockMvc mockMvc;
 
     @MockBean
-    CategoryRepository categoryRepository;
-
-    @Autowired
-    WebApplicationContext webApplicationContext;
-
-    @Before
-    public void setMockMvc(){
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
+    CategoryService categoryService;
 
     @Test
     public void findAllCategories() throws Exception{
-        when(categoryRepository.findAll()).thenReturn(Lists.newArrayList(new Category(1L,"asd",false)));
+        when(categoryService.findAllCategories()).thenReturn(new CategoryListDTO(Lists.newArrayList(new CategoryDTO(1L,"asd",false))));
         mockMvc.perform(get(UrlPrefix.GET_CATEGORIES).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk()).andExpect(jsonPath("$.categories.[0].name").value("asd"));
 
     }
