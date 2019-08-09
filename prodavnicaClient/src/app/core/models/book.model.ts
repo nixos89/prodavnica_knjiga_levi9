@@ -12,7 +12,7 @@ export class Book {
     this.name = "";
     this.amount;
     this.price;
-    this.isDeleted;
+    this.isDeleted = true;
     this.categories = [];
     this.authors = [];
   }
