@@ -16,6 +16,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(StoreException.class)
 	public final ResponseEntity<?> handleApiError(StoreException ex, WebRequest request) {
+		log.error("Error caught: " + ex.getMessage(), ex);
 		return new ResponseEntity<>(ex, ex.getStatusCode());
 	}
 
