@@ -1,0 +1,15 @@
+[[authors_get_one_success]]
+==== Successful call
+When making a successfull call to this API endpoint, the following request parameters and body can be expected.
+
+[[get_author_success_request]]
+==== Request
+include::{snippets}/author-controller-test/test-get-author/http-request.adoc[]
+
+[[get_author_succes_response]]
+===== Response
+include::{snippets}/author-controller-test/test-get-author/http-response.adoc[]
+
+[[get_author_succes_curl]]
+===== cURL
+include::{snippets}/author-controller-test/test-get-author/curl-request.adoc[]

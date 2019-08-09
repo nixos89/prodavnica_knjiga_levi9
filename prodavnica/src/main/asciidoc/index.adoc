@@ -1,7 +1,14 @@
 [[users_find_all]]
+
+=== Author API
+
+include::author/get-all-authors/getAllAuthors.adoc[]
+include::author/get-one-author/getOneAuthor.adoc[]
+
 === Book API
 
 include::find-all-books/findAllBooks.adoc[]
 include::find-one-book/findOneBook.adoc[]
 include::add-book/addBook.adoc[]
 include::update-book/updateBook.adoc[]
+
