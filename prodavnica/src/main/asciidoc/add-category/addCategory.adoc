@@ -1,0 +1,19 @@
+[[category_add_success]]
+==== Add Category
+
+[[category_add_success_curl]]
+===== cURL
+include::{snippets}category-controller-test/add-category/curl-request.adoc[]
+
+[[category_add_success_request]]
+===== Request
+include::{snippets}category-controller-test/add-category/http-request.adoc[]
+
+[[category_add_success_request_body]]
+===== Request body
+include::{snippets}category-controller-test/add-category/request-body.adoc[]
+
+[[category_add_success_response]]
+===== Response body
+include::{snippets}category-controller-test/add-category/http-response.adoc[]
+

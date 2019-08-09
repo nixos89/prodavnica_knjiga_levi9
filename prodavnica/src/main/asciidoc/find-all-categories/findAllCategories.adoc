@@ -1,0 +1,18 @@
+[[categories_find_all_success]]
+==== Find all categories
+
+[[categories_find_all_success_curl]]
+===== cURL
+include::{snippets}category-controller-test/find-all-categories/curl-request.adoc[]
+
+[[categories_find_all_success_request]]
+===== Request
+include::{snippets}category-controller-test/find-all-categories/http-request.adoc[]
+
+[[categories_find_all_success_response]]
+===== Response
+include::{snippets}category-controller-test/find-all-categories/http-response.adoc[]
+
+[[categories_find_all_success_response_fields]]
+===== Response fields
+include::{snippets}category-controller-test/find-all-categories/response-fields.adoc[]

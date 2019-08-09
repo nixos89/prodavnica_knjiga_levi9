@@ -24,8 +24,7 @@ import static org.mockito.Mockito.when;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -72,19 +71,26 @@ public class CategoryControllerTest {
     @Test
     public void addCategory() throws Exception{
         mockMvc.perform(post(UrlPrefix.GET_CATEGORIES).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andDo(document("{class-name}/{method-name}",
+                        requestFields(fieldWithPath("name").description("The name of categroy"),
+                                fieldWithPath("isDeleted").description("Logical delete of category"))));
     }
 
     @Test
     public void updateCategory() throws Exception{
         mockMvc.perform(put(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}",
+                        requestFields(fieldWithPath("name").description("The name of categroy"),
+                        fieldWithPath("isDeleted").description("Logical delete of category"))));
     }
 
     @Test
     public void deleteCategory() throws Exception{
         mockMvc.perform(delete(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(document("{class-name}/{method-name}"));
     }
 
     private ResponseFieldsSnippet categoryFindAllCollection(){

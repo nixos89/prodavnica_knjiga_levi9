@@ -12,3 +12,12 @@ include::find-one-book/findOneBook.adoc[]
 include::add-book/addBook.adoc[]
 include::update-book/updateBook.adoc[]
 
+include::update-book/updateBook.adoc[]
+
+=== Category API
+
+include::find-all-categories/findAllCategories.adoc[]
+include::find-one-category/findOneCategory.adoc[]
+include::add-category/addCategory.adoc[]
+include::update-category/updateCategory.adoc[]
+include::delete-category/deleteCategory.adoc[]
