@@ -1,0 +1,18 @@
+[[category_update_success]]
+==== Update category
+
+[[category_update_success_curl]]
+===== cURL
+include::{snippets}category-controller-test/update-category/curl-request.adoc[]
+
+[[category_update_success_request]]
+===== Request
+include::{snippets}category-controller-test/update-category/http-request.adoc[]
+
+[[category_update_success_request_body]]
+===== Request body
+include::{snippets}category-controller-test/update-category/request-body.adoc[]
+
+[[category_update_success_response]]
+===== Response
+include::{snippets}category-controller-test/update-category/http-response.adoc[]
