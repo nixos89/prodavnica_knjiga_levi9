@@ -1,18 +1,18 @@
-[[users_find_all_success]]
+[[books_find_all_success]]
 ==== Find all books
 
-[[users_find_all_success_curl]]
+[[books_find_all_success_curl]]
 ===== cURL
 include::{snippets}book-controller-test/find-all-books/curl-request.adoc[]
 
-[[users_find_all_success_request]]
+[[books_find_all_success_request]]
 ===== Request
 include::{snippets}book-controller-test/find-all-books/http-request.adoc[]
 
-[[users_find_all_success_response]]
+[[books_find_all_success_response]]
 ===== Response
 include::{snippets}book-controller-test/find-all-books/http-response.adoc[]
 
-[[users_find_all_success_response_body]]
+[[books_find_all_success_response_fields]]
 ===== Response fields
 include::{snippets}book-controller-test/find-all-books/response-fields.adoc[]

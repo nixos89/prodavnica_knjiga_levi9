@@ -3,3 +3,5 @@
 
 include::find-all-books/findAllBooks.adoc[]
 include::find-one-book/findOneBook.adoc[]
+include::add-book/addBook.adoc[]
+include::update-book/updateBook.adoc[]

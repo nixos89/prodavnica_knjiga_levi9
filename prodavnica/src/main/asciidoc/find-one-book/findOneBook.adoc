@@ -1,14 +1,14 @@
-[[users_find_one_success]]
+[[books_find_one_success]]
 ==== Find one book
 
-[[users_find_one_success_curl]]
+[[books_find_one_success_curl]]
 ===== cURL
 include::{snippets}book-controller-test/find-one-book/curl-request.adoc[]
 
-[[users_find_one_success_request]]
+[[books_find_one_success_request]]
 ===== Request
 include::{snippets}book-controller-test/find-one-book/http-request.adoc[]
 
-[[users_find_one_success_response]]
+[[books_find_one_success_response]]
 ===== Response
 include::{snippets}book-controller-test/find-one-book/http-response.adoc[]
