@@ -16,5 +16,9 @@ public class AuthorListDTO {
     public AuthorListDTO (){
         this.authors = new ArrayList<>();
     }
+    
+    public AuthorListDTO(List<AuthorDTO> authors){
+        this.authors = authors;
+    }
 
 }

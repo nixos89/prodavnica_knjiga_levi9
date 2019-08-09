@@ -1,0 +1,18 @@
+[[books_find_all_success]]
+==== Find all books
+
+[[books_find_all_success_curl]]
+===== cURL
+include::{snippets}book-controller-test/find-all-books/curl-request.adoc[]
+
+[[books_find_all_success_request]]
+===== Request
+include::{snippets}book-controller-test/find-all-books/http-request.adoc[]
+
+[[books_find_all_success_response]]
+===== Response
+include::{snippets}book-controller-test/find-all-books/http-response.adoc[]
+
+[[books_find_all_success_response_fields]]
+===== Response fields
+include::{snippets}book-controller-test/find-all-books/response-fields.adoc[]

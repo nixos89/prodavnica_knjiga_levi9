@@ -1,23 +1,26 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<body> -->
-
 <!-- Page Content -->
 <div class="container at-da-top">
-
-  <div class="row">
+  <h1 class="my-4 title-at-da-centre">Levi9 Bookstore</h1>
+  <div class="row" id="row1">
 
     <div class="col-lg-3">
 
-      <h1 class="my-4">Levi9 Bookstore</h1>
-      <div class="list-group">
-        <!-- *ngFor = category of categories; i = index; -->
-        <ul>
-          <li><a href="#" class="list-group-item">Category 1</a></li>
-          <li><a href="#" class="list-group-item">Category 2</a></li>
-        </ul>
-      </div>
+      <!-- <aside class="sidebar"> -->
+      <h3><i>Categories</i></h3>
+      <!-- <div class="pre-scrollable"> -->
+        <nav>
+          <select name="selectCategories"  multiple class="cat-mult-select">
+            <option value="All"> <!-- routerLink umesto value-->              
+                All              
+            </option>
+            <!-- *ngFor="let category of categoryData.categories" -->
+            <option value="{{category.name}}" *ngFor="let category of categoryData.categories">
+              {{category.name}}
+            </option>
+          </select>
+        </nav>
+      <!-- </div> -->
+      <!-- </aside> -->
 
     </div>
     <!-- /.col-lg-3 -->
@@ -26,103 +29,43 @@
       <div class="row">
 
         <!-- START::Card-->
-        <!-- TODO: insert this in next line as directive *ngFor="let book of top10Books; i = index" -->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
+        <div class="col-lg-3 col-md-6 mb-4" *ngFor="let book of bookData.books">
+          <div class="card h-50">
             <div class="card-body">
               <h4 class="card-title">
-                <!-- {{book.name}} -->
-                <a routerLink="">{{title}}</a>
+                <a href="#">{{book.name}}</a>
               </h4>
-              <!-- {{book.price}} -->
-              <h5>Price: 555333$</h5>
-              <p>Author: Miroljub Petrovic</p>
+              <h5>Price: {{book.price}} $</h5>
+              <div *ngIf="book.authors.length > 1">
+                <p>Authors:</p>
+                <ul *ngFor="let author of book.authors">
+                  <p> {{author.firstName}} {{author.lastName}}</p>
+                </ul>
+              </div>
+              <div *ngIf="book.authors.length == 1">
+                <p>Author: {{book.authors[0].firstName}} {{book.authors[0].lastName}}</p>
+              </div>
+
+              <div *ngIf="book.categories.length > 1">
+                <p>Categories:</p>
+                <ul *ngFor="let category of book.categories">
+                  <p>{{category.name}}</p>
+                </ul>
+              </div>
+              <div *ngIf="book.categories.length === 1">
+                <p>Category: {{book.categories[0].name}}</p>
+              </div>
             </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
+
           </div>
         </div>
         <!-- END::Card-->
-
-        <!-- START::Card-->
-        <!-- TODO: insert this in next line as directive *ngFor="let book of top10Books; i = index" -->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <h4 class="card-title">
-                <!-- {{book.name}} -->
-                <a href="#">Title</a>
-              </h4>
-              <!-- {{book.price}} -->
-              <h5>Price: 555333$</h5>
-              <p>Author: Miroljub Petrovic</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-          </div>
-        </div>
-        <!-- END::Card-->
-
-        <!-- START::Card-->
-        <!-- TODO: insert this in next line as directive *ngFor="let book of top10Books; i = index" -->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <h4 class="card-title">
-                <!-- {{book.name}} -->
-                <a href="#">Title</a>
-              </h4>
-              <!-- {{book.price}} -->
-              <h5>Price: 555333$</h5>
-              <p>Author: Miroljub Petrovic</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-          </div>
-        </div>
-        <!-- END::Card-->
-
-        <!-- START::Card-->
-        <!-- TODO: insert this in next line as directive *ngFor="let book of top10Books; i = index" -->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <h4 class="card-title">
-                <!-- {{book.name}} -->
-                <a href="#">Title</a>
-              </h4>
-              <!-- {{book.price}} -->
-              <h5>Price: 555333$</h5>
-              <p>Author: Miroljub Petrovic</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>
-          </div>
-        </div>
-        <!-- END::Card-->
-
-
-
       </div>
       <!-- /.row -->
-
     </div>
     <!-- /.col-lg-9 -->
-
   </div>
   <!-- /.row -->
 
 </div>
 <!-- /.container -->
-
-<!-- Footer -->
-<!-- <footer class="py-5 bg-dark">
-    <div class="container at-da-bottom">
-      <p class="m-0 text-center text-white">Copyright &copy; Levi9 AMN Interns of August 2019</p>
-    </div> -->
-<!-- /.container -->
-<!-- </footer> -->

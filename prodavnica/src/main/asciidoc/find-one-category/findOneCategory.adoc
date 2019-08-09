@@ -1,0 +1,18 @@
+[[category_find_one_success]]
+==== Find one category
+
+[[category_find_one_success_curl]]
+===== cURL
+include::{snippets}category-controller-test/find-one-category/curl-request.adoc[]
+
+[[category_find_one_success_request]]
+===== Request
+include::{snippets}category-controller-test/find-one-category/http-request.adoc[]
+
+[[category_find_one_success_response]]
+===== Response
+include::{snippets}category-controller-test/find-one-category/http-response.adoc[]
+
+[[category_add_success_response_fields]]
+===== Response fields
+include::{snippets}category-controller-test/find-one-category/response-fields.adoc[]

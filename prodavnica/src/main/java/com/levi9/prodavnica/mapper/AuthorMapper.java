@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
 
-    AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
-
     AuthorDTO map(Author source);
 
 }

@@ -20,5 +20,10 @@
 		<sqlFile path="changelogs/fillDummyData.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
+	
+	<changeSet id="addMoreCategories" author="Nikola Stevanovic">
+		<sqlFile path="changelogs/addMoreCategories.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
 
 </databaseChangeLog>

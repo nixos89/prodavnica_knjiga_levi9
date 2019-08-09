@@ -15,4 +15,8 @@ public class CategoryListDTO {
     public CategoryListDTO(){
         this.categories = new ArrayList<>();
     }
+
+    public CategoryListDTO(List<CategoryDTO> categories) {
+        this.categories = categories;
+    }
 }

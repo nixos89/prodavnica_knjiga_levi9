@@ -32,21 +32,24 @@ export class AddBookComponent implements OnInit {
   }
 
   onAddBook() {
-    this.adminService.addBook(this.bookData).subscribe(
-      response => {
-        this.toastr.success("Successfuly added book");
-        this.router.navigate(["/"]);
-      },
-      error => {
-        this.toastr.error("Failed to add book");
-      }
-    );
+    console.log(this.bookData);
+    this.bookData.isDeleted = false;
+    // this.adminService.addBook(this.bookData).subscribe(
+    //   response => {
+    //     this.toastr.success("Successfuly added book");
+    //     this.router.navigate(["/"]);
+    //   },
+    //   error => {
+    //     this.toastr.error("Failed to add book");
+    //   }
+    // );
   }
 
   getAllAuthors() {
     this.authorService.getAll().subscribe(
       response => {
         this.authorData = response;
+        console.log(this.authorData);
       },
       error => {
         this.toastr.error("Failed to get authors");
@@ -65,7 +68,11 @@ export class AddBookComponent implements OnInit {
     );
   }
 
-  onChangeAuthorsData() {}
+  onChangeAuthor(a) {
+    console.log(a.value);
+  }
 
-  onChangeCategoriesData() {}
+  onChangeCategory(a) {
+    a: [] = [];
+  }
 }

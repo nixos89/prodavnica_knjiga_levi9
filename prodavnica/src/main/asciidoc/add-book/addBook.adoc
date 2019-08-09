@@ -1,0 +1,18 @@
+[[books_add_success]]
+==== Add book
+
+[[books_add_success_curl]]
+===== cURL
+include::{snippets}book-controller-test/add-book/curl-request.adoc[]
+
+[[books_add_success_request]]
+===== Request
+include::{snippets}book-controller-test/add-book/http-request.adoc[]
+
+[[books_add_success_request_body]]
+===== Request body
+include::{snippets}book-controller-test/add-book/request-body.adoc[]
+
+[[books_add_success_response]]
+===== Response
+include::{snippets}book-controller-test/add-book/http-response.adoc[]

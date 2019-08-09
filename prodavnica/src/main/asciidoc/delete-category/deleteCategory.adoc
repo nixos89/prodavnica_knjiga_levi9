@@ -1,0 +1,14 @@
+[[category_delete_success]]
+==== Delete Category
+
+[[category_delete_success_curl]]
+===== cURL
+include::{snippets}category-controller-test/delete-category/curl-request.adoc[]
+
+[[category_delete_success_request]]
+===== Request
+include::{snippets}category-controller-test/delete-category/http-request.adoc[]
+
+[[category_delete_success_response]]
+===== Response body
+include::{snippets}category-controller-test/delete-category/http-response.adoc[]

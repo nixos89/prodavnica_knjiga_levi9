@@ -8,5 +8,29 @@
 }
 
 .at-da-top {
-  margin-top: 100px;
+  margin-top: 5%;
+}
+
+.category-link{
+  color: blue;
+}
+
+li{
+  list-style-type: none;
+}
+
+.list-group {
+  padding-left: 0;
+  margin-bottom: 2px;
+}
+
+.title-at-da-centre{
+  text-align: center;
+  font-style: initial;
+}
+
+.cat-mult-select{
+  position: sticky;
+  height: 300px;
+  width: 150px;
 }
