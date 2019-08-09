@@ -10,11 +10,11 @@
       <!-- <div class="pre-scrollable"> -->
         <nav>
           <select name="selectCategories"  multiple class="cat-mult-select">
-            <option value="All"> <!-- routerLink umesto value-->              
+            <option value="All" selected> <!-- routerLink umesto value-->              
                 All              
             </option>
             <!-- *ngFor="let category of categoryData.categories" -->
-            <option value="{{category.name}}" *ngFor="let category of categoryData.categories">
+            <option value="{{category.categoryId}}" [ngValue]="category" *ngFor="let category of categoryData.categories" (click)="getAllBooksFromCategories(category.categoryId)">
               {{category.name}}
             </option>
           </select>
@@ -35,25 +35,25 @@
               <h4 class="card-title">
                 <a href="#">{{book.name}}</a>
               </h4>
-              <h5>Price: {{book.price}} $</h5>
+              <h5><b>Price:</b> {{book.price}} $</h5>
               <div *ngIf="book.authors.length > 1">
-                <p>Authors:</p>
+                <p><b>Authors:</b></p>
                 <ul *ngFor="let author of book.authors">
                   <p> {{author.firstName}} {{author.lastName}}</p>
                 </ul>
               </div>
               <div *ngIf="book.authors.length == 1">
-                <p>Author: {{book.authors[0].firstName}} {{book.authors[0].lastName}}</p>
+                <p><b>Author:</b> {{book.authors[0].firstName}} {{book.authors[0].lastName}}</p>
               </div>
 
               <div *ngIf="book.categories.length > 1">
-                <p>Categories:</p>
+                <p><b>Categories:</b></p>
                 <ul *ngFor="let category of book.categories">
                   <p>{{category.name}}</p>
                 </ul>
               </div>
               <div *ngIf="book.categories.length === 1">
-                <p>Category: {{book.categories[0].name}}</p>
+                <p><b> Category:</b> {{book.categories[0].name}}</p>
               </div>
             </div>
 

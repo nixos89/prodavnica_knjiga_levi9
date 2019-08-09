@@ -24,6 +24,7 @@ export class HomepageComponent implements OnInit {
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
 
+  // TODO: finish method for sorting Categories
   sortCategories = (a: KeyValue<Category, string>, b: KeyValue<Category, string>): Category => {
     return new Category();
   }
@@ -71,7 +72,7 @@ export class HomepageComponent implements OnInit {
     this.categoryService.getAll().subscribe(
       response => {
         this.categoryData = response;//.categories;
-        // console.log('response.categories[0].name: ' + response.categories[0].name);        
+        console.log('response.categories[0].categoryId: ' + response.categories[0].categoryId);        
       },
       error => {
         this.toastr.error("Failed to get categories");
@@ -86,7 +87,7 @@ export class HomepageComponent implements OnInit {
         // console.log('response.books[0].name: ' + response.books[0].name);        
       },
       error => {
-        this.toastr.error("Failed to get categories");
+        this.toastr.error("Failed to get books for selected categories");
       }
     );
   }
