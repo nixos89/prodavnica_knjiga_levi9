@@ -61,6 +61,37 @@
           >Amount is required</span
         >
       </div>
+      <div>
+        <label for="authors">Choose author(s):</label>
+        <select
+          class="form-control"
+          multiple
+          name="authorId"
+          [(ngModel)]="authorData.authors"
+        >
+          >
+          <option
+            *ngFor="let author of authorData.authors; let i = index"
+            [ngValue]="author.authorId"
+            (click)="onChangeAuthor($event)"
+            >{{ author.firstName }} {{ author.lastName }}</option
+          >
+        </select>
+      </div>
+      <div>
+        <label for="categories">Choose category(s):</label>
+        <select
+          class="form-control"
+          multiple
+          (change)="onChangeCategory($event.target)"
+        >
+          <option
+            *ngFor="let category of categoryData.categories; let i = index"
+            [value]="category.categoryId"
+            >{{ category.name }}
+          </option>
+        </select>
+      </div>
       <!-- <div *ngFor="let author of authorData.authors; let i = index">
         <select multiple class="form-control">
           type="text"
