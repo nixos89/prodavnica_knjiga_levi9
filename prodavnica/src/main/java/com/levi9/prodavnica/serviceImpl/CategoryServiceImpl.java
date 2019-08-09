@@ -40,14 +40,8 @@ public class CategoryServiceImpl implements CategoryService {
 	public CategoryListDTO findAllCategories() {
 		CategoryListDTO categoryListDTO = new CategoryListDTO();
 		List<Category> categories = categoryRepository.findAll();
-<<<<<<< HEAD
-		if(!categories.isEmpty()){
-			for(Category category: categories){
-				if(!category.isDeleted())
-=======
 		if (!categories.isEmpty()) {
 			for (Category category : categories) {
->>>>>>> f6349fb5f132ffb7839ddde4f08187d3d53f99cb
 				categoryListDTO.getCategories().add(categoryMapper.map(category));
 			}
 		} else
