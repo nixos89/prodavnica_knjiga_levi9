@@ -43,19 +43,23 @@ public class BookServiceImpl implements BookService {
 		BookListDTO bookDTOS = new BookListDTO();
 		List<Book> books = bookRepository.findAll().stream().filter(x -> x.isDeleted() == false)
 				.collect(Collectors.toList());
-
 		if (!books.isEmpty()) {
 			for (Book book : books) {
 				bookDTOS.getBooks().add(bookMapper.map(book));
 			}
-		}
+		} else
+			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
+
 		return bookDTOS;
 	}
 
 	@Override
 	public BookDTO findBook(Long id) {
 		Book book = bookRepository.getOne(id);
-		return bookMapper.map(book);
+		if (book != null)
+			return bookMapper.map(book);
+		else
+			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
 	}
 
 	@Override
@@ -107,6 +111,7 @@ public class BookServiceImpl implements BookService {
 		Set<Author> bookAuthors = new HashSet<>();
 		Set<Book> books = new HashSet<>();
 		books.add(book);
+
 		for (Long authorId : addUpdateBookDTO.getAuthorIds()) {
 			Author author = authorRepository.getOne(authorId);
 			author.setBooks(books);
@@ -127,4 +132,5 @@ public class BookServiceImpl implements BookService {
 
 		return true;
 	}
+
 }

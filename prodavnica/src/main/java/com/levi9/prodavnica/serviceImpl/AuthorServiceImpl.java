@@ -5,10 +5,12 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.levi9.prodavnica.dto.AuthorDTO;
 import com.levi9.prodavnica.dto.AuthorListDTO;
+import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.mapper.AuthorMapper;
 import com.levi9.prodavnica.model.Author;
 import com.levi9.prodavnica.repository.AuthorRepository;
@@ -20,7 +22,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Autowired
 	AuthorRepository authorRepository;
-	
+
 	@Autowired
 	AuthorMapper authorMapper;
 
@@ -37,6 +39,9 @@ public class AuthorServiceImpl implements AuthorService {
 	@Override
 	public AuthorDTO getOne(Long id) {
 		Author author = authorRepository.getOne(id);
-		return authorMapper.map(author);
+		if (author != null)
+			return authorMapper.map(author);
+		else
+			throw new StoreException(HttpStatus.NOT_FOUND, "Author doesn't exist!");
 	}
 }

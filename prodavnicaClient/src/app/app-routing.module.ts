@@ -7,14 +7,16 @@ const routes: Routes = [
     loadChildren:
       "./book/book.module#BookModule"
   },
-  
   {
     path: "admin",
     loadChildren:
       "./admin-management/admin-management.module#AdminManagementModule"
-  } 
- 
-
+  },
+  {
+    path:"categories",
+    loadChildren:
+      "./category/category.module#CategoryModule"
+  }
 
 ];
 @NgModule({
