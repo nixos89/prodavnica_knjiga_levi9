@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { BookInfo } from 'src/app/core/models/bookInfo.model';
 import { AuthorInfo } from 'src/app/core/models/authorInfo.model';
 import { CategoryInfo } from 'src/app/core/models/categoryInfo.model';
+import { KeyValue } from '@angular/common';
+import { Category } from 'src/app/core/models/category.model';
 
 @Component({
   selector: 'app-homepage',
@@ -22,9 +24,12 @@ export class HomepageComponent implements OnInit {
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
 
+  sortCategories = (a: KeyValue<Category, string>, b: KeyValue<Category, string>): Category => {
+    return new Category();
+  }
 
   constructor(
-    private bookService: BookService, 
+    private bookService: BookService,
     private authorService: AuthorService,
     private categoryService: CategoryService,
     private toastr: ToastrService,
@@ -49,10 +54,12 @@ export class HomepageComponent implements OnInit {
   //     )
   // }
 
+
+
   getAllBooks() {
     this.bookService.getAllBooks().subscribe(
       response => {
-        this.bookData = response; 
+        this.bookData = response;
       },
       error => {
         this.toastr.error("Failed to get authors");
@@ -65,6 +72,18 @@ export class HomepageComponent implements OnInit {
       response => {
         this.categoryData = response;//.categories;
         // console.log('response.categories[0].name: ' + response.categories[0].name);        
+      },
+      error => {
+        this.toastr.error("Failed to get categories");
+      }
+    );
+  }
+
+  getAllBooksFromCategories(ids:Category[]){
+    this.categoryService.getAllBooksFromCategories(ids).subscribe(
+      response => {
+        this.bookData = response;//.books;
+        // console.log('response.books[0].name: ' + response.books[0].name);        
       },
       error => {
         this.toastr.error("Failed to get categories");

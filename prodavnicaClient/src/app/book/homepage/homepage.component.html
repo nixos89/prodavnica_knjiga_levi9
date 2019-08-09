@@ -1,19 +1,27 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<body> -->
-
 <!-- Page Content -->
 <div class="container at-da-top">
-
-  <div class="row">
+  <h1 class="my-4 title-at-da-centre">Levi9 Bookstore</h1>
+  <div class="row" id="row1">
 
     <div class="col-lg-3">
 
-      <h1 class="my-4">Levi9 Bookstore</h1>
-      <div class="list-group" *ngFor = "let category of categoryData.categories; let i = index">
-        <a href="#" class="list-group-item category-link">{{category.name}}</a>        
-      </div>
+      <!-- <aside class="sidebar"> -->
+      <h3><i>Categories</i></h3>
+      <!-- <div class="pre-scrollable"> -->
+        <nav>
+          <select name="selectCategories"  multiple class="cat-mult-select">
+            <option value="All"> <!-- routerLink umesto value-->              
+                All              
+            </option>
+            <!-- *ngFor="let category of categoryData.categories" -->
+            <option value="{{category.name}}" *ngFor="let category of categoryData.categories">
+              {{category.name}}
+            </option>
+          </select>
+        </nav>
+      <!-- </div> -->
+      <!-- </aside> -->
+
     </div>
     <!-- /.col-lg-3 -->
 
@@ -31,24 +39,24 @@
               <div *ngIf="book.authors.length > 1">
                 <p>Authors:</p>
                 <ul *ngFor="let author of book.authors">
-                    <p > {{author.firstName}} {{author.lastName}}</p>
-                </ul>                
+                  <p> {{author.firstName}} {{author.lastName}}</p>
+                </ul>
               </div>
               <div *ngIf="book.authors.length == 1">
-                  <p>Author: {{book.authors[0].firstName}} {{book.authors[0].lastName}}</p>                                  
+                <p>Author: {{book.authors[0].firstName}} {{book.authors[0].lastName}}</p>
               </div>
-              
+
               <div *ngIf="book.categories.length > 1">
-                  <p>Categories:</p>
-                  <ul *ngFor="let category of book.categories">
-                      <p>{{category.name}}</p>
-                  </ul>                
+                <p>Categories:</p>
+                <ul *ngFor="let category of book.categories">
+                  <p>{{category.name}}</p>
+                </ul>
               </div>
               <div *ngIf="book.categories.length === 1">
-                <p>Category: {{book.categories[0].name}}</p>                                  
+                <p>Category: {{book.categories[0].name}}</p>
               </div>
             </div>
-            
+
           </div>
         </div>
         <!-- END::Card-->
@@ -61,11 +69,3 @@
 
 </div>
 <!-- /.container -->
-
-<!-- Footer -->
-<!-- <footer class="py-5 bg-dark">
-    <div class="container at-da-bottom">
-      <p class="m-0 text-center text-white">Copyright &copy; Levi9 AMN Interns of August 2019</p>
-    </div> -->
-<!-- /.container -->
-<!-- </footer> -->
