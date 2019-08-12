@@ -34,10 +34,10 @@
             <fieldset *ngFor="let category of categoryData.categories">              
                 <input 
                   type="checkbox" 
-                  name="categoryId" 
-                  id="category.categoryId" 
-                  value="category.categoryId" 
-                  (change)="getAllBooksFromCategories($event.target)"> {{category.name}} 
+                  name="categoryName" 
+                  id="category" 
+                  value="category" 
+                  (change)="getAllBooksFromCategories(category)"> {{category.name}} 
             </fieldset>
         </nav>
       <!-- </div> -->

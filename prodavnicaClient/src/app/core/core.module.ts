@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpParams } from '@angular/common/http';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule    
   ],
-  exports: [HttpClientModule]
+  exports: [HttpClientModule],
+  providers: [HttpParams]
 })
 export class CoreModule { }

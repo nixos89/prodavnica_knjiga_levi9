@@ -82,20 +82,18 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  getAllBooksFromCategories(id: number) {
-    this.catIds.push(id);
+  getAllBooksFromCategories(cat: Category) {
+    // console.log('cat:', cat);
+    // console.log('cat.categoryId:', cat.categoryId);
+    // console.log('cat.name:', cat.name);
 
-    this.route.queryParams.subscribe((catIds) =>
-
-      this.categoryService.getAllBooksFromCategories(this.catIds).subscribe(
-        response => {
-          this.bookData = response;//.books;
-          // console.log('response.books[0].name: ' + response.books[0].name);        
-        },
-        error => {
-          this.toastr.error("Failed to get books for selected categories");
-        }
-      )
+    this.categoryService.getAllBooksFromCategories(cat).subscribe(
+      response => {
+        this.bookData = response;  
+      },
+      error => {
+        this.toastr.error("Failed to get books for selected categories");
+      }
     );
   }
 
