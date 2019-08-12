@@ -1,0 +1,55 @@
+.container{
+  margin-top: 50px;
+  max-width: 1500px;
+}
+.table>thead>tr.names>th{
+  border-bottom: 1px;
+}
+.table>tbody>tr.item>td{
+  padding-bottom: 20px;
+  padding-top: 20px;
+  vertical-align: middle;
+}
+.table>tfoot>tr.no-border>td{
+  border-top: 0 none;
+  padding-top: 20px;
+}
+.img-product{
+  padding-top: 20px;
+}
+/*Hover*/
+
+*, *:before, *:after { box-sizing: inherit; }
+a.authorHover {
+  cursor: pointer;
+  padding: 10px 35px;
+  color: #000000;
+  text-decoration: none;
+}
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+
+.dropdown-inner {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 2;
+  min-width: 100%;
+  color: #375e97;
+  background: #fff;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  max-height: 0;
+}
+
+.dropdown:hover .dropdown-inner {
+  opacity: 1;
+  visibility: visible;
+  max-height: 500px;
+}
+
