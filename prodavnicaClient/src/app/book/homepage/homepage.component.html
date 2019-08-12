@@ -1,35 +1,17 @@
 <!-- Page Content -->
 <div class="container at-da-top">
   <h1 class="my-4 title-at-da-centre">Levi9 Bookstore</h1>
+  <br/>
   <div class="row" id="row1">
     <div class="col-lg-3 overflow-scroll">
       <!-- <aside class="sidebar"> -->
       <h3><i>Categories</i></h3>
       <!-- <div class="pre-scrollable"> -->     
-        <!-- <nav>
-          <select name="selectCategories"  multiple class="cat-mult-select" >
-            <option value="All" selected>              
-                All              
-            </option>            
-            <option 
-              value="{{category.categoryId}}" 
-              [ngValue]="category.categoryId" 
-              *ngFor="let category of categoryData.categories" 
-              (click)="getAllBooksFromCategories(category.categoryId)">                          
-              <a 
-                [queryParams]="{'id': category.categoryId}"
-                [routerLink]="['/']"  
-                queryParamsHandling="merge"    
-                routerLinkActive="router-link-active">
-                  {{category.name}} $$$
-              </a>              
-            </option>
-          </select>
-        </nav> -->
         <nav>
             <input 
               type="checkbox" 
               name="categoryId"
+              [value]=""
               (change)="getAllBooks()"> All
             <fieldset *ngFor="let category of categoryData.categories">              
                 <input 
@@ -48,35 +30,34 @@
     <div class="col-lg-9">
       <div class="row">
         <!-- START::Card-->
-        <div class="col-lg-3 col-md-6 mb-4" *ngFor="let book of bookData.books">
-          <div class="card h-50">
-            <div class="card-body">
-              <h4 class="card-title">
-                {{ book.name }}
+        <div class="col-lg-3 col-md-6 mb-3" *ngFor="let book of bookData.books">
+          <div class="card h-75 ">
+            <div class="card-body card-body_style">
+              <h5 class="card-title h4title">
+                <b>{{ book.name }} </b>
                 <small
                   ><a routerLink="admin/update-book/{{ book.bookId }}"
                     ><span class="glyphicon glyphicon-cog"></span></a
                 ></small>
-              </h4>
+              </h5>
               <h5>Price: {{ book.price }} $</h5>
               <div *ngIf="book.authors.length > 1">
                 <p>Authors:</p>
-                <ul *ngFor="let author of book.authors">
-                  <p>{{ author.firstName }} {{ author.lastName }}</p>
-                </ul>
+                <ol *ngFor="let author of book.authors" class="circle-style">
+                  <i>{{ author.firstName }} {{ author.lastName }} </i>
+                </ol>
               </div>
               <div *ngIf="book.authors.length == 1">
                 <p>
-                  Author: {{ book.authors[0].firstName }}
-                  {{ book.authors[0].lastName }}
+                  Author: <i>{{ book.authors[0].firstName }}{{ book.authors[0].lastName }}</i>
                 </p>
               </div>
 
               <div *ngIf="book.categories.length > 1">
                 <p>Categories:</p>
-                <ul *ngFor="let category of book.categories">
-                  <p>{{ category.name }}</p>
-                </ul>
+                <ol *ngFor="let category of book.categories">
+                  <li>{{ category.name }}</li>
+                </ol>
               </div>
               <div *ngIf="book.categories.length === 1">
                 <p>Category: {{ book.categories[0].name }}</p>

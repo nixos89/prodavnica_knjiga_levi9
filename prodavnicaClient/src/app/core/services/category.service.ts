@@ -16,16 +16,17 @@ export class CategoryService {
     return this.http.get(environment.url + "api/categories");
   }
 
-  public getAllBooksFromCategories(category: Category): Observable<any> {
-    // ...console.log for DEBBUGING purposes
-    // console.log('(inside of category.service.ts) category:', category);
-    // console.log('(inside of category.service.ts) category.categoryId:', category.categoryId);
-    // console.log('(inside of category.service.ts) this.httpParams:', this.httpParams);
-    // console.log('(inside of category.service.ts) this.httpParams.toString():', this.httpParams.toString());    
-    // console.log('(inside of category.service.ts) this.httpParams.keys():', this.httpParams.keys());
+  public getAllBooksFromCategories(categories: Category[]): Observable<any> { 
+    const hParams: HttpParams = new HttpParams();
+    for(let category of categories){
+      console.log("(in-for) category: ", category);      
+      this.httpParams.set('id', category.categoryId.toString());
+    }
+    console.log("this.httpParams.toString(): ", this.httpParams.get('id'));
     
+    // HttpParams hParams = Object.getOwnPropertyNames(category).reduce((p,key) => v.set(key,category[key]), new HttpParams());
     return this.http.get(environment.url + "api/categories/getAllBooksFromCategories", { 
-      params: this.httpParams.set('id', category.categoryId.toString())
+      params:  this.httpParams
     });
   }
 

@@ -20,7 +20,7 @@ import { Category } from 'src/app/core/models/category.model';
 export class HomepageComponent implements OnInit {
 
   top10Books: Book[]; // = getTop10Books();
-  catIds: number[] = [];
+  categoryArr: Category[] = [];
   bookData: BookInfo = new BookInfo();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
@@ -83,13 +83,13 @@ export class HomepageComponent implements OnInit {
   }
 
   getAllBooksFromCategories(cat: Category) {
-    // console.log('cat:', cat);
-    // console.log('cat.categoryId:', cat.categoryId);
-    // console.log('cat.name:', cat.name);
-
-    this.categoryService.getAllBooksFromCategories(cat).subscribe(
+    this.categoryArr.push(cat);
+    console.log("this.categoryArr: ", this.categoryArr);
+    
+    this.categoryService.getAllBooksFromCategories(this.categoryArr).subscribe(
       response => {
-        this.bookData = response;  
+        this.bookData = response;
+        // this.categoryArr = [];  
       },
       error => {
         this.toastr.error("Failed to get books for selected categories");

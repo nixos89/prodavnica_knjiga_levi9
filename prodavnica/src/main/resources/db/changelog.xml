@@ -25,5 +25,10 @@
 		<sqlFile path="changelogs/addMoreCategories.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
+	
+	<changeSet id="addMoreBooksAndAuthors" author="Nikola Stevanovic">
+		<sqlFile path="changelogs/addMoreBooksAndAuthors.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
 
 </databaseChangeLog>
