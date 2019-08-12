@@ -51,13 +51,12 @@ export class CategoryPageComponent implements OnInit {
   }
 
   deleteCategory(categoryId: number) {
-    console.log("DASDASDAS");
     this.categoryService.deleteCategory(categoryId).subscribe(
       data =>{
         this.toastr.success("Category is deleted succesfully");
         location.reload();
       },error => {
-        this.toastr.error("Error");
+        this.toastr.error("Category can't be deleted");
       }
     )
   }

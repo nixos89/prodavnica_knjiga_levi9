@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import com.levi9.prodavnica.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -81,6 +82,12 @@ public class CategoryServiceImpl implements CategoryService {
 		Category category = categoryRepository.getOne(id);
 		if (category == null)
 			throw new StoreException(HttpStatus.NOT_FOUND, "Category doesn't exist!");
+
+		Set<Book> books = category.getBooks();
+		if(!books.isEmpty()){
+			return false;
+		}
+
 
 		category.setDeleted(true);
 		return true;
