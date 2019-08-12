@@ -4,7 +4,7 @@ import { BookService } from 'src/app/core/services/book.service';
 import { AuthorService } from 'src/app/core/services/author.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BookInfo } from 'src/app/core/models/bookInfo.model';
 import { AuthorInfo } from 'src/app/core/models/authorInfo.model';
 import { CategoryInfo } from 'src/app/core/models/categoryInfo.model';
@@ -35,7 +35,8 @@ export class HomepageComponent implements OnInit {
     private authorService: AuthorService,
     private categoryService: CategoryService,
     private toastr: ToastrService,
-    private router: Router) {
+    private router: Router,
+    private route: ActivatedRoute) {
 
   }
 
@@ -83,6 +84,9 @@ export class HomepageComponent implements OnInit {
 
   getAllBooksFromCategories(id: number){
     this.catIds.push(id);
+
+    // this.route.queryParams.subscribe((catIds) =>
+    
     this.categoryService.getAllBooksFromCategories(this.catIds).subscribe(
       response => {
         this.bookData = response;//.books;
