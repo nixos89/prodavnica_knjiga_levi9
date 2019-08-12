@@ -1,3 +1,5 @@
+import { CategoryService } from "src/app/core/services/category.service";
+import { AuthorService } from "src/app/core/services/author.service";
 import { Component, OnInit } from "@angular/core";
 import { Book } from "src/app/core/models/book.model";
 import { AdminManagementService } from "src/app/core/services/admin-management.service";
@@ -6,7 +8,6 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { BookService } from "src/app/core/services/book.service";
 import { AuthorInfo } from "src/app/core/models/authorInfo.model";
 import { CategoryInfo } from "src/app/core/models/categoryInfo.model";
-import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-update-book",
@@ -17,11 +18,14 @@ export class UpdateBookComponent implements OnInit {
   bookData: Book = new Book();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
-
-  updateBookForm: NgForm;
+  authorIds: number[] = [];
+  categoryIds: number[] = [];
+  idBook: number;
 
   constructor(
     private adminService: AdminManagementService,
+    private authorService: AuthorService,
+    private categoryService: CategoryService,
     private bookService: BookService,
     private route: ActivatedRoute,
     private toastr: ToastrService,
@@ -29,18 +33,30 @@ export class UpdateBookComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getAllAuthors();
+    this.getAllCategories();
     this.getBookInfo();
   }
 
   getBookInfo() {
     this.route.params.subscribe(params => {
       if (params["idBook"]) {
-        this.bookService.getBookInfo(params["idBook"]).subscribe(
+        this.idBook = params["idBook"];
+        this.bookService.getBookInfo(this.idBook).subscribe(
           response => {
-            this.bookData = response;
-            if (response.isDeleted == null) {
-              this.bookData.isDeleted = true;
+            for (var author of response.authors) {
+              this.authorIds.push(author.authorId);
             }
+            for (var category of response.categories) {
+              this.categoryIds.push(category.categoryId);
+            }
+            this.bookData.bookId = response.bookId;
+            this.bookData.amount = response.amount;
+            this.bookData.deleted = !response.deleted;
+            this.bookData.name = response.name;
+            this.bookData.price = response.price;
+            this.bookData.authorIds = this.authorIds;
+            this.bookData.categoryIds = this.categoryIds;
           },
           error => {
             this.toastr.error("Failed to get info about book");
@@ -51,7 +67,8 @@ export class UpdateBookComponent implements OnInit {
   }
 
   onUpdateBook() {
-    this.adminService.addBook(this.bookData).subscribe(
+    this.bookData.deleted = !this.bookData.deleted ? true : false;
+    this.adminService.updateBook(this.bookData, this.idBook).subscribe(
       response => {
         this.toastr.success("Successfuly updated book");
         this.router.navigate(["/"]);
@@ -62,7 +79,35 @@ export class UpdateBookComponent implements OnInit {
     );
   }
 
-  onChangeAuthorsData() {}
+  getAllAuthors() {
+    this.authorService.getAll().subscribe(
+      response => {
+        this.authorData = response;
+      },
+      error => {
+        this.toastr.error("Failed to get authors");
+      }
+    );
+  }
 
-  onChangeCategoriesData() {}
+  getAllCategories() {
+    this.categoryService.getAll().subscribe(
+      response => {
+        this.categoryData = response;
+      },
+      error => {
+        this.toastr.error("Failed to get categories");
+      }
+    );
+  }
+
+  onChangeAuthor(authorId) {
+    this.bookData.authorIds.push(authorId.value);
+    this.bookData.authorIds.pop();
+  }
+
+  onChangeCategory(categoryId) {
+    this.bookData.categoryIds.push(categoryId.value);
+    this.bookData.categoryIds.pop();
+  }
 }

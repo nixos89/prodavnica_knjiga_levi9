@@ -15,6 +15,7 @@ import { CategoryInfo } from "src/app/core/models/categoryInfo.model";
 })
 export class AddBookComponent implements OnInit {
   bookData: Book = new Book();
+  authors: Array<number> = new Array<number>();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
 
@@ -32,24 +33,22 @@ export class AddBookComponent implements OnInit {
   }
 
   onAddBook() {
-    console.log(this.bookData);
-    this.bookData.isDeleted = false;
-    // this.adminService.addBook(this.bookData).subscribe(
-    //   response => {
-    //     this.toastr.success("Successfuly added book");
-    //     this.router.navigate(["/"]);
-    //   },
-    //   error => {
-    //     this.toastr.error("Failed to add book");
-    //   }
-    // );
+    this.bookData.deleted = !this.bookData.deleted ? true : false;
+    this.adminService.addBook(this.bookData).subscribe(
+      response => {
+        this.toastr.success("Successfuly added book");
+        this.router.navigate(["/"]);
+      },
+      error => {
+        this.toastr.error("Failed to add book");
+      }
+    );
   }
 
   getAllAuthors() {
     this.authorService.getAll().subscribe(
       response => {
         this.authorData = response;
-        console.log(this.authorData);
       },
       error => {
         this.toastr.error("Failed to get authors");
@@ -68,11 +67,13 @@ export class AddBookComponent implements OnInit {
     );
   }
 
-  onChangeAuthor(a) {
-    console.log(a.value);
+  onChangeAuthor(authorId) {
+    this.bookData.authorIds.push(authorId.value);
+    this.bookData.authorIds.pop();
   }
 
-  onChangeCategory(a) {
-    a: [] = [];
+  onChangeCategory(categoryId) {
+    this.bookData.categoryIds.push(categoryId.value);
+    this.bookData.categoryIds.pop();
   }
 }

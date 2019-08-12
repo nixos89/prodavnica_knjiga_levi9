@@ -52,6 +52,7 @@
           class="fadeIn second"
           placeholder="Amount"
           required
+          pattern="[0-9]+"
         />
         <span
           class="validation-message"
@@ -60,20 +61,27 @@
           class="text-danger"
           >Amount is required</span
         >
+        <span
+          class="validation-message"
+          style="text-align: justify; display:block;"
+          *ngIf="amount.errors?.pattern && amount.touched"
+          class="text-danger"
+          >Amount must be number</span
+        >
       </div>
       <div>
         <label for="authors">Choose author(s):</label>
         <select
+          name="authors"
           class="form-control"
           multiple
-          name="authorId"
-          [(ngModel)]="authorData.authors"
+          (change)="onChangeAuthor($event.target)"
+          [(ngModel)]="bookData.authorIds"
         >
           >
           <option
-            *ngFor="let author of authorData.authors; let i = index"
-            [ngValue]="author.authorId"
-            (click)="onChangeAuthor($event)"
+            *ngFor="let author of authorData.authors"
+            [value]="author.authorId"
             >{{ author.firstName }} {{ author.lastName }}</option
           >
         </select>
@@ -81,62 +89,30 @@
       <div>
         <label for="categories">Choose category(s):</label>
         <select
+          name="categories"
           class="form-control"
           multiple
           (change)="onChangeCategory($event.target)"
+          [(ngModel)]="bookData.categoryIds"
         >
           <option
-            *ngFor="let category of categoryData.categories; let i = index"
-            [value]="category.categoryId"
+            *ngFor="let category of categoryData.categories"
+            [ngValue]="category.categoryId"
             >{{ category.name }}
           </option>
         </select>
       </div>
-      <!-- <div *ngFor="let author of authorData.authors; let i = index">
-        <select multiple class="form-control">
-          type="text"
-          name="name"
-          [(ngModel)]="author.name"
-          id="name"
-          #name="ngModel"
-          placeholder="Title"
-          required
-        />
-        <span
-          class="validation-message"
-          style="text-align: justify; display:block;"
-          *ngIf="name.errors?.required && name.touched"
-          class="text-danger"
-          >Title is required</span
-        >
-        <input
-          type=""
-          name="{{ category.id }}"
-          class="form-control"
-          placeholder="Price"
-          required
-        />
-        <label for="{{ category.id }}">{{ category.name }}</label>
-      </div> -->
 
       <div class="funkyradio">
         <div class="funkyradio-primary">
           <input
             type="checkbox"
-            name="isDeleted"
-            [(ngModel)]="bookData.isDeleted"
-            id="isDeleted"
-            #isDeleted="ngModel"
-            required
+            name="deleted"
+            [(ngModel)]="bookData.deleted"
+            id="deleted"
+            #deleted="ngModel"
           />
-          <label for="isDeleted">Active?</label>
-          <span
-            class="validation-message"
-            style="text-align: justify; display:block;"
-            *ngIf="isDeleted.errors?.required && isDeleted.touched"
-            class="text-danger"
-            >Status is required</span
-          >
+          <label for="deleted">Active?</label>
         </div>
       </div>
 

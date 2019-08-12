@@ -3,17 +3,17 @@ export class Book {
   name: string;
   amount: number;
   price: number;
-  isDeleted?: boolean;
-  categories?: [];
-  authors?: [];
+  deleted?: boolean;
+  categoryIds?: number[];
+  authorIds?: number[];
 
   constructor() {
     this.bookId;
     this.name = "";
     this.amount;
     this.price;
-    this.isDeleted = true;
-    this.categories = [];
-    this.authors = [];
+    this.deleted;
+    this.categoryIds = [];
+    this.authorIds = [];
   }
 }

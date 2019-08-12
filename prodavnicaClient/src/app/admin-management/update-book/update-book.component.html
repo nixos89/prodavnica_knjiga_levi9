@@ -62,51 +62,49 @@
         >
       </div>
       <div>
-        <div class="funkyradio">
-          <div class="funkyradio-primary">
-            <input
-              type="checkbox"
-              name="isDeleted"
-              [(ngModel)]="bookData.isDeleted"
-              id="isDeleted"
-              #isDeleted="ngModel"
-              required
-            />
-            <label for="isDeleted">Active?</label>
-            <span
-              class="validation-message"
-              style="text-align: justify; display:block;"
-              *ngIf="isDeleted.errors?.required && isDeleted.touched"
-              class="text-danger"
-              >Status is required</span
-            >
-          </div>
-        </div>
-      </div>
-      <div *ngFor="let author of authorData.authors; let i = index">
-        <input
-          type="checkbox"
-          name="{{ author.id }}"
-          class="fadeIn second"
-          [(ngModel)]="authorData.authors[i].checked"
-          id="{{ author.id }}"
-          (change)="onChangeAuthorsData()"
-        />
-        <label for="{{ author.id }}"
-          >{{ author.firstName }} {{ author.lastName }}</label
+        <label for="authors">Choose author(s):</label>
+        <select
+          name="authors"
+          class="form-control"
+          multiple
+          (change)="onChangeAuthor($event.target)"
+          [(ngModel)]="bookData.authorIds"
         >
+          >
+          <option
+            *ngFor="let author of authorData.authors"
+            [value]="author.authorId"
+            >{{ author.firstName }} {{ author.lastName }}</option
+          >
+        </select>
+      </div>
+      <div>
+        <label for="categories">Choose category(s):</label>
+        <select
+          name="categories"
+          class="form-control"
+          multiple
+          (change)="onChangeCategory($event.target)"
+          [(ngModel)]="bookData.categoryIds"
+        >
+          <option
+            *ngFor="let category of categoryData.categories"
+            [ngValue]="category.categoryId"
+            >{{ category.name }}
+          </option>
+        </select>
       </div>
 
-      <div *ngFor="let category of categoryData.categories; let i = index">
-        <input
-          type="checkbox"
-          name="{{ category.id }}"
-          class="fadeIn second"
-          [(ngModel)]="categoryData.categories[i].checked"
-          id="{{ category.id }}"
-          (change)="onChangeCategoriesData()"
-        />
-        <label for="{{ category.id }}">{{ category.name }}</label>
+      <div class="funkyradio">
+        <div class="funkyradio-primary">
+          <input
+            type="checkbox"
+            name="deleted"
+            [(ngModel)]="bookData.deleted"
+            id="deleted"
+          />
+          <label for="deleted">Active?</label>
+        </div>
       </div>
 
       <button
