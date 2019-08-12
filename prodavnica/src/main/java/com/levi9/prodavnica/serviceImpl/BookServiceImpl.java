@@ -75,6 +75,10 @@ public class BookServiceImpl implements BookService {
 			Set<Author> bookAuthors = new HashSet<>();
 			Set<Book> books = new HashSet<>();
 			books.add(book);
+
+			bookRepository.deleteAuthorsFromBook(idBook);
+			bookRepository.deleteCategoriesFromBook(idBook);
+
 			for (Long authorId : bookRequest.getAuthorIds()) {
 				Author author = authorRepository.getOne(authorId);
 				author.setBooks(books);
