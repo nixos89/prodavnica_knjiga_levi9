@@ -4,7 +4,7 @@ import { BookService } from 'src/app/core/services/book.service';
 import { AuthorService } from 'src/app/core/services/author.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BookInfo } from 'src/app/core/models/bookInfo.model';
 import { AuthorInfo } from 'src/app/core/models/authorInfo.model';
 import { CategoryInfo } from 'src/app/core/models/categoryInfo.model';
@@ -20,10 +20,12 @@ import { Category } from 'src/app/core/models/category.model';
 export class HomepageComponent implements OnInit {
 
   top10Books: Book[]; // = getTop10Books();
+  catIds: number[] = [];
   bookData: BookInfo = new BookInfo();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
 
+  // TODO: finish method for sorting Categories
   sortCategories = (a: KeyValue<Category, string>, b: KeyValue<Category, string>): Category => {
     return new Category();
   }
@@ -33,7 +35,8 @@ export class HomepageComponent implements OnInit {
     private authorService: AuthorService,
     private categoryService: CategoryService,
     private toastr: ToastrService,
-    private router: Router) {
+    private router: Router,
+    private route: ActivatedRoute) {
 
   }
 
@@ -71,7 +74,7 @@ export class HomepageComponent implements OnInit {
     this.categoryService.getAll().subscribe(
       response => {
         this.categoryData = response;//.categories;
-        // console.log('response.categories[0].name: ' + response.categories[0].name);        
+        console.log('response.categories[0].categoryId: ' + response.categories[0].categoryId);        
       },
       error => {
         this.toastr.error("Failed to get categories");
@@ -79,14 +82,18 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  getAllBooksFromCategories(ids:Category[]){
-    this.categoryService.getAllBooksFromCategories(ids).subscribe(
+  getAllBooksFromCategories(id: number){
+    this.catIds.push(id);
+
+    // this.route.queryParams.subscribe((catIds) =>
+    
+    this.categoryService.getAllBooksFromCategories(this.catIds).subscribe(
       response => {
         this.bookData = response;//.books;
         // console.log('response.books[0].name: ' + response.books[0].name);        
       },
       error => {
-        this.toastr.error("Failed to get categories");
+        this.toastr.error("Failed to get books for selected categories");
       }
     );
   }

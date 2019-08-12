@@ -21,6 +21,17 @@
           </option>
         </select>
       </nav>
+        <nav>
+          <select name="selectCategories"  multiple class="cat-mult-select">
+            <option value="All" selected> <!-- routerLink umesto value-->              
+                All              
+            </option>
+            <!-- *ngFor="let category of categoryData.categories" -->
+            <option value="{{category.categoryId}}" [ngValue]="category" *ngFor="let category of categoryData.categories" (click)="getAllBooksFromCategories(category.categoryId)">
+              {{category.name}}
+            </option>
+          </select>
+        </nav>
       <!-- </div> -->
       <!-- </aside> -->
     </div>
