@@ -2,35 +2,43 @@
 <div class="container at-da-top">
   <h1 class="my-4 title-at-da-centre">Levi9 Bookstore</h1>
   <div class="row" id="row1">
-    <div class="col-lg-3">
+    <div class="col-lg-3 overflow-scroll">
       <!-- <aside class="sidebar"> -->
       <h3><i>Categories</i></h3>
-      <!-- <div class="pre-scrollable"> -->
-      <nav>
-        <select name="selectCategories" multiple class="cat-mult-select">
-          <option value="All">
-            <!-- routerLink umesto value-->
-            All
-          </option>
-          <!-- *ngFor="let category of categoryData.categories" -->
-          <option
-            value="{{ category.name }}"
-            *ngFor="let category of categoryData.categories"
-          >
-            {{ category.name }}
-          </option>
-        </select>
-      </nav>
-        <nav>
-          <select name="selectCategories"  multiple class="cat-mult-select">
-            <option value="All" selected> <!-- routerLink umesto value-->              
+      <!-- <div class="pre-scrollable"> -->     
+        <!-- <nav>
+          <select name="selectCategories"  multiple class="cat-mult-select" >
+            <option value="All" selected>              
                 All              
-            </option>
-            <!-- *ngFor="let category of categoryData.categories" -->
-            <option value="{{category.categoryId}}" [ngValue]="category" *ngFor="let category of categoryData.categories" (click)="getAllBooksFromCategories(category.categoryId)">
-              {{category.name}}
+            </option>            
+            <option 
+              value="{{category.categoryId}}" 
+              [ngValue]="category.categoryId" 
+              *ngFor="let category of categoryData.categories" 
+              (click)="getAllBooksFromCategories(category.categoryId)">                          
+              <a 
+                [queryParams]="{'id': category.categoryId}"
+                [routerLink]="['/']"  
+                queryParamsHandling="merge"    
+                routerLinkActive="router-link-active">
+                  {{category.name}} $$$
+              </a>              
             </option>
           </select>
+        </nav> -->
+        <nav>
+            <input 
+              type="checkbox" 
+              name="categoryId"
+              (change)="getAllBooks()"> All
+            <fieldset *ngFor="let category of categoryData.categories">              
+                <input 
+                  type="checkbox" 
+                  name="categoryId" 
+                  id="category.categoryId" 
+                  value="category.categoryId" 
+                  (change)="getAllBooksFromCategories($event.target)"> {{category.name}} 
+            </fieldset>
         </nav>
       <!-- </div> -->
       <!-- </aside> -->

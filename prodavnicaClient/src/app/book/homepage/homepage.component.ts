@@ -74,7 +74,7 @@ export class HomepageComponent implements OnInit {
     this.categoryService.getAll().subscribe(
       response => {
         this.categoryData = response;//.categories;
-        console.log('response.categories[0].categoryId: ' + response.categories[0].categoryId);        
+        console.log('response.categories[0].categoryId: ' + response.categories[0].categoryId);
       },
       error => {
         this.toastr.error("Failed to get categories");
@@ -82,19 +82,20 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  getAllBooksFromCategories(id: number){
+  getAllBooksFromCategories(id: number) {
     this.catIds.push(id);
 
-    // this.route.queryParams.subscribe((catIds) =>
-    
-    this.categoryService.getAllBooksFromCategories(this.catIds).subscribe(
-      response => {
-        this.bookData = response;//.books;
-        // console.log('response.books[0].name: ' + response.books[0].name);        
-      },
-      error => {
-        this.toastr.error("Failed to get books for selected categories");
-      }
+    this.route.queryParams.subscribe((catIds) =>
+
+      this.categoryService.getAllBooksFromCategories(this.catIds).subscribe(
+        response => {
+          this.bookData = response;//.books;
+          // console.log('response.books[0].name: ' + response.books[0].name);        
+        },
+        error => {
+          this.toastr.error("Failed to get books for selected categories");
+        }
+      )
     );
   }
 
