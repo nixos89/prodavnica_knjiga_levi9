@@ -118,10 +118,11 @@
           <input
             type="checkbox"
             name="deleted"
-            [(ngModel)]="bookData.deleted"
             id="deleted"
+            [(ngModel)]="bookData.deleted"
+            (change)="onChangeStatus(bookData.deleted)"
           />
-          <label for="deleted">Active?</label>
+          <label for="deleted"> {{active}} </label>
         </div>
       </div>
 

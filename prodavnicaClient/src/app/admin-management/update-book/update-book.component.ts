@@ -21,6 +21,7 @@ export class UpdateBookComponent implements OnInit {
   authorIds: number[] = [];
   categoryIds: number[] = [];
   idBook: number;
+  active;
 
   constructor(
     private adminService: AdminManagementService,
@@ -57,6 +58,7 @@ export class UpdateBookComponent implements OnInit {
             this.bookData.price = response.price;
             this.bookData.authorIds = this.authorIds;
             this.bookData.categoryIds = this.categoryIds;
+            this.active = this.bookData.deleted ? "Active" : "Deactivate"
           },
           error => {
             this.toastr.error("Failed to get info about book");
@@ -68,6 +70,7 @@ export class UpdateBookComponent implements OnInit {
 
   onUpdateBook() {
     this.bookData.deleted = !this.bookData.deleted ? true : false;
+    this.active = !this.bookData.deleted ? "Active" : "Deactivate"
     this.adminService.updateBook(this.bookData, this.idBook).subscribe(
       response => {
         this.toastr.success("Successfuly updated book");
@@ -109,5 +112,9 @@ export class UpdateBookComponent implements OnInit {
   onChangeCategory(categoryId) {
     this.bookData.categoryIds.push(categoryId.value);
     this.bookData.categoryIds.pop();
+  }
+
+  onChangeStatus(deleted){
+    this.active = deleted ? "Active" : "Deactivate"
   }
 }

@@ -129,8 +129,9 @@
             [(ngModel)]="bookData.deleted"
             id="deleted"
             #deleted="ngModel"
+            (change)="onChangeStatus(bookData.deleted)"
           />
-          <label for="deleted">Active?</label>
+          <label for="deleted"> {{active}} </label>
         </div>
       </div>
 
