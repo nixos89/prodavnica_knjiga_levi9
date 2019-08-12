@@ -25,5 +25,15 @@
 		<sqlFile path="changelogs/addMoreCategories.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
+	
+	<changeSet id="addOrderTable" author="MM">
+		<sqlFile path="changelogs/addOrderTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+	
+	<changeSet id="addOrderItemTable" author="MM">
+		<sqlFile path="changelogs/addOrderItemTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
 
 </databaseChangeLog>

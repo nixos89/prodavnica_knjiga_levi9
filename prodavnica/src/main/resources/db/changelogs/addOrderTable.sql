@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS `orders` (
+  `order_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `total` DOUBLE NOT NULL,
+  `order_date` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`order_id`))

@@ -5,10 +5,10 @@ include::author/get-one-author/getOneAuthor.adoc[]
 
 === Book API
 
-include::find-all-books/findAllBooks.adoc[]
-include::find-one-book/findOneBook.adoc[]
-include::add-book/addBook.adoc[]
-include::update-book/updateBook.adoc[] 
+include::book/find-all-books/findAllBooks.adoc[]
+include::book/find-one-book/findOneBook.adoc[]
+include::book/add-book/addBook.adoc[]
+include::book/update-book/updateBook.adoc[] 
 
 === Category API
 
@@ -17,3 +17,8 @@ include::find-one-category/findOneCategory.adoc[]
 include::add-category/addCategory.adoc[]
 include::update-category/updateCategory.adoc[]
 include::delete-category/deleteCategory.adoc[]
+
+
+=== Order API
+
+include::order/add-order/addOrder.adoc[]
