@@ -20,6 +20,7 @@ import { Category } from 'src/app/core/models/category.model';
 export class HomepageComponent implements OnInit {
 
   top10Books: Book[]; // = getTop10Books();
+  catIds: number[] = [];
   bookData: BookInfo = new BookInfo();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
@@ -80,8 +81,9 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  getAllBooksFromCategories(ids:Category[]){
-    this.categoryService.getAllBooksFromCategories(ids).subscribe(
+  getAllBooksFromCategories(id: number){
+    this.catIds.push(id);
+    this.categoryService.getAllBooksFromCategories(this.catIds).subscribe(
       response => {
         this.bookData = response;//.books;
         // console.log('response.books[0].name: ' + response.books[0].name);        

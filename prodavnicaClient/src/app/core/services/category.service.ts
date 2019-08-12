@@ -15,7 +15,7 @@ export class CategoryService {
     return this.http.get(environment.url + "api/categories");
   }
   
-  public getAllBooksFromCategories(ids:Category[]): Observable<any>{
+  public getAllBooksFromCategories(ids:number[]): Observable<any>{
     return this.http.get(environment.url + "api/categories/getAllBooksFromCategories");
   }
 
