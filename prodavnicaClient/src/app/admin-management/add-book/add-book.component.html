@@ -44,7 +44,7 @@
       </div>
       <div>
         <input
-          type="text"
+          type="number"
           name="amount"
           [(ngModel)]="bookData.amount"
           id="amount"
@@ -77,6 +77,8 @@
           multiple
           (change)="onChangeAuthor($event.target)"
           [(ngModel)]="bookData.authorIds"
+          #authors="ngModel"
+          required
         >
           >
           <option
@@ -85,6 +87,13 @@
             >{{ author.firstName }} {{ author.lastName }}</option
           >
         </select>
+        <span
+          class="validation-message"
+          style="text-align: justify; display:block;"
+          *ngIf="authors.errors?.required && authors.touched"
+          class="text-danger"
+          >Author is required</span
+        >
       </div>
       <div>
         <label for="categories">Choose category(s):</label>
@@ -94,6 +103,8 @@
           multiple
           (change)="onChangeCategory($event.target)"
           [(ngModel)]="bookData.categoryIds"
+          #categories="ngModel"
+          required
         >
           <option
             *ngFor="let category of categoryData.categories"
@@ -101,6 +112,13 @@
             >{{ category.name }}
           </option>
         </select>
+        <span
+          class="validation-message"
+          style="text-align: justify; display:block;"
+          *ngIf="categories.errors?.required && categories.touched"
+          class="text-danger"
+          >Category is required</span
+        >
       </div>
 
       <div class="funkyradio">
