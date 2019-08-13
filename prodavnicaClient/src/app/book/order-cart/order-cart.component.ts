@@ -21,7 +21,7 @@ export class OrderCartComponent implements OnInit {
 
 
   bookData : BookInfo = new BookInfo();
-  orderItems : OrderItem[] = new Array();
+  orderItems : OrderItem[] = [];
   order : OrderBook = new OrderBook();
   constructor(private bookService:BookService,private toastr: ToastrService) { }
 

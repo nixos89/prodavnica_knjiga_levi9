@@ -23,8 +23,8 @@
       </nav>
         <nav>
           <select name="selectCategories"  multiple class="cat-mult-select">
-            <option value="All" selected> <!-- routerLink umesto value-->              
-                All              
+            <option value="All" selected> <!-- routerLink umesto value-->
+                All
             </option>
             <!-- *ngFor="let category of categoryData.categories" -->
             <option value="{{category.categoryId}}" [ngValue]="category" *ngFor="let category of categoryData.categories" (click)="getAllBooksFromCategories(category.categoryId)">
@@ -72,6 +72,9 @@
               </div>
               <div *ngIf="book.categories.length === 1">
                 <p>Category: {{ book.categories[0].name }}</p>
+              </div>
+              <div>
+                <button type="button" class="btn btn-primary" (click)="buyBook(book)" >Instant Buy</button>
               </div>
             </div>
           </div>
