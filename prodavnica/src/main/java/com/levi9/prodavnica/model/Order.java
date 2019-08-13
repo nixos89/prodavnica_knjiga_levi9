@@ -36,4 +36,10 @@ public class Order {
 	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<OrderItem> orderItems;
 
+	public Order(Long orderId, double total, Date orderDate) {
+		this.orderId = orderId;
+		this.total = total;
+		this.orderDate = orderDate;
+	}
+
 }

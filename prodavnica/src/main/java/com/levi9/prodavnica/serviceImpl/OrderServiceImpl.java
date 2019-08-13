@@ -24,38 +24,47 @@ import com.levi9.prodavnica.service.OrderService;
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
+	private final OrderRepository orderRepository;
+	private final BookRepository bookRepository;
+
 	@Autowired
-	OrderRepository orderRepository;
-	@Autowired
-	BookRepository bookRepository;
+	public OrderServiceImpl(OrderRepository orderRepository, BookRepository bookRepository) {
+		this.orderRepository = orderRepository;
+		this.bookRepository = bookRepository;
+	}
 
 	@Override
 	public OrderResponseDTO addOrder(OrderListDTO orderRequest) {
-
+ 
 		Set<OrderItem> orderItems = new HashSet<>();
 		Order order = new Order();
-		for (AddOrderDTO addOrder : orderRequest.getOrders()) {
-			Book book = bookRepository.getOne(addOrder.getBookId());
-			if (book == null)
-				throw new StoreException(HttpStatus.INTERNAL_SERVER_ERROR, "Book doesn't exist!");
-			else if (addOrder.getAmount() > book.getAmount())
-				throw new StoreException(HttpStatus.INTERNAL_SERVER_ERROR, "Amount is more than on the stock!");
-			else {
-				book.setAmount(book.getAmount() - addOrder.getAmount());
-				order.setTotal(orderRequest.getTotal());
-				order.setOrderDate(new Timestamp(System.currentTimeMillis()));
+		if (orderRequest != null) {
+			for (AddOrderDTO addOrder : orderRequest.getOrders()) {
 
-				OrderItem orderItem = new OrderItem();
-				orderItem.setAmount(addOrder.getAmount());
-				orderItem.setBook(book);
-				orderItem.setOrder(order);
+				Book book = bookRepository.getOne(addOrder.getBookId());
+				if (book == null)
+					throw new StoreException(HttpStatus.BAD_REQUEST, "Book doesn't exist!");
+				else if (addOrder.getAmount() > book.getAmount())
+					throw new StoreException(HttpStatus.BAD_REQUEST, "Amount is more than on the stock!");
+				else {
+					book.setAmount(book.getAmount() - addOrder.getAmount());
+					order.setTotal(orderRequest.getTotal());
+					order.setOrderDate(new Timestamp(System.currentTimeMillis()));
 
-				order.setOrderItems(orderItems);
+					OrderItem orderItem = new OrderItem();
+					orderItem.setAmount(addOrder.getAmount());
+					orderItem.setBook(book);
+					orderItem.setOrder(order);
 
-				orderItems.add(orderItem);
+					order.setOrderItems(orderItems);
 
-				orderRepository.save(order);
+					orderItems.add(orderItem);
+
+					order = orderRepository.save(order);
+				}
 			}
+		} else {
+			throw new StoreException(HttpStatus.INTERNAL_SERVER_ERROR, "Empty request!");
 		}
 
 		return new OrderResponseDTO(order.getOrderId());

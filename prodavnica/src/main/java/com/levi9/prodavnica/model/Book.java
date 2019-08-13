@@ -43,7 +43,8 @@ public class Book {
 	@OneToMany(mappedBy = "book", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<OrderItem> orderItems;
 
-	public Book(String name, double price, int amount, boolean isDeleted) {
+	public Book(Long bookId, String name, double price, int amount, boolean isDeleted) {
+		this.bookId = bookId;
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
