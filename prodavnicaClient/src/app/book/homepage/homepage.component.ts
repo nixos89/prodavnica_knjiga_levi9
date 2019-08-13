@@ -24,6 +24,7 @@ export class HomepageComponent implements OnInit {
   bookData: BookInfo = new BookInfo();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
+  newBooksForCat: Category[] = [];
 
   // TODO: finish method for sorting Categories
   sortCategories = (a: KeyValue<Category, string>, b: KeyValue<Category, string>): Category => {
@@ -82,14 +83,22 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  getAllBooksFromCategories(cat: Category) {
-    this.categoryArr.push(cat);
-    console.log("this.categoryArr: ", this.categoryArr);
+  getAllBooksFromCategories() {
+    this.newBooksForCat = this.categoryData.categories.filter(x => x.checked).map(x => x);
+    console.log("this.newBooksForCat: ", this.newBooksForCat);
     
-    this.categoryService.getAllBooksFromCategories(this.categoryArr).subscribe(
+    this.newBooksForCat.forEach(x => {
+      console.log('categoryId: ' + x.categoryId + ", checked: " + x.checked);      
+    });
+    
+    let catIds: number[] = [];
+    this.newBooksForCat.forEach(x => {
+      catIds.push(x.categoryId);
+    });
+
+    this.categoryService.getAllBooksFromCategories(catIds).subscribe(
       response => {
         this.bookData = response;
-        // this.categoryArr = [];  
       },
       error => {
         this.toastr.error("Failed to get books for selected categories");

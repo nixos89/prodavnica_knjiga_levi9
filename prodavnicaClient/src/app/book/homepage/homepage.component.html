@@ -17,9 +17,9 @@
                 <input 
                   type="checkbox" 
                   name="categoryName" 
-                  id="category" 
-                  value="category" 
-                  (change)="getAllBooksFromCategories(category)"> {{category.name}} 
+                  [value]="category.categoryId"
+                  [(ngModel)]= "category.checked"
+                  (ngModelChange)="getAllBooksFromCategories()"> {{category.name}} 
             </fieldset>
         </nav>
       <!-- </div> -->

@@ -8,6 +8,6 @@ import { HttpClientModule, HttpParams } from '@angular/common/http';
     CommonModule    
   ],
   exports: [HttpClientModule],
-  providers: [HttpParams]
+  providers: [HttpParams, Set]
 })
 export class CoreModule { }
