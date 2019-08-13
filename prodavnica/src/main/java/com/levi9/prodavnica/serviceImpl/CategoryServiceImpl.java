@@ -57,12 +57,12 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Boolean addCategory(AddCategoryDTO addCategoryDTO) {
+	public CategoryDTO addCategory(AddCategoryDTO addCategoryDTO) {
 		Category category = new Category();
 		category.setName(addCategoryDTO.getName());
 		category.setDeleted(addCategoryDTO.getIsDeleted());
-		categoryRepository.save(category);
-		return true;
+		category = categoryRepository.save(category);
+		return categoryMapper.map(category);
 	}
 
 	@Override

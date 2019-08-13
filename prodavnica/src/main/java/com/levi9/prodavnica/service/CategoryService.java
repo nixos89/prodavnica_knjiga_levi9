@@ -13,7 +13,7 @@ public interface CategoryService {
 
 	CategoryDTO getOne(Long id);
 
-	Boolean addCategory(AddCategoryDTO addCategoryDTO);
+	CategoryDTO addCategory(AddCategoryDTO addCategoryDTO);
 
 	Boolean updateCategory(AddCategoryDTO addCategoryDTO, Long id);
 
