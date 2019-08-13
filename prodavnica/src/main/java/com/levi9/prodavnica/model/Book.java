@@ -1,20 +1,25 @@
 package com.levi9.prodavnica.model;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name="book")
+@Table(name = "book")
 public class Book {
 
 	@Id
@@ -29,13 +34,17 @@ public class Book {
 
 	private boolean isDeleted;
 
-	@ManyToMany(mappedBy = "books", cascade =  {CascadeType.PERSIST ,CascadeType.MERGE})
+	@ManyToMany(mappedBy = "books", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Author> authors;
 
-	@ManyToMany(mappedBy = "books", cascade =  {CascadeType.PERSIST ,CascadeType.MERGE})
+	@ManyToMany(mappedBy = "books", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Category> categories;
 
-	public Book(String name, double price, int amount, boolean isDeleted) {
+	@OneToMany(mappedBy = "book", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private Set<OrderItem> orderItems;
+
+	public Book(Long bookId, String name, double price, int amount, boolean isDeleted) {
+		this.bookId = bookId;
 		this.name = name;
 		this.price = price;
 		this.amount = amount;

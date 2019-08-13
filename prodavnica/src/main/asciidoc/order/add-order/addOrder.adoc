@@ -1,0 +1,18 @@
+[[orders_add_success]]
+==== Add order
+
+[[orders_add_success_curl]]
+===== cURL
+include::{snippets}order-controller-test/add-order/curl-request.adoc[]
+
+[[orders_add_success_request]]
+===== Request
+include::{snippets}order-controller-test/add-order/http-request.adoc[]
+
+[[orders_add_success_request_body]]
+===== Request body
+include::{snippets}order-controller-test/add-order/request-body.adoc[]
+
+[[orders_add_success_response]]
+===== Response
+include::{snippets}order-controller-test/add-order/http-response.adoc[]
