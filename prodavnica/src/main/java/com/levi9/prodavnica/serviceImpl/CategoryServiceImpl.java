@@ -85,7 +85,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 		Set<Book> books = category.getBooks();
 		if(!books.isEmpty()){
-			return false;
+			throw new StoreException(HttpStatus.BAD_REQUEST,"You need to delete books with this category first.");
 		}
 
 

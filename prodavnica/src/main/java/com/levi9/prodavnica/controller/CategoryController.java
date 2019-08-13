@@ -50,7 +50,7 @@ public class CategoryController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-			if(categoryService.deleteCategory(id)) return ResponseEntity.ok(true); else return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
+		return ResponseEntity.ok(categoryService.deleteCategory(id));
 	}
 
 	@RequestMapping(value = "/getAllBooksFromCategories", method = RequestMethod.GET)

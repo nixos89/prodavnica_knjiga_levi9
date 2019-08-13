@@ -73,7 +73,7 @@ public class CategoryControllerTest {
         mockMvc.perform(post(UrlPrefix.GET_CATEGORIES).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())))
                 .andExpect(status().isCreated())
                 .andDo(document("{class-name}/{method-name}",
-                        requestFields(fieldWithPath("name").description("The name of categroy"),
+                        requestFields(fieldWithPath("name").description("The name of category"),
                                 fieldWithPath("isDeleted").description("Logical delete of category"))));
     }
 
@@ -82,13 +82,13 @@ public class CategoryControllerTest {
         mockMvc.perform(put(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
-                        requestFields(fieldWithPath("name").description("The name of categroy"),
+                        requestFields(fieldWithPath("name").description("The name of category"),
                         fieldWithPath("isDeleted").description("Logical delete of category"))));
     }
 
     @Test
     public void deleteCategory() throws Exception{
-        mockMvc.perform(delete(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).contentType(MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(delete(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}"));
     }
@@ -101,7 +101,7 @@ public class CategoryControllerTest {
         );
     }private ResponseFieldsSnippet categoryCollection(){
         return responseFields(
-                fieldWithPath("categoryId").description("The unique identifier for gentre/category"),
+                fieldWithPath("categoryId").description("The unique identifier for genre/category"),
                 fieldWithPath("name").description("Tha name of genre/category"),
                 fieldWithPath("deleted").description("Logical for genre/category")
         );

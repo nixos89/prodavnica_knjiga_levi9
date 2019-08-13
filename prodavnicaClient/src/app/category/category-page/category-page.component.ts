@@ -56,7 +56,7 @@ export class CategoryPageComponent implements OnInit {
         this.toastr.success("Category is deleted succesfully");
         location.reload();
       },error => {
-        this.toastr.error("Category can't be deleted");
+        this.toastr.error(error.error.message);
       }
     )
   }
