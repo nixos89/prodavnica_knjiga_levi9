@@ -21,17 +21,23 @@
           </option>
         </select>
       </nav>
-        <nav>
-          <select name="selectCategories"  multiple class="cat-mult-select">
-            <option value="All" selected> <!-- routerLink umesto value-->              
-                All              
-            </option>
-            <!-- *ngFor="let category of categoryData.categories" -->
-            <option value="{{category.categoryId}}" [ngValue]="category" *ngFor="let category of categoryData.categories" (click)="getAllBooksFromCategories(category.categoryId)">
-              {{category.name}}
-            </option>
-          </select>
-        </nav>
+      <nav>
+        <select name="selectCategories" multiple class="cat-mult-select">
+          <option value="All" selected>
+            <!-- routerLink umesto value-->
+            All
+          </option>
+          <!-- *ngFor="let category of categoryData.categories" -->
+          <option
+            value="{{ category.categoryId }}"
+            [ngValue]="category"
+            *ngFor="let category of categoryData.categories"
+            (click)="getAllBooksFromCategories(category.categoryId)"
+          >
+            {{ category.name }}
+          </option>
+        </select>
+      </nav>
       <!-- </div> -->
       <!-- </aside> -->
     </div>
@@ -40,7 +46,10 @@
     <div class="col-lg-9">
       <div class="row">
         <!-- START::Card-->
-        <div class="col-lg-3 col-md-6 mb-4" *ngFor="let book of bookData.books">
+        <div
+          class="col-lg-3 col-md-6 mb-4"
+          *ngFor="let book of bookData.books; let i = index"
+        >
           <div class="card h-50">
             <div class="card-body">
               <h4 class="card-title">
@@ -72,6 +81,15 @@
               </div>
               <div *ngIf="book.categories.length === 1">
                 <p>Category: {{ book.categories[0].name }}</p>
+              </div>
+              <div *ngIf="activeAddToCart.includes(book.bookId)">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  (click)="onAddToCart(book)"
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
           </div>
