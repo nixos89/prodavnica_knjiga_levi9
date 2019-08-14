@@ -43,8 +43,8 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Category> categories = categoryRepository.findAll();
 		if (!categories.isEmpty()) {
 			for (Category category : categories) {
-				if(!category.isDeleted())
-				categoryListDTO.getCategories().add(categoryMapper.map(category));
+				if (!category.isDeleted())
+					categoryListDTO.getCategories().add(categoryMapper.map(category));
 			}
 		} else
 			throw new StoreException(HttpStatus.NOT_FOUND, "Category doesn't exist!");
@@ -84,10 +84,9 @@ public class CategoryServiceImpl implements CategoryService {
 			throw new StoreException(HttpStatus.NOT_FOUND, "Category doesn't exist!");
 
 		Set<Book> books = category.getBooks();
-		if(!books.isEmpty()){
-			throw new StoreException(HttpStatus.BAD_REQUEST,"You need to delete books with this category first.");
+		if (!books.isEmpty()) {
+			throw new StoreException(HttpStatus.BAD_REQUEST, "You need to delete books with this category first.");
 		}
-
 
 		category.setDeleted(true);
 		return true;
@@ -96,18 +95,16 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public BookListDTO getAllBooksFromCategories(Set<Long> ids) {
 		List<BookDTO> books = new ArrayList<>();
-		for (Long idCategory : ids) {
-			if (!categoryRepository.getBooksFromCategories(idCategory).isEmpty()) {
-				for (Long idBook : categoryRepository.getBooksFromCategories(idCategory)) {
-					BookDTO book = bookMapper.map(bookRepository.getOne(idBook));
-					if (!book.isDeleted())
-						books.add(book);
-					else
-						throw new StoreException(HttpStatus.NOT_FOUND, "Book status is disabled!");
-				}
-			} else
-				throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
-		}
+		if (!categoryRepository.getBooksFromCategories(ids).isEmpty()) {
+			for (Long idBook : categoryRepository.getBooksFromCategories(ids)) {
+				BookDTO book = bookMapper.map(bookRepository.getOne(idBook));
+				if (!book.isDeleted())
+					books.add(book);
+				else
+					throw new StoreException(HttpStatus.NOT_FOUND, "Book status is disabled!");
+			}
+		} else
+			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
 
 		return new BookListDTO(books);
 	}
