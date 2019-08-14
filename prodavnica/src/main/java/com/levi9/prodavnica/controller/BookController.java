@@ -42,4 +42,9 @@ public class BookController {
 		return ResponseEntity.ok(bookService.updateBook(bookRequest, idBook));
 	}
 
+	@GetMapping("/search/{search}")
+	public ResponseEntity<?> searchBooks(@PathVariable String search){
+		return ResponseEntity.ok(bookService.searchForBook(search));
+	}
+
 }

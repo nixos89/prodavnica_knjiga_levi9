@@ -130,4 +130,15 @@ public class BookServiceImpl implements BookService {
 		return true;
 	}
 
+	@Override
+	public BookListDTO searchForBook(String search) {
+		List<Book> books = bookRepository.getBookSearch(search);
+		BookListDTO bookListDTO = new BookListDTO();
+		for (Book book: books)
+			if(!book.isDeleted() && bookListDTO.getBooks().stream().noneMatch(b->b.getBookId().equals(book.getBookId())))
+			bookListDTO.getBooks().add(bookMapper.map(book));
+		return bookListDTO;
+	}
+
+
 }

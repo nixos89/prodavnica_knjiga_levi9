@@ -14,9 +14,11 @@ import com.levi9.prodavnica.model.Book;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query(value = "select b.book_id from book as b right join book_category  as bc on b.book_id = bc.book_id where bc.category_id=?1",nativeQuery = true)
-    List<Long> getBooksFromCategory(Long id);
-    
+    @Query(value = "SELECT * FROM book as b left join book_author as ba on b.book_id=ba.book_id left join author a" +
+			" on  ba.author_id=a.author_id where b.name like %?1% or a.first_name like %?1% or a.last_name like %?1% " ,nativeQuery = true)
+    List<Book> getBookSearch(String search);
+
+
     @Transactional
 	@Modifying
 	@Query(value = "DELETE FROM book_author b WHERE b.book_id =:idBook", nativeQuery = true)

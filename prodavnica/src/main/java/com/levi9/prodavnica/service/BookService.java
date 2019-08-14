@@ -13,4 +13,6 @@ public interface BookService {
 	public boolean updateBook(AddUpdateBookDTO bookRequest, long idBook);
 
 	boolean addBook(AddUpdateBookDTO addUpdateBookDTO);
+
+    BookListDTO searchForBook(String search);
 }
