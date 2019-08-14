@@ -19,11 +19,11 @@ import { Category } from 'src/app/core/models/category.model';
 })
 export class HomepageComponent implements OnInit {
 
-  top10Books: Book[]; // = getTop10Books();
-  catIds: number[] = [];
   bookData: BookInfo = new BookInfo();
+  top10Books: Book[]; // = getTop10Books();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
+  newBooksForCat: Category[] = [];
 
   // TODO: finish method for sorting Categories
   sortCategories = (a: KeyValue<Category, string>, b: KeyValue<Category, string>): Category => {
@@ -46,7 +46,7 @@ export class HomepageComponent implements OnInit {
     this.getAllCategories();
   }
 
-  // getTop10Books(): void {
+  // getTop10Books() {
   //   this.bookService.getTop10Books()
   //     .subscribe(bookData => {
   //       this.bookData = bookData;
@@ -56,8 +56,6 @@ export class HomepageComponent implements OnInit {
   //       }
   //     )
   // }
-
-
 
   getAllBooks() {
     this.bookService.getAllBooks().subscribe(
@@ -74,7 +72,7 @@ export class HomepageComponent implements OnInit {
     this.categoryService.getAll().subscribe(
       response => {
         this.categoryData = response;//.categories;
-        console.log('response.categories[0].categoryId: ' + response.categories[0].categoryId);        
+        console.log('response.categories[0].categoryId: ' + response.categories[0].categoryId);
       },
       error => {
         this.toastr.error("Failed to get categories");
@@ -82,15 +80,24 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  getAllBooksFromCategories(id: number){
-    this.catIds.push(id);
+  getAllBooksFromCategories() {
+    this.newBooksForCat = this.categoryData.categories.filter(x => x.checked).map(x => x);
+    console.log("this.newBooksForCat: ", this.newBooksForCat);
 
-    // this.route.queryParams.subscribe((catIds) =>
-    
-    this.categoryService.getAllBooksFromCategories(this.catIds).subscribe(
+    this.newBooksForCat.forEach(x => {
+      console.log('categoryId: ' + x.categoryId + ", checked: " + x.checked);
+    });
+
+    let catIds: number[] = [];
+    this.newBooksForCat.forEach(x => {
+      catIds.push(x.categoryId);
+    });
+
+    console.log('catIds: ', catIds);
+
+    this.categoryService.getAllBooksFromCategories(catIds).subscribe(
       response => {
-        this.bookData = response;//.books;
-        // console.log('response.books[0].name: ' + response.books[0].name);        
+        this.bookData = response;
       },
       error => {
         this.toastr.error("Failed to get books for selected categories");

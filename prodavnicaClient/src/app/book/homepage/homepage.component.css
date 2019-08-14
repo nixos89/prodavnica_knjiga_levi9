@@ -34,3 +34,27 @@ li{
   height: 300px;
   width: 200px;
 }
+
+.overflow-scroll{
+  overflow: scroll;
+  height: 100%;
+}
+
+
+.card-body_style {
+  border: 2px #375E97;
+  border-style: dashed;
+  border-width: 100%;
+  padding-bottom: 5px;
+  padding: 10px;
+  margin-bottom: 1.5rem!important;
+  /* height: */
+}
+
+.h5title{
+  font-style: italic;
+}
+
+ul.circle-style{
+  list-style-type: circle;
+}
