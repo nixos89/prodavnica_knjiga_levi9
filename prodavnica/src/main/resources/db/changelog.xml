@@ -26,8 +26,13 @@
 			relativeToChangelogFile="true" />
 	</changeSet>
 	
-	<changeSet id="addMoreBooksAndAuthors" author="Nikola Stevanovic">
-		<sqlFile path="changelogs/addMoreBooksAndAuthors.sql"
+	<changeSet id="addOrderTable" author="MM">
+		<sqlFile path="changelogs/addOrderTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+	
+	<changeSet id="addOrderItemTable" author="MM">
+		<sqlFile path="changelogs/addOrderItemTable.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
 
