@@ -143,6 +143,7 @@ export class HomepageComponent implements OnInit {
       }
     }
     orderItem.book = book;
+    orderItem.amount = book.price;
     this.orderItems.push(orderItem);
     window.sessionStorage.setItem(
       "orderItems",
