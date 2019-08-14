@@ -6,20 +6,20 @@
     <div class="col-lg-3 overflow-scroll">
       <!-- <aside class="sidebar"> -->
       <h3><i>Categories</i></h3>
-      <!-- <div class="pre-scrollable"> -->     
+      <!-- <div class="pre-scrollable"> -->
         <nav>
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               name="categoryId"
               [value]=""
               (change)="getAllBooks()"> All
-            <fieldset *ngFor="let category of categoryData.categories">              
-                <input 
-                  type="checkbox" 
-                  name="categoryName" 
+            <fieldset *ngFor="let category of categoryData.categories">
+                <input
+                  type="checkbox"
+                  name="categoryName"
                   [value]="category.categoryId"
                   [(ngModel)]= "category.checked"
-                  (ngModelChange)="getAllBooksFromCategories()"> {{category.name}} 
+                  (ngModelChange)="getAllBooksFromCategories()"> {{category.name}}
             </fieldset>
         </nav>
       <!-- </div> -->
@@ -61,6 +61,9 @@
               </div>
               <div *ngIf="book.categories.length === 1">
                 <p>Category: {{ book.categories[0].name }}</p>
+              </div>
+              <div>
+                <button type="button" class="btn btn-primary" (click)="buyBook(book)" >Instant Buy</button>
               </div>
             </div>
           </div>

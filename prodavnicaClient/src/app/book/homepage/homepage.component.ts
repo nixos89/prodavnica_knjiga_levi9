@@ -10,6 +10,9 @@ import { AuthorInfo } from 'src/app/core/models/authorInfo.model';
 import { CategoryInfo } from 'src/app/core/models/categoryInfo.model';
 import { KeyValue } from '@angular/common';
 import { Category } from 'src/app/core/models/category.model';
+import {OrderService} from '../../core/services/order.service';
+import {AddOrder} from '../../core/models/addOrder.model';
+import {OrderList} from '../../core/models/orderList.model';
 
 @Component({
   selector: 'app-homepage',
@@ -36,7 +39,8 @@ export class HomepageComponent implements OnInit {
     private categoryService: CategoryService,
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private orderService: OrderService) {
 
   }
 
@@ -72,7 +76,6 @@ export class HomepageComponent implements OnInit {
     this.categoryService.getAll().subscribe(
       response => {
         this.categoryData = response;//.categories;
-        console.log('response.categories[0].categoryId: ' + response.categories[0].categoryId);
       },
       error => {
         this.toastr.error("Failed to get categories");
@@ -82,10 +85,8 @@ export class HomepageComponent implements OnInit {
 
   getAllBooksFromCategories() {
     this.newBooksForCat = this.categoryData.categories.filter(x => x.checked).map(x => x);
-    console.log("this.newBooksForCat: ", this.newBooksForCat);
 
     this.newBooksForCat.forEach(x => {
-      console.log('categoryId: ' + x.categoryId + ", checked: " + x.checked);
     });
 
     let catIds: number[] = [];
@@ -105,4 +106,20 @@ export class HomepageComponent implements OnInit {
     );
   }
 
+  buyBook(book: Book) {
+    let orderItem : AddOrder = new AddOrder();
+    orderItem.bookId = book.bookId;
+    orderItem.amount = 1;
+    let orderList : OrderList = new OrderList();
+    orderList.total = book.price;
+    orderList.orders.push(orderItem);
+    this.orderService.orderBook(orderList).subscribe(
+      data=>{
+        this.toastr.success("success");
+      },error => {
+        this.toastr.error(error.error.message);
+      }
+    )
+
+  }
 }
