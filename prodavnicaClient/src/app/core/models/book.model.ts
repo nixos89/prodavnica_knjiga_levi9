@@ -1,5 +1,5 @@
 export class Book {
-  bookId?: Number;
+  bookId?: number;
   name: string;
   amount: number;
   price: number;

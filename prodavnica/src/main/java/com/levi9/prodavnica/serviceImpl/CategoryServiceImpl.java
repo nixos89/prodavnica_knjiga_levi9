@@ -106,5 +106,5 @@ public class CategoryServiceImpl implements CategoryService {
 
 		return new BookListDTO(books);
 	}
-
+	
 }
