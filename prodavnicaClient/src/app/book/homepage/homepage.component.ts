@@ -19,9 +19,8 @@ import { Category } from 'src/app/core/models/category.model';
 })
 export class HomepageComponent implements OnInit {
 
-  top10Books: Book[]; // = getTop10Books();
-  categoryArr: Category[] = [];
   bookData: BookInfo = new BookInfo();
+  top10Books: Book[]; // = getTop10Books();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
   newBooksForCat: Category[] = [];
@@ -47,7 +46,7 @@ export class HomepageComponent implements OnInit {
     this.getAllCategories();
   }
 
-  // getTop10Books(): void {
+  // getTop10Books() {
   //   this.bookService.getTop10Books()
   //     .subscribe(bookData => {
   //       this.bookData = bookData;
@@ -57,8 +56,6 @@ export class HomepageComponent implements OnInit {
   //       }
   //     )
   // }
-
-
 
   getAllBooks() {
     this.bookService.getAllBooks().subscribe(
@@ -86,15 +83,17 @@ export class HomepageComponent implements OnInit {
   getAllBooksFromCategories() {
     this.newBooksForCat = this.categoryData.categories.filter(x => x.checked).map(x => x);
     console.log("this.newBooksForCat: ", this.newBooksForCat);
-    
+
     this.newBooksForCat.forEach(x => {
-      console.log('categoryId: ' + x.categoryId + ", checked: " + x.checked);      
+      console.log('categoryId: ' + x.categoryId + ", checked: " + x.checked);
     });
-    
+
     let catIds: number[] = [];
     this.newBooksForCat.forEach(x => {
       catIds.push(x.categoryId);
     });
+
+    console.log('catIds: ', catIds);
 
     this.categoryService.getAllBooksFromCategories(catIds).subscribe(
       response => {

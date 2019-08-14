@@ -11,41 +11,31 @@ import { ThrowStmt } from '@angular/compiler';
   providedIn: "root"
 })
 export class CategoryService {
-  constructor(private http: HttpClient, private httpParams: HttpParams, private catServiceSet: Set<string>) { 
-    // this.catServiceSet = new Set<string>(); 
-    // this.httpParams = new HttpParams();
+  constructor(private http: HttpClient, private httpParams: HttpParams) {
   }
 
   public getAll(): Observable<any> {
     return this.http.get(environment.url + "api/categories");
   }
 
-
-  // getAllBooksFromCategories::START
   public getAllBooksFromCategories(categories: number[]): Observable<any> {
-
-    let categoryIdsString: string = "";
-    // categories.forEach( x => categoryIdsString.concat('id=' + x.toString() + "&")  );
-    for(let category of categories){
-      // var str = new String('id=' + category.toString() + "&").toString();
-      console.log('id=' + category.toString() + "&");
-      
-      categoryIdsString+='id=' + category.toString() + "&";
-      console.log('(in da for-loop) categoryIdsString: ', categoryIdsString);  
-    }
-
-    console.log('categoryIdsString: ', categoryIdsString);
+    let categoryIdsSet = new Set<number>();
+    categories.forEach(x => categoryIdsSet.add(x));
     
-    var hParams: HttpParams = new HttpParams( {fromString: categoryIdsString } );
-    console.log('this.httpParams.keys(): ', this.httpParams.keys());
-    
-    // HttpParams hParams = Object.getOwnPropertyNames(category).reduce((p,key) => v.set(key,category[key]), new HttpParams());
+    let categoriesStr: string[] = [];
+    categoryIdsSet.forEach( x => categoriesStr.push(x.toString()));
+    console.log('categoriesStr: ', categoriesStr);
+
+    this.httpParams =  new HttpParams({
+      fromObject: { id : categoriesStr}
+    });
+    categoryIdsSet.clear();
+    categoriesStr = [];
+  
     return this.http.get(environment.url + "api/categories/getAllBooksFromCategories", {
-      params: hParams
+      params: this.httpParams
     });
   }
-  // getAllBooksFromCategories::END
-
 
   updateCategory(updateCat: AddUpdateCategory, id: number): Observable<any> {
     return this.http.put(environment.url + "api/categories/" + id, updateCat);
