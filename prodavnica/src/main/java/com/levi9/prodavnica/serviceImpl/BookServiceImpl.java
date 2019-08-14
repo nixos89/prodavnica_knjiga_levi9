@@ -76,19 +76,14 @@ public class BookServiceImpl implements BookService {
 			Set<Book> books = new HashSet<>();
 			books.add(book);
 
-			bookRepository.deleteAuthorsFromBook(idBook);
-			bookRepository.deleteCategoriesFromBook(idBook);
-
 			for (Long authorId : bookRequest.getAuthorIds()) {
 				Author author = authorRepository.getOne(authorId);
-				author.setBooks(books);
 				bookAuthors.add(author);
 			}
 
 			Set<Category> bookCategories = new HashSet<>();
 			for (Long categoryId : bookRequest.getCategoryIds()) {
 				Category category = categoryRepository.getOne(categoryId);
-				category.setBooks(books);
 				bookCategories.add(category);
 			}
 
@@ -118,14 +113,12 @@ public class BookServiceImpl implements BookService {
 
 		for (Long authorId : addUpdateBookDTO.getAuthorIds()) {
 			Author author = authorRepository.getOne(authorId);
-			author.setBooks(books);
 			bookAuthors.add(author);
 		}
 
 		Set<Category> bookCategories = new HashSet<>();
 		for (Long categoryId : addUpdateBookDTO.getCategoryIds()) {
 			Category category = categoryRepository.getOne(categoryId);
-			category.setBooks(books);
 			bookCategories.add(category);
 		}
 

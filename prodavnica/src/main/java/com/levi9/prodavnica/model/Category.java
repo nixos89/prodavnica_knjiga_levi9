@@ -26,9 +26,7 @@ public class Category {
 
 	private boolean isDeleted;
 
-	@ManyToMany(fetch =FetchType.EAGER ,cascade =  {CascadeType.PERSIST ,CascadeType.MERGE})
-	@JoinTable(name = "book_category", joinColumns = { @JoinColumn(name = "category_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "book_id") })
+	@ManyToMany(fetch =FetchType.EAGER ,mappedBy = "categories")
 	private Set<Book> books = new HashSet<>();
 
 	public Category(String name) {
