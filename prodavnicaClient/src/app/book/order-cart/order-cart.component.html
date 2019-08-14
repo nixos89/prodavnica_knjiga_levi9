@@ -51,7 +51,7 @@
           <button type="button" class="btn btn-sm btn-default" (click)="plusQuantity(ord)">+</button>
         </div>
       </td>
-      <td data-th="Subtotal" class="text-right">${{ord.amount}}</td>
+      <td data-th="Subtotal" class="text-right">${{ord.amount | number : '1.2-2'}}</td>
       <td class="actions" data-th="">
         <button class="btn btn-default btn-sm" (click)="deleteOrder(i)"><i class="fa fa-trash-o"></i></button>
       </td>
