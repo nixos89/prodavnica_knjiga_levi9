@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
-import com.levi9.prodavnica.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,7 @@ import com.levi9.prodavnica.dto.CategoryListDTO;
 import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.mapper.BookMapper;
 import com.levi9.prodavnica.mapper.CategoryMapper;
+import com.levi9.prodavnica.model.Book;
 import com.levi9.prodavnica.model.Category;
 import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.CategoryRepository;
@@ -98,10 +98,8 @@ public class CategoryServiceImpl implements CategoryService {
 		if (!categoryRepository.getBooksFromCategories(ids).isEmpty()) {
 			for (Long idBook : categoryRepository.getBooksFromCategories(ids)) {
 				BookDTO book = bookMapper.map(bookRepository.getOne(idBook));
-				if (!book.isDeleted())
+				if (!book.isDeleted() && !books.stream().anyMatch(x -> x.getBookId() == idBook))
 					books.add(book);
-				else
-					throw new StoreException(HttpStatus.NOT_FOUND, "Book status is disabled!");
 			}
 		} else
 			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
