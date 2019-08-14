@@ -1,27 +1,31 @@
 <!-- Page Content -->
 <div class="container at-da-top">
   <h1 class="my-4 title-at-da-centre">Levi9 Bookstore</h1>
-  <br/>
+  <br />
   <div class="row" id="row1">
     <div class="col-lg-3 overflow-scroll">
       <!-- <aside class="sidebar"> -->
       <h3><i>Categories</i></h3>
       <!-- <div class="pre-scrollable"> -->
-        <nav>
-            <input
-              type="checkbox"
-              name="categoryId"
-              [value]=""
-              (change)="getAllBooks()"> All
-            <fieldset *ngFor="let category of categoryData.categories">
-                <input
-                  type="checkbox"
-                  name="categoryName"
-                  [value]="category.categoryId"
-                  [(ngModel)]= "category.checked"
-                  (ngModelChange)="getAllBooksFromCategories()"> {{category.name}}
-            </fieldset>
-        </nav>
+      <nav>
+        <input
+          type="checkbox"
+          name="categoryId"
+          [value]=""
+          (change)="getAllBooks()"
+        />
+        All
+        <fieldset *ngFor="let category of categoryData.categories">
+          <input
+            type="checkbox"
+            name="categoryName"
+            [value]="category.categoryId"
+            [(ngModel)]="category.checked"
+            (ngModelChange)="getAllBooksFromCategories()"
+          />
+          {{ category.name }}
+        </fieldset>
+      </nav>
       <!-- </div> -->
       <!-- </aside> -->
     </div>
@@ -49,7 +53,11 @@
               </div>
               <div *ngIf="book.authors.length == 1">
                 <p>
-                  Author: <i>{{ book.authors[0].firstName }}{{ book.authors[0].lastName }}</i>
+                  Author:
+                  <i
+                    >{{ book.authors[0].firstName
+                    }}{{ book.authors[0].lastName }}</i
+                  >
                 </p>
               </div>
 
@@ -63,7 +71,21 @@
                 <p>Category: {{ book.categories[0].name }}</p>
               </div>
               <div>
-                <button type="button" class="btn btn-primary" (click)="buyBook(book)" >Instant Buy</button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="buyBook(book)"
+                >
+                  Instant Buy
+                </button>
+                <button
+                  *ngIf="activeAddToCart.includes(book.bookId)"
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  (click)="onAddToCart(book)"
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
           </div>
