@@ -1,11 +1,20 @@
 <!-- Page Content -->
 <div class="container">
-
   <div class="row">
-
     <div class="col-lg-3">
-
-      <h1 class="my-4">Book Shop</h1>
+      <div class="input-group">
+        <input
+          type="text"
+          name="search"
+          name="model"
+          class="form-control"
+          placeholder="Search title or author"
+          id="search"
+          [(ngModel)]="search"
+          (ngModelChange)="onSearch()"
+          #bookSearchInput
+        />
+      </div>
       <h3><i>Categories</i></h3>
       <!-- <div class="pre-scrollable"> -->
       <nav>
@@ -27,34 +36,62 @@
           {{ category.name }}
         </fieldset>
       </nav>
-
     </div>
     <!-- /.col-lg-3 -->
 
     <div class="col-lg-9">
-
-      <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+      <div
+        id="carouselExampleIndicators"
+        class="carousel slide my-4"
+        data-ride="carousel"
+      >
         <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li
+            data-target="#carouselExampleIndicators"
+            data-slide-to="0"
+            class="active"
+          ></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner" role="listbox">
           <div class="carousel-item active">
-            <img class="d-block img-fluid" src="assets/slider/bookstore1.jpg" alt="First slide">
+            <img
+              class="d-block img-fluid"
+              src="assets/slider/bookstore1.jpg"
+              alt="First slide"
+            />
           </div>
           <div class="carousel-item">
-            <img class="d-block img-fluid" src="assets/slider/bookstore2.jpg" alt="Second slide">
+            <img
+              class="d-block img-fluid"
+              src="assets/slider/bookstore2.jpg"
+              alt="Second slide"
+            />
           </div>
           <div class="carousel-item">
-            <img class="d-block img-fluid" src="assets/slider/bookstore3.jpg" alt="Third slide">
+            <img
+              class="d-block img-fluid"
+              src="assets/slider/bookstore3.jpg"
+              alt="Third slide"
+            />
           </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <a
+          class="carousel-control-prev"
+          href="#carouselExampleIndicators"
+          role="button"
+          data-slide="prev"
+        >
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <a
+          class="carousel-control-next"
+          href="#carouselExampleIndicators"
+          role="button"
+          data-slide="next"
+        >
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
@@ -62,69 +99,73 @@
 
       <div class="row">
         <ng-container *ngFor="let book of bookData.books">
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="data:image/jpeg;base64,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" width="60" height="150" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">{{book.name}}</a>
-              </h4>
-              <h5>${{book.price}}</h5>
-              <div *ngIf="book.authors.length > 1">
-                <p>Authors:</p>
-                <ol *ngFor="let author of book.authors" class="circle-style">
-                  {{ author.firstName }} {{ author.lastName }}
-                </ol>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <a href="#"
+                ><img
+                  class="card-img-top"
+                  src="assets/book.png"
+                  width="60"
+                  height="150"
+                  alt=""
+              /></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a routerLink="admin/update-book/{{ book.bookId }}"
+                    ><span>{{ book.name }}</span></a
+                  >
+                </h4>
+                <h5>${{ book.price }}</h5>
+                <div *ngIf="book.authors.length > 1">
+                  <h6>Authors:</h6>
+                  <div *ngFor="let author of book.authors" class="circle-style">
+                    &nbsp;<i>{{ author.firstName }} {{ author.lastName }}</i>
+                  </div>
+                </div>
+                <div *ngIf="book.authors.length == 1">
+                  <h6>Author:</h6>
+                  <i
+                    >{{ book.authors[0].firstName
+                    }}{{ book.authors[0].lastName }}</i
+                  >
+                </div>
+                <div *ngIf="book.categories.length > 1">
+                  <h6>Categories:</h6>
+                  <div *ngFor="let category of book.categories">
+                    &nbsp;<i>{{ category.name }}</i>
+                  </div>
+                </div>
+                <div *ngIf="book.categories.length === 1">
+                  <h6>Category:</h6>
+                  <i>{{ book.categories[0].name }}</i>
+                </div>
               </div>
-              <div *ngIf="book.authors.length == 1">
-                <p>
-                  Author:
-                  <i>{{ book.authors[0].firstName}}{{ book.authors[0].lastName }}</i>
-                </p>
-              </div>
-              <div *ngIf="book.categories.length > 1">
-                <p>Categories:</p>
-                <ol *ngFor="let category of book.categories">
-                  {{ category.name }}
-                </ol>
-              </div>
-              <div *ngIf="book.categories.length === 1">
-                <p>Category: {{ book.categories[0].name }}</p>
-              </div>
-            </div>
-            <div class="card-footer">
-                <button type="button" style="margin-right: 10px" class="btn btn-primary"(click)="buyBook(book)" >Buy Now</button>
-                <button *ngIf="activeAddToCart.includes(book.bookId)" type="button" class="btn btn-primary " (click)="onAddToCart(book)">
-                  Add to cart
+              <div class="card-footer">
+                <button
+                  type="button"
+                  style="float: left;"
+                  class="btn btn-danger btn-sm"
+                  (click)="buyBook(book)"
+                >
+                  Buy Now
                 </button>
+                <button
+                  *ngIf="activeAddToCart.includes(book.bookId)"
+                  type="button"
+                  style="float: right;"
+                  class="text-light btn btn-warning btn-sm"
+                  (click)="onAddToCart(book)"
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </div>
-        </div>
         </ng-container>
-
-
-
-
-
-
-
-
-
-
-
       </div>
       <!-- /.row -->
-
     </div>
     <!-- /.col-lg-9 -->
-
   </div>
   <!-- /.row -->
-
 </div>
-
-
-
-
-
-

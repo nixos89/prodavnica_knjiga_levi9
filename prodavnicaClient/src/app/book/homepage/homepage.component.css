@@ -1,71 +1,29 @@
 
 .container{
-  margin-top: 35px;
+  margin-top: 3%;
+}
+
+.input-group{
+  margin-top: 10%; 
 }
 
 .pad{
   padding: 10px 10px 10px 10px ;
 }
+.h5title{
+  font-style: italic;
+}
 
+ul.circle-style{
+  list-style-type: circle;
+}
 
-/*!*!*/
-/* * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)*/
-/* * Copyright 2013-2019 Start Bootstrap*/
-/* * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)*/
-/* *!*/
-/* body {*/
-/*  padding-top: 56px;*/
-/*}*/
+.form-control-borderless {
+  border: none;
+}
 
-
-/*.at-da-top {*/
-/*  margin-top: 5%;*/
-/*}*/
-
-/*.category-link{*/
-/*  color: blue;*/
-/*}*/
-
-/*li{*/
-/*  list-style-type: none;*/
-/*}*/
-
-/*.list-group {*/
-/*  padding-left: 0;*/
-/*  margin-bottom: 2px;*/
-/*}*/
-
-/*.title-at-da-centre{*/
-/*  text-align: center;*/
-/*  font-style: initial;*/
-/*}*/
-
-/*.cat-mult-select{*/
-/*  position: sticky;*/
-/*  height: 300px;*/
-/*  width: 200px;*/
-/*}*/
-
-/*.overflow-scroll{*/
-/*  overflow: scroll;*/
-/*  height: 100%;*/
-/*}*/
-
-
-/*.card-body_style {*/
-/*  border: 2px #375E97;*/
-/*  border-style: dashed;*/
-/*  border-width: 100%;*/
-/*  padding-bottom: 5px;*/
-/*  padding: 10px;*/
-/*  margin-bottom: 1.5rem!important;*/
-/*  !* height: *!*/
-/*}*/
-
-/*.h5title{*/
-/*  font-style: italic;*/
-/*}*/
-
-/*ul.circle-style{*/
-/*  list-style-type: circle;*/
-/*}*/
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}

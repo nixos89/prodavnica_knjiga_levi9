@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/core";
 import { Book } from "src/app/core/models/book.model";
 import { BookService } from "src/app/core/services/book.service";
 import { AuthorService } from "src/app/core/services/author.service";
@@ -14,6 +14,8 @@ import { OrderService } from "../../core/services/order.service";
 import { AddOrder } from "../../core/models/addOrder.model";
 import { OrderList } from "../../core/models/orderList.model";
 import { OrderItem } from "src/app/core/models/orderItem.model";
+import { debounceTime, map, distinctUntilChanged } from "rxjs/operators";
+import { fromEvent, Subscription } from "rxjs";
 
 @Component({
   selector: "app-homepage",
@@ -29,6 +31,10 @@ export class HomepageComponent implements OnInit {
   newBooksForCat: Category[] = [];
   activeAddToCart: Number[] = [];
   orderItems: OrderItem[] = [];
+  searchSubscription: Subscription;
+
+  @ViewChild("bookSearchInput", { static: true })
+  bookSearchInput: ElementRef;
 
   // TODO: finish method for sorting Categories
   sortCategories = (
@@ -52,6 +58,30 @@ export class HomepageComponent implements OnInit {
     // this.getTop10Books();
     this.getAllBooks();
     this.getAllCategories();
+
+    this.searchSubscription = fromEvent(
+      this.bookSearchInput.nativeElement,
+      "keyup"
+    )
+      .pipe(
+        map((event: any) => {
+          return event.target.value;
+        }),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((text: string) => {
+        this.onSearch(text);
+        console.log(text)
+      });
+  }
+
+  ngOnDestroy() {
+    this.searchSubscription.unsubscribe();
+  }
+
+  onSearch(text){
+    
   }
 
   // getTop10Books() {
