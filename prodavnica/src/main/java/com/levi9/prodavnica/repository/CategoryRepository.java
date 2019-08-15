@@ -13,7 +13,7 @@ import com.levi9.prodavnica.model.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-	@Query(value = "select b.book_id from book as b right join book_category  as bc on b.book_id = bc.book_id where bc.category_id IN :ids", nativeQuery = true)
+	@Query("SELECT b.bookId FROM Book b RIGHT JOIN b.categories c WHERE b.isDeleted = 0 AND b.amount > 0 AND c.categoryId IN :ids")
 	public List<Long> getBooksFromCategories(@Param("ids") Set<Long> ids);
 
 }

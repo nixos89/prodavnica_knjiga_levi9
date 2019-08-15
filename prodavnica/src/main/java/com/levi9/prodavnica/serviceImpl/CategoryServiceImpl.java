@@ -98,7 +98,7 @@ public class CategoryServiceImpl implements CategoryService {
 		if (!categoryRepository.getBooksFromCategories(ids).isEmpty()) {
 			for (Long idBook : categoryRepository.getBooksFromCategories(ids)) {
 				BookDTO book = bookMapper.map(bookRepository.getOne(idBook));
-				if (!book.isDeleted() && (book.getAmount()>0) && !books.stream().anyMatch(x -> x.getBookId() == idBook))
+				if (!books.stream().anyMatch(x -> x.getBookId() == idBook))
 					books.add(book);
 			}
 		} else
