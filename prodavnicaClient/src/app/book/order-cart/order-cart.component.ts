@@ -25,6 +25,7 @@ export class OrderCartComponent implements OnInit {
   orderItems: OrderItem[] = [];
   order: OrderBook = new OrderBook();
   orderList: OrderList = new OrderList();
+  message:string;
   
 
   constructor(private bookService: BookService, private toastr: ToastrService, private orderService: OrderService) { }
@@ -99,7 +100,7 @@ export class OrderCartComponent implements OnInit {
     let selectedOrderList: OrderList = new OrderList();
     for(let ord of this.orderItems) {
       let addOrder: AddOrder = new AddOrder();
-      addOrder.amount = ord.amount;
+      addOrder.amount = ord.quantity;
       addOrder.bookId = ord.book.bookId;  
       selectedOrderList.orders.push(addOrder);
     }
@@ -108,12 +109,15 @@ export class OrderCartComponent implements OnInit {
     
 
     this.orderService.orderBook(selectedOrderList).subscribe(
-      response => {
-        this.toastr.success("Purchase has been successfuly completed "+
-          "with id: #" + response.orderId + " order");
+      response => {        
+        this.message = "Purchase has been successfuly completed!\nID of this order: #"+ response.orderId;
+        this.orderItems = new Array();
+        this.order.total = 0;    
+        this.orderService.saveOrderItems(this.orderItems);
       },
       error => {
-        this.toastr.error("You have selected more books than it's possible");
+        console.log("error:", error);        
+        this.message = "You have selected more books than it's possible!\n" + error.error.message;
       }
     );
   }
