@@ -45,7 +45,8 @@ public class OrderServiceImpl implements OrderService {
 				if (book == null)
 					throw new StoreException(HttpStatus.BAD_REQUEST, "Book doesn't exist!");
 				else if (addOrder.getAmount() > book.getAmount())
-					throw new StoreException(HttpStatus.BAD_REQUEST, "Amount is more than on the stock!");
+					throw new StoreException(HttpStatus.BAD_REQUEST, "Amount for book with title: '" + book.getName() + 
+							"' is more than on the stock!\nCurrent amount on stock is: " + book.getAmount());
 				else {
 					book.setAmount(book.getAmount() - addOrder.getAmount());
 					order.setTotal(orderRequest.getTotal());
