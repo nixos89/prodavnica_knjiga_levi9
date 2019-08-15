@@ -1,4 +1,10 @@
-import { Component, OnInit, SimpleChange, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnDestroy
+} from "@angular/core";
 import { Book } from "src/app/core/models/book.model";
 import { BookService } from "src/app/core/services/book.service";
 import { AuthorService } from "src/app/core/services/author.service";
@@ -14,6 +20,8 @@ import { OrderService } from "../../core/services/order.service";
 import { AddOrder } from "../../core/models/addOrder.model";
 import { OrderList } from "../../core/models/orderList.model";
 import { OrderItem } from "src/app/core/models/orderItem.model";
+import { debounceTime, map, distinctUntilChanged } from "rxjs/operators";
+import { fromEvent, Subscription } from "rxjs";
 
 @Component({
   selector: "app-homepage",
@@ -29,9 +37,13 @@ export class HomepageComponent implements OnInit {
   newBooksForCat: Category[] = [];
   activeAddToCart: Number[] = [];
   orderItems: OrderItem[] = [];
-  search = "";
   searchActive = false;
   categoryActive = false;
+
+  searchSubscription: Subscription;
+
+  @ViewChild("bookSearchInput", { static: true })
+  bookSearchInput: ElementRef;
 
   // TODO: finish method for sorting Categories
   sortCategories = (
@@ -55,6 +67,25 @@ export class HomepageComponent implements OnInit {
     // this.getTop10Books();
     this.getAllBooks();
     this.getAllCategories();
+
+    this.searchSubscription = fromEvent(
+      this.bookSearchInput.nativeElement,
+      "keyup"
+    )
+      .pipe(
+        map((event: any) => {
+          return event.target.value;
+        }),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((text: string) => {
+        this.onSearch(text);
+      });
+  }
+
+  ngOnDestroy() {
+    this.searchSubscription.unsubscribe();
   }
 
   // getTop10Books() {
@@ -183,34 +214,31 @@ export class HomepageComponent implements OnInit {
     }
   }
 
-  onSearch() {
-    setTimeout(() => {
-      console.log(this.search);
-      if (this.search) {
-        this.searchActive = true;
-        this.bookService.searchBooks(this.search).subscribe(response => {
-          if (this.categoryActive) {
-            let bookInfo: BookInfo = new BookInfo();
-            for (let book of this.bookData.books) {
-              for (let searchBook of response.books) {
-                if (book.bookId == searchBook.bookId) {
-                  bookInfo.books.push(book);
-                  this.bookData = bookInfo;
-                }
+  onSearch(text) {
+    if (text) {
+      this.searchActive = true;
+      this.bookService.searchBooks(text).subscribe(response => {
+        if (this.categoryActive) {
+          let bookInfo: BookInfo = new BookInfo();
+          for (let book of this.bookData.books) {
+            for (let searchBook of response.books) {
+              if (book.bookId == searchBook.bookId) {
+                bookInfo.books.push(book);
+                this.bookData = bookInfo;
               }
             }
-          } else {
-            this.bookData = response;
           }
-        });
-      } else {
-        this.searchActive = false;
-        if (this.categoryActive) {
-          this.getAllBooksFromCategories();
         } else {
-          this.getAllBooks();
+          this.bookData = response;
         }
+      });
+    } else {
+      this.searchActive = false;
+      if (this.categoryActive) {
+        this.getAllBooksFromCategories();
+      } else {
+        this.getAllBooks();
       }
-    }, 500);
+    }
   }
 }

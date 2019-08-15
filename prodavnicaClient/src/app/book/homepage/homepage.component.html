@@ -6,12 +6,10 @@
         <div class="input-group">
           <input
             type="text"
-            name="search"
+            name="model"
             class="form-control"
             placeholder="Search title or author"
-            id="search"
-            [(ngModel)]="search"
-            (ngModelChange)="onSearch()"
+            #bookSearchInput
           />
         </div>
       </div>
