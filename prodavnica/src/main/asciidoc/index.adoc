@@ -14,11 +14,11 @@ include::book/update-book/searchBook.adoc[]
 
 === Category API
 
-include::find-all-categories/findAllCategories.adoc[]
-include::find-one-category/findOneCategory.adoc[]
-include::add-category/addCategory.adoc[]
-include::update-category/updateCategory.adoc[]
-include::delete-category/deleteCategory.adoc[]
+include::category/find-all-categories/findAllCategories.adoc[]
+include::category/find-one-category/findOneCategory.adoc[]
+include::category/add-category/addCategory.adoc[]
+include::category/update-category/updateCategory.adoc[]
+include::category/delete-category/deleteCategory.adoc[]
 
 
 === Order API

@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService {
 		if (!books.isEmpty()) {
 			for (Book book : books) {
 				if(book.getAmount()>0)
-				bookDTOS.getBooks().add(bookMapper.map(book));
+					bookDTOS.getBooks().add(bookMapper.map(book));
 			}
 		} else
 			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");

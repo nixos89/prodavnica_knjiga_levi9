@@ -1,4 +1,4 @@
-[[search_bool_success]]
+[[search_book_success]]
 ==== Find one book
 
 [[search-book_success_curl]]
