@@ -1,9 +1,12 @@
 package com.levi9.prodavnica.config;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
+import com.levi9.prodavnica.model.Book;
 
 public class BookConstants {
 
@@ -30,4 +33,12 @@ public class BookConstants {
 	public static final AddUpdateBookDTO addUpdateDTO = new AddUpdateBookDTO(BookConstants.book0name,
 			BookConstants.book0price, BookConstants.book0amount, BookConstants.book0deleted, BookConstants.book0authors,
 			BookConstants.book0categories);
+
+	public static final List<Book> getSeachBooks(){
+		List<Book> books = new ArrayList<>();
+		books.add(new Book(book0id,book0name,book0price,book0amount,book0deleted));
+		books.add(new Book(book1id,book1name,book1price,book1amount,book1deleted));
+		return books;
+	}
+
 }

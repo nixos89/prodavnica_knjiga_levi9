@@ -1,0 +1,18 @@
+[[search_bool_success]]
+==== Find one book
+
+[[search-book_success_curl]]
+===== cURL
+include::{snippets}book-controller-test/search-book-test/curl-request.adoc[]
+
+[[search-book_success_request]]
+===== Request
+include::{snippets}book-controller-test/search-book-test/http-request.adoc[]
+
+[[search-book_success_response]]
+===== Response
+include::{snippets}book-controller-test/search-book-test/http-response.adoc[]
+
+[[search-book_success_response_fields]]
+===== Response fields
+include::{snippets}book-controller-test/search-book-test/response-fields.adoc[]

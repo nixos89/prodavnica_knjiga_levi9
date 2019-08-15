@@ -45,6 +45,7 @@ public class BookServiceImpl implements BookService {
 				.collect(Collectors.toList());
 		if (!books.isEmpty()) {
 			for (Book book : books) {
+				if(book.getAmount()>0)
 				bookDTOS.getBooks().add(bookMapper.map(book));
 			}
 		} else
@@ -134,11 +135,16 @@ public class BookServiceImpl implements BookService {
 	public BookListDTO searchForBook(String search) {
 		BookListDTO bookListDTO = new BookListDTO();
 		List<Book> books = bookRepository.getBookSearch(search);
-		for (Book book : books)
-			if (!book.isDeleted()
-					&& bookListDTO.getBooks().stream().noneMatch(b -> b.getBookId().equals(book.getBookId())))
-				bookListDTO.getBooks().add(bookMapper.map(book));
+		if (!books.isEmpty()) {
+			for (Book book : books)
+				if (!book.isDeleted() && (book.getAmount() > 0) && bookListDTO.getBooks().stream().noneMatch(b -> b.getBookId().equals(book.getBookId())))
+					bookListDTO.getBooks().add(bookMapper.map(book));
+		}else{
+			throw  new StoreException(HttpStatus.NOT_FOUND,"Book doesn't exist!");
+		}
 		return bookListDTO;
+
+
 	}
 
 }

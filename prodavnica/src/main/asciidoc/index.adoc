@@ -8,7 +8,9 @@ include::author/get-one-author/getOneAuthor.adoc[]
 include::book/find-all-books/findAllBooks.adoc[]
 include::book/find-one-book/findOneBook.adoc[]
 include::book/add-book/addBook.adoc[]
-include::book/update-book/updateBook.adoc[] 
+include::book/update-book/updateBook.adoc[]
+include::book/update-book/searchBook.adoc[]
+
 
 === Category API
 
