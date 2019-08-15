@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, SimpleChange, SimpleChanges } from "@angular/core";
 import { Book } from "src/app/core/models/book.model";
 import { BookService } from "src/app/core/services/book.service";
 import { AuthorService } from "src/app/core/services/author.service";
@@ -29,6 +29,7 @@ export class HomepageComponent implements OnInit {
   newBooksForCat: Category[] = [];
   activeAddToCart: Number[] = [];
   orderItems: OrderItem[] = [];
+  search = "";
 
   // TODO: finish method for sorting Categories
   sortCategories = (
@@ -165,5 +166,14 @@ export class HomepageComponent implements OnInit {
         }
       }
     }
+  }
+
+  onSearch() {
+    setTimeout(() => {
+      console.log(this.search);
+      this.bookService.searchBooks(this.search).subscribe(response => {
+        this.bookData = response;
+      });
+    }, 2000);
   }
 }

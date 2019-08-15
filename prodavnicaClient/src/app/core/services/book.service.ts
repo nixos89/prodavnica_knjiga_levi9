@@ -16,4 +16,8 @@ export class BookService {
   public getAllBooks(): Observable<any> {
     return this.http.get(environment.url + "api/books");
   }
+
+  public searchBooks(searchString): Observable<any> {
+    return this.http.get(environment.url + "api/books/search/" + searchString);
+  }
 }

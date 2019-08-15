@@ -1,5 +1,7 @@
 package com.levi9.prodavnica.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,9 +44,9 @@ public class BookController {
 		return ResponseEntity.ok(bookService.updateBook(bookRequest, idBook));
 	}
 
-	@GetMapping("/search/{search}")
-	public ResponseEntity<?> searchBooks(@PathVariable String search){
-		return ResponseEntity.ok(bookService.searchForBook(search));
+	@GetMapping({"/search/{search}", "/search"})
+	public ResponseEntity<?> searchBooks(@PathVariable Optional<String> search) {
+		return ResponseEntity.ok(bookService.searchForBook(search.isPresent() ? search.get() : ""));
 	}
 
 }

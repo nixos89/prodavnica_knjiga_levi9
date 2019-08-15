@@ -1,6 +1,22 @@
 <!-- Page Content -->
 <div class="container at-da-top">
-  <h1 class="my-4 title-at-da-centre">Levi9 Bookstore</h1>
+  <form>
+    <div class="row">
+      <div class="col-xs-6 col-md-4">
+        <div class="input-group">
+          <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search title or author"
+            id="search"
+            [(ngModel)]="search"
+            (ngModelChange)="onSearch()"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
   <br />
   <div class="row" id="row1">
     <div class="col-lg-3 overflow-scroll">
