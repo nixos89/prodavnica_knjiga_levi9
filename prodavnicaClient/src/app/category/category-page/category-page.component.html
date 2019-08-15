@@ -1,24 +1,27 @@
-<div style="margin-top: 60px">
+<!--<div style="margin-top: 60px">-->
+<div class="container">
 
-<table>
-  <caption>Categories <button class="btn btn-primary" title="View" data-toggle="modal" data-target="#exampleModalCenterADD"><i class="glyphicon glyphicon-pencil" ></i><span class="hidden-xs"> Add</span></button> </caption>
-  <thead>
+<table class="table" style="margin-top: 60px">
+  <thead class="thead-light">
   <tr>
+    <th scope="col">#</th>
     <th scope="col">Name</th>
     <th scope="col">Edit</th>
     <th scope="col">Delete</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let cat of categoryData.categories ">
-    <th scope="row">{{cat.name}}</th>
+  <tr *ngFor="let cat of categoryData.categories ; let i =index " >
+    <th scope="row">{{i+1}}</th>
+    <td>{{cat.name}}</td>
     <td><button class="btn btn-primary" title="View" data-toggle="modal" data-target="#exampleModalCenter" (click)="editDialogOpen(cat)"><i class="glyphicon glyphicon-pencil" ></i><span class="hidden-xs"> Edit</span></button></td>
-    <td><button class="btn btn-danger" title="Delete" (click)="deleteCategory(cat.categoryId)"><i class="glyphicon glyphicon-trash" ></i><span class="hidden-xs"> Delete</span></button></td>
+    <td><button class="btn btn-danger" title="Delete" (click)="deleteCategory(cat.categoryId)"><i class="glyphicon glyphicon-trash" ></i><span class="hidden-xs"> Delete</span> </button></td>
   </tr>
+
   </tbody>
 </table>
-</div>
 
+</div>
 
 <!-- Modal UPDATE -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
