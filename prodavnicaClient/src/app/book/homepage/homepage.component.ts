@@ -211,6 +211,6 @@ export class HomepageComponent implements OnInit {
           this.getAllBooks();
         }
       }
-    }, 2000);
+    }, 500);
   }
 }
