@@ -1,7 +1,10 @@
 package com.levi9.prodavnica.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Service;
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
 import com.levi9.prodavnica.dto.BookDTO;
 import com.levi9.prodavnica.dto.BookListDTO;
+import com.levi9.prodavnica.dto.TopSellingBookDTO;
+import com.levi9.prodavnica.dto.TopSellingBookListDTO;
 import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.mapper.BookMapper;
 import com.levi9.prodavnica.model.Author;
@@ -22,6 +27,7 @@ import com.levi9.prodavnica.model.Category;
 import com.levi9.prodavnica.repository.AuthorRepository;
 import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.CategoryRepository;
+import com.levi9.prodavnica.repository.OrderItemRepository;
 import com.levi9.prodavnica.service.BookService;
 
 @Service
@@ -34,6 +40,9 @@ public class BookServiceImpl implements BookService {
 	AuthorRepository authorRepository;
 	@Autowired
 	CategoryRepository categoryRepository;
+
+	@Autowired
+	OrderItemRepository orderItemRepository;
 
 	@Autowired
 	BookMapper bookMapper;
@@ -128,6 +137,35 @@ public class BookServiceImpl implements BookService {
 		bookRepository.save(book);
 
 		return true;
+	}
+
+	@Override
+	public BookListDTO getTop10SellingBooks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TopSellingBookListDTO getTopSellingBooks(Long topSellingBooksLimit) {
+		Map<Long, Integer> topSellingBooksMap = orderItemRepository.getTop10SellingBooks();
+		List<TopSellingBookDTO> top10BookList = new ArrayList<TopSellingBookDTO>();
+		int counter = 0;
+		for (Entry<Long, Integer> topBook : topSellingBooksMap.entrySet()) {
+			Book book = bookRepository.getOne(topBook.getKey());
+			if (book != null) {
+				TopSellingBookDTO topSellingBookDTO = new TopSellingBookDTO(book.getName(), book.getAuthors(),
+						topBook.getValue());
+				top10BookList.add(topSellingBookDTO);
+			} else {
+				throw new StoreException(HttpStatus.NOT_FOUND, "No book has been found in TOP selling books!");
+			}
+			if (counter == topSellingBooksLimit)
+				break;
+		}
+
+		TopSellingBookListDTO topSellingBookListDTO = new TopSellingBookListDTO();
+		topSellingBookListDTO.getTopSellingBookList().addAll(top10BookList);
+		return topSellingBookListDTO;
 	}
 
 }

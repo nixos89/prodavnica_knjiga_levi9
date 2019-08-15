@@ -1,6 +1,7 @@
 package com.levi9.prodavnica.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,11 @@ public class BookController {
 	@PutMapping("/{idBook}")
 	public ResponseEntity<?> updateBook(@RequestBody AddUpdateBookDTO bookRequest, @PathVariable long idBook) {
 		return ResponseEntity.ok(bookService.updateBook(bookRequest, idBook));
+	}
+
+	@GetMapping("/topSellingBooksLimit")
+	public ResponseEntity<?> getTopSellingBooks() {
+		return ResponseEntity.ok(bookService.getTopSellingBooks(5L));
 	}
 
 }
