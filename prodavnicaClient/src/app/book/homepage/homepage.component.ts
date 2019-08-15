@@ -30,6 +30,8 @@ export class HomepageComponent implements OnInit {
   activeAddToCart: Number[] = [];
   orderItems: OrderItem[] = [];
   search = "";
+  searchActive = false;
+  categoryActive = false;
 
   // TODO: finish method for sorting Categories
   sortCategories = (
@@ -108,7 +110,20 @@ export class HomepageComponent implements OnInit {
 
     this.categoryService.getAllBooksFromCategories(catIds).subscribe(
       response => {
-        this.bookData = response;
+        this.categoryActive = true;
+        let bookInfo: BookInfo = new BookInfo();
+        if (this.searchActive) {
+          for (let book of this.bookData.books) {
+            for (let catBook of response.books) {
+              if (book.bookId == catBook.bookId) {
+                bookInfo.books.push(book);
+                this.bookData = bookInfo;
+              }
+            }
+          }
+        } else {
+          this.bookData = response;
+        }
       },
       error => {
         this.toastr.error("Failed to get books for selected categories");
@@ -171,9 +186,31 @@ export class HomepageComponent implements OnInit {
   onSearch() {
     setTimeout(() => {
       console.log(this.search);
-      this.bookService.searchBooks(this.search).subscribe(response => {
-        this.bookData = response;
-      });
+      if (this.search) {
+        this.searchActive = true;
+        this.bookService.searchBooks(this.search).subscribe(response => {
+          if (this.categoryActive) {
+            let bookInfo: BookInfo = new BookInfo();
+            for (let book of this.bookData.books) {
+              for (let searchBook of response.books) {
+                if (book.bookId == searchBook.bookId) {
+                  bookInfo.books.push(book);
+                  this.bookData = bookInfo;
+                }
+              }
+            }
+          } else {
+            this.bookData = response;
+          }
+        });
+      } else {
+        this.searchActive = false;
+        if (this.categoryActive) {
+          this.getAllBooksFromCategories();
+        } else {
+          this.getAllBooks();
+        }
+      }
     }, 2000);
   }
 }
