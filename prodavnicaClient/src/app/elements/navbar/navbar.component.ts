@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {OrderService} from '../../core/services/order.service';
+import {log} from 'util';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  itemsNumber: number;
+
+  constructor(private orderService: OrderService) { }
 
   ngOnInit() {
+    this.itemsNumber = this.orderService.getOrderItems().length;
   }
 
+  handle(event) {
+    this.itemsNumber = event;
+    console.log('asdasdasdasdasd');
+  }
 }

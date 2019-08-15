@@ -9,15 +9,15 @@ import { OrderCartComponent } from './order-cart/order-cart.component';
 
 @NgModule({
   declarations: [BookDetailsComponent, HomepageComponent, OrderCartComponent],
-  imports: [    
+  imports: [
     CommonModule,
     FormsModule,
     BookRoutingModule
   ],
-  exports: [HttpClientModule]
+  exports: [HttpClientModule, HomepageComponent]
 })
-export class BookModule { 
+export class BookModule {
 
-    
+
 
 }

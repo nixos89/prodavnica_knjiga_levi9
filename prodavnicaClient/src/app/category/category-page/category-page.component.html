@@ -15,11 +15,12 @@
     <th scope="row">{{i+1}}</th>
     <td>{{cat.name}}</td>
     <td><button class="btn btn-primary" title="View" data-toggle="modal" data-target="#exampleModalCenter" (click)="editDialogOpen(cat)"><i class="glyphicon glyphicon-pencil" ></i><span class="hidden-xs"> Edit</span></button></td>
-    <td><button class="btn btn-danger" title="Delete" (click)="deleteCategory(cat.categoryId)"><i class="glyphicon glyphicon-trash" ></i><span class="hidden-xs"> Delete</span> </button></td>
+    <td><button class="btn btn-danger" title="Delete" (click)="deleteCategory(cat.categoryId,i)"><i class="glyphicon glyphicon-trash" ></i><span class="hidden-xs"> Delete</span> </button></td>
   </tr>
 
-  </tbody>
 </table>
+  <button style="float: right; margin-right: 200px" class="btn btn-primary" title="View" data-toggle="modal" data-target="#exampleModalCenterADD"><i class="glyphicon glyphicon-pencil" ></i><span class="hidden-xs"> <h5>Add category</h5> </span></button>
+
 
 </div>
 
@@ -99,8 +100,6 @@
             >Name is required</span
             >
           </div>
-
-
         </form>
       </div>
       <div class="modal-footer">

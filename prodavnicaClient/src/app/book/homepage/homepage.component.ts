@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/core";
+import {Component, OnInit, ViewChild, ElementRef, OnDestroy, Output, EventEmitter} from '@angular/core';
 import { Book } from "src/app/core/models/book.model";
 import { BookService } from "src/app/core/services/book.service";
 import { AuthorService } from "src/app/core/services/author.service";
@@ -32,6 +32,8 @@ export class HomepageComponent implements OnInit {
   activeAddToCart: Number[] = [];
   orderItems: OrderItem[] = [];
   searchSubscription: Subscription;
+
+  @Output() increment = new EventEmitter<any>();
 
   @ViewChild("bookSearchInput", { static: true })
   bookSearchInput: ElementRef;
@@ -81,7 +83,7 @@ export class HomepageComponent implements OnInit {
   }
 
   onSearch(text){
-    
+
   }
 
   // getTop10Books() {
@@ -179,6 +181,7 @@ export class HomepageComponent implements OnInit {
       "orderItems",
       JSON.stringify(this.orderItems)
     );
+    this.increment.emit(this.orderService.getOrderItems().length);
     this.toastr.success("Book added to cart");
   }
 
