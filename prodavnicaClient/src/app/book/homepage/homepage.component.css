@@ -279,3 +279,24 @@ html {
     opacity: 1;
   }
 }
+
+.from-da-top{
+  margin-top: 5%;
+}
+
+h4.from-da-top{
+  margin-top: 5%;
+  text-align: center;
+}
+
+span[data-text="*"]:after {
+  content: attr(data-text);  
+  height: 15px;
+  width: 15px;
+  color: #375e97;
+}
+
+span:nth-child(1).topselling{
+  font-weight: bold;
+  color: #375e97;
+}
