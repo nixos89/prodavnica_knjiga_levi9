@@ -15,7 +15,7 @@
         </li>
         <li class="nav-item">
           <div id="ex4">
-  <span class="p1 fa-stack fa-2x has-badge" [attr.data-count]="itemsNumber" >
+  <span class="p1 fa-stack fa-2x has-badge" [attr.data-count]="orderService.getOrderItems().length" >
     <a   class="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse boja" routerLinkActive="active" routerLink="/cart" data-count="4"></a>
   </span>
           </div>

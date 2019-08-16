@@ -67,7 +67,7 @@
       <td colspan="2" class="hidden-xs"></td>
       <td></td>
       <td colspan="2"><a class="btn btn-danger btn-block" (click)="deleteAllItems()">Empty cart <i class="fa fa-trash-o"></i></a></td>
-      <td colspan="2"><a href="#" class="btn btn-success btn-block" style="width: 80px" data-toggle="modal" data-target="#exampleModalCenter" (click)="makePurchase()">Pay <i class="fa fa-angle-right"></i></a></td>
+      <td colspan="2"><a href="#" class="btn btn-success btn-block" style="width: 80px" data-toggle="modal" data-target="#exampleModalCenter" [ngClass]="{disabled: orderItems.length==0}" (click)="makePurchase()">Pay <i class="fa fa-angle-right"></i></a></td>
     </tr>
     </tfoot>
   </table>
@@ -83,6 +83,7 @@
           </button>
         </div>
         <div class="modal-body">
+          <div class="c-flash_icon c-flash_icon--success animate font-normal"><span class="line tip"></span><span class="line long"></span><div class="placeholder"></div><div class="fix"></div></div>
           <i>{{message}}</i>
         </div>
         <div class="modal-footer">

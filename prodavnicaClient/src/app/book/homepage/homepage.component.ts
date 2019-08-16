@@ -32,8 +32,7 @@ export class HomepageComponent implements OnInit {
   activeAddToCart: Number[] = [];
   orderItems: OrderItem[] = [];
   searchSubscription: Subscription;
-
-  @Output() increment = new EventEmitter<any>();
+  message : string;
 
   @ViewChild("bookSearchInput", { static: true })
   bookSearchInput: ElementRef;
@@ -156,10 +155,10 @@ export class HomepageComponent implements OnInit {
     orderList.orders.push(orderItem);
     this.orderService.orderBook(orderList).subscribe(
       data => {
-        this.toastr.success("success");
+        this.message = "Purchase has been successfuly completed!\nID of this order: #"+ data.orderId;
       },
       error => {
-        this.toastr.error(error.error.message);
+        this.message = "You have selected more books than it's possible!\n" + error.error.message;
       }
     );
   }
@@ -181,7 +180,6 @@ export class HomepageComponent implements OnInit {
       "orderItems",
       JSON.stringify(this.orderItems)
     );
-    this.increment.emit(this.orderService.getOrderItems().length);
     this.toastr.success("Book added to cart");
   }
 

@@ -11,14 +11,10 @@ export class NavbarComponent implements OnInit {
 
   itemsNumber: number;
 
-  constructor(private orderService: OrderService) { }
+  constructor(public orderService: OrderService) { }
 
   ngOnInit() {
     this.itemsNumber = this.orderService.getOrderItems().length;
   }
 
-  handle(event) {
-    this.itemsNumber = event;
-    console.log('asdasdasdasdasd');
-  }
 }

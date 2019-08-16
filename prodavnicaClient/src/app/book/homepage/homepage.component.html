@@ -126,8 +126,7 @@
                   <h6>Author:</h6>
                   <i
                     >{{ book.authors[0].firstName
-                    }}{{ book.authors[0].lastName }}</i
-                  >
+                    }}{{ book.authors[0].lastName }}</i>
                 </div>
                 <div *ngIf="book.categories.length > 1">
                   <h6>Categories:</h6>
@@ -145,6 +144,7 @@
                   type="button"
                   style="float: left;"
                   class="btn btn-danger btn-sm"
+                  data-toggle="modal" data-target="#exampleModalCenter"
                   (click)="buyBook(book)"
                 >
                   Buy Now
@@ -168,4 +168,25 @@
     <!-- /.col-lg-9 -->
   </div>
   <!-- /.row -->
+</div>
+
+<!-- Modal Success Order -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">Payment information</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="c-flash_icon c-flash_icon--success animate font-normal"><span class="line tip"></span><span class="line long"></span><div class="placeholder"></div><div class="fix"></div></div>
+        <i>{{message}}</i>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
