@@ -1,7 +1,9 @@
 package com.levi9.prodavnica.serviceImpl;
 
-import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
+import com.levi9.prodavnica.dto.AuthorDTO;
 import com.levi9.prodavnica.dto.BookDTO;
 import com.levi9.prodavnica.dto.BookListDTO;
 import com.levi9.prodavnica.dto.TopSellingBookDTO;
@@ -146,25 +149,39 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public TopSellingBookListDTO getTopSellingBooks(Long topSellingBooksLimit) {
-		Map<Long, Integer> topSellingBooksMap = orderItemRepository.getTop10SellingBooks();
-		List<TopSellingBookDTO> top10BookList = new ArrayList<TopSellingBookDTO>();
-		int counter = 0;
-		for (Entry<Long, Integer> topBook : topSellingBooksMap.entrySet()) {
+	public TopSellingBookListDTO getTopSellingBooks(int topSellingBooksLimit) {		
+		Map<Long, Long> topSellingBooksMap = new HashMap<>();
+		LinkedList<TopSellingBookDTO> topSellingBooksList = new LinkedList<TopSellingBookDTO>();
+		
+		orderItemRepository.getTopSellingBooks().stream()
+			.limit(topSellingBooksLimit)
+			.forEach(obj -> topSellingBooksMap.put((Long) obj[0], (Long) obj[1]));
+				
+		for (Entry<Long, Long> topBook : topSellingBooksMap.entrySet()) {						
+			
 			Book book = bookRepository.getOne(topBook.getKey());
 			if (book != null) {
-				TopSellingBookDTO topSellingBookDTO = new TopSellingBookDTO(book.getName(), book.getAuthors(),
-						topBook.getValue());
-				top10BookList.add(topSellingBookDTO);
-			} else {
+				Set<AuthorDTO> authorDTOSet = new HashSet<>();
+				for(Author a: book.getAuthors()) {
+					AuthorDTO authorDTO = new AuthorDTO();
+					authorDTO.setAuthorId(a.getAuthorId());
+					authorDTO.setFirstName(a.getFirstName());
+					authorDTO.setLastName(a.getLastName());
+					authorDTOSet.add(authorDTO);
+				}
+									
+				TopSellingBookDTO topSellingBookDTO = new TopSellingBookDTO(book.getName(), authorDTOSet,
+						(int) (long) topBook.getValue());
+				topSellingBooksList.add(topSellingBookDTO);
+			} else 
 				throw new StoreException(HttpStatus.NOT_FOUND, "No book has been found in TOP selling books!");
-			}
-			if (counter == topSellingBooksLimit)
-				break;
+								
 		}
 
 		TopSellingBookListDTO topSellingBookListDTO = new TopSellingBookListDTO();
-		topSellingBookListDTO.getTopSellingBookList().addAll(top10BookList);
+		topSellingBookListDTO.setTopSellingBookList(
+				topSellingBooksList.stream().sorted(Comparator.comparingInt(TopSellingBookDTO::getAmount).reversed()).collect(Collectors.toList()));		
+		
 		return topSellingBookListDTO;
 	}
 
