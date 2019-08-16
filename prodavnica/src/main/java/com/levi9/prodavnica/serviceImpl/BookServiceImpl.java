@@ -173,9 +173,9 @@ public class BookServiceImpl implements BookService {
 				TopSellingBookDTO topSellingBookDTO = new TopSellingBookDTO(book.getName(), authorDTOSet,
 						(int) (long) topBook.getValue());
 				topSellingBooksList.add(topSellingBookDTO);
-			} else 
+			} else {
 				throw new StoreException(HttpStatus.NOT_FOUND, "No book has been found in TOP selling books!");
-								
+			}			
 		}
 
 		TopSellingBookListDTO topSellingBookListDTO = new TopSellingBookListDTO();
