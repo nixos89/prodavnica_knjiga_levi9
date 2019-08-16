@@ -22,6 +22,10 @@ public class BookController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@Value("${topSellingBooks.limit}")
+	public int topSellingBooksLimit;
+	
 
 	@GetMapping
 	public ResponseEntity<?> getAllBooks() {
@@ -45,7 +49,7 @@ public class BookController {
 
 	@GetMapping("/topSellingBooksLimit")
 	public ResponseEntity<?> getTopSellingBooks() {
-		return ResponseEntity.ok(bookService.getTopSellingBooks(5L));
+		return ResponseEntity.ok(bookService.getTopSellingBooks(topSellingBooksLimit));
 	}
 
 }
