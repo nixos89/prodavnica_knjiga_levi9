@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { NavbarComponent } from './elements/navbar/navbar.component';
+import {BookModule} from './book/book.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { NavbarComponent } from './elements/navbar/navbar.component';
     NavbarComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, CoreModule, BrowserAnimationsModule, ToastrModule.forRoot()
+    BrowserModule, AppRoutingModule, CoreModule, BrowserAnimationsModule, ToastrModule.forRoot(), BookModule
   ],
   providers: [],
   bootstrap: [AppComponent]

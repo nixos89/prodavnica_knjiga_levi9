@@ -1,55 +1,37 @@
-.top-nav-container,
-.navbar-inverse {
-  background-color: #375e97;
+#ex4 .p1[data-count]:after {
+  position: absolute;
+  right: 10%;
+  top: 8%;
+  content: attr(data-count);
+  font-size: 60%;
+  padding: 0.2em;
+  border-radius: 50%;
+  line-height: 1em;
+  color: white;
+  background: rgba(255, 0, 0, .85);
+  text-align: center;
+  min-width: 1em;
+}
+.fa-2x {
+  font-size: 21px;
+}
+.boja{
+  color: white;
 }
 
-.navbar>.container .navbar-brand,
-.navbar>.container-fluid .navbar-brand {
-  margin-right: 50px;
-}
 
-.navbar-inverse {
-  border: 0;
-}
-
-.navbar-inverse .navbar-toggle {
-  border: 0;
-}
-
-.navbar-toggle {
-  border-radius: 0;
-}
-
-.navbar-inverse .navbar-toggle:focus,
-.navbar-inverse .navbar-toggle:hover {
-  background-color: #fb6542;
-}
-
-.navbar-inverse .navbar-nav>.active>a,
-.navbar-inverse .navbar-nav>.active>a:focus,
-.navbar-inverse .navbar-nav>.active>a:hover {
-  color: #fff;
-  background-color: #fb6542;
-}
-
-.navbar-inverse .navbar-nav>li>a {
-  color: #fff;
-}
-
-.navbar-inverse .navbar-nav>li>a:focus,
-.navbar-inverse .navbar-nav>li>a:hover {
-  color: #fb6542;
-  background-color: transparent;
-}
-
-.navbar-inverse .navbar-brand {
-  color: #fff;
-}
-
-.navbar-inverse .navbar-brand:hover {
-  color: #fb6542;
-}
-
-.navbar {
-  margin-bottom: 0;
+#ex1 .badge:after {
+  content: "100";
+  position: absolute;
+  background: rgba(0, 0, 255, 1);
+  height: 2rem;
+  top: 1rem;
+  right: 1.5rem;
+  width: 2rem;
+  text-align: center;
+  line-height: 2rem;
+  font-size: 1rem;
+  border-radius: 50%;
+  color: white;
+  border: 1px solid blue;
 }
