@@ -23,7 +23,7 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-	@Value("${topSellingBooks.limit}")
+	@Value("${topSellingBooks.limit:5}")
 	public int topSellingBooksLimit;
 	
 
