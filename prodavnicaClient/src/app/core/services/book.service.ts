@@ -17,25 +17,16 @@ export class BookService {
     return this.http.get(environment.url + "api/books");
   }
 
-  public getBooksFilter(categories: number[]): Observable<any> {
+  public getBooksFilter(categories: number[], searchString): Observable<any> {
     let categoryIdsSet = new Set<number>();
     categories.forEach(x => categoryIdsSet.add(x));
-
     let categoriesStr: string[] = [];
     categoryIdsSet.forEach(x => categoriesStr.push(x.toString()));
-    console.log("categoriesStr: ", categoriesStr);
-
     this.httpParams = new HttpParams({
-      fromObject: { id: categoriesStr }
+      fromObject: { id: categoriesStr, search: searchString }
     });
-    categoryIdsSet.clear();
-    categoriesStr = [];
-
-    return this.http.get(
-      environment.url + "api/books/getBooksFilter",
-      {
-        params: this.httpParams
-      }
-    );
+    return this.http.get(environment.url + "api/books/getBooksFilter", {
+      params: this.httpParams
+    });
   }
 }
