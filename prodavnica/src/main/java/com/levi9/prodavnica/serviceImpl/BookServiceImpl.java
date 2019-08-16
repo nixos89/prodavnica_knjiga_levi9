@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
 				bookDTOS.getBooks().add(bookMapper.map(book));
 			}
 		} else
-			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
+			return new BookListDTO();
 
 		return bookDTOS;
 	}
@@ -130,18 +130,25 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public BookListDTO getAllBooksFromCategories(Set<Long> ids) {
+	public BookListDTO getBooksFilter(Set<Long> ids, String search) {
 		List<BookDTO> books = new ArrayList<>();
-		if (!bookRepository.getBooksFromCategories(ids).isEmpty()) {
-			for (Long idBook : bookRepository.getBooksFromCategories(ids)) {
+		List<Long> booksId = new ArrayList<>();
+
+		 booksId = ids == null ? bookRepository.getBooksFilterSearch(search) : bookRepository.getBooksFilterAll(ids,search);
+
+		 if (!booksId.isEmpty()) {
+			for (Long idBook : booksId) {
 				BookDTO book = bookMapper.map(bookRepository.getOne(idBook));
 				if (!books.stream().anyMatch(x -> x.getBookId() == idBook))
 					books.add(book);
 			}
 		} else
-			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
+			return new BookListDTO();
 
 		return new BookListDTO(books);
 	}
+
+
+
 
 }

@@ -16,5 +16,5 @@ public interface BookService {
 
 	boolean addBook(AddUpdateBookDTO addUpdateBookDTO);
 	
-	BookListDTO getAllBooksFromCategories(Set<Long> id);
+	BookListDTO getBooksFilter(Set<Long> id, String search);
 }

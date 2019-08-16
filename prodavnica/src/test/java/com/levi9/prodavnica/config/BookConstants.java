@@ -30,4 +30,7 @@ public class BookConstants {
 	public static final AddUpdateBookDTO addUpdateDTO = new AddUpdateBookDTO(BookConstants.book0name,
 			BookConstants.book0price, BookConstants.book0amount, BookConstants.book0deleted, BookConstants.book0authors,
 			BookConstants.book0categories);
+
+
+
 }

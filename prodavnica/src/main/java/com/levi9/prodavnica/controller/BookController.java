@@ -1,5 +1,7 @@
 package com.levi9.prodavnica.controller;
 
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +47,10 @@ public class BookController {
 	public ResponseEntity<?> updateBook(@RequestBody AddUpdateBookDTO bookRequest, @PathVariable long idBook) {
 		return ResponseEntity.ok(bookService.updateBook(bookRequest, idBook));
 	}
-	
-	@RequestMapping(value = "/getAllBooksFromCategories", method = RequestMethod.GET)
-	public ResponseEntity<?> getAllBooksFromCategories(@RequestParam("id") Set<Long> id) {
-		return ResponseEntity.ok(bookService.getAllBooksFromCategories(id));
+
+	@RequestMapping(value = "/getBooksFilter", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllBooksFromCategories(@RequestParam(name = "id",required = false) Set<Long> id, @RequestParam("search") String search) {
+		return ResponseEntity.ok(bookService.getBooksFilter(id,search));
 	}
 
 }
