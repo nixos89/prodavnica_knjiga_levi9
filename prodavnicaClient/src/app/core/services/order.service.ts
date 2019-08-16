@@ -12,7 +12,7 @@ const ORDER_ITEMS = 'orderItems';
 })
 export class OrderService {
 
-  orderItems: OrderItem[];
+  public orderItems: OrderItem[];
 
   constructor(private http: HttpClient) { }
 

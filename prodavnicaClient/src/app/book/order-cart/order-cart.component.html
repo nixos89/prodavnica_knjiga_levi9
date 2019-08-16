@@ -1,98 +1,96 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
   <table id="cart" class="table table-responsive">
     <thead>
     <tr class="names">
       <th style="width:30%">Product</th>
-      <th style="width:15%" class="text-center hidden-xs">Author</th>
-      <th style="width:10%" class="text-center hidden-xs">Category</th>
-      <th style="width:10%" class="text-right hidden-xs">Price</th>
-      <th style="width:10%" class="text-right">Quantity</th>
-      <th style="width:10%" class="text-right">Amount</th>
+      <th style="width:15%" class="text-xs-center hidden-xs">Author</th>
+      <th style="width:10%" class="text-xs-center hidden-xs">Category</th>
+      <th style="width:10%" class="text-xs-right hidden-xs">Price</th>
+      <th style="width:10%" class="text-xs-right">Quantity</th>
+      <th style="width:10%" class="text-xs-right">Amount</th>
       <th style="width:5%"></th>
     </tr>
     </thead>
     <tbody >
     <ng-container *ngFor="let ord of orderItems  ; let i = index">
-    <tr class="item">
-      <td data-th="Product">
-        <div class="row">
-          <div class="col-sm-3 hidden-xs"><img src="https://dictionary.cambridge.org/fr/images/thumb/book_noun_001_01679.jpg?version=4.0.91" alt="Converse" class="img-product img-responsive img-rounded"/></div>
-          <div class="col-sm-9">
-            <h4 class="nomargin">{{ord.book.name}}</h4>
-            <p class="hidden-xs">Description of Book </p>
+      <tr class="item">
+        <td data-th="Product">
+          <div class="row">
+            <div class="col-sm-3 hidden-xs"><img src="https://dictionary.cambridge.org/fr/images/thumb/book_noun_001_01679.jpg?version=4.0.91" alt="Converse" class="img-product img-fluid img-rounded"/></div>
+            <div class="col-sm-9">
+              <h4 class="nomargin">{{ord.book.name}}</h4>
+              <p class="hidden-xs">Description of Book </p>
+            </div>
           </div>
+        </td>
+        <td data-th="Author" class="text-xs-center hidden-xs"><div class="dropdown">
+
+          <ng-container *ngFor="let author of ord.book.authors">
+            {{author.firstName}} {{author.lastName}}
+          </ng-container>
         </div>
-      </td>
-      <td data-th="Author" class="text-center hidden-xs"><div class="dropdown">
-<!--        <a class="authorHover">Authors</a>-->
-<!--        <div class="dropdown-inner">-->
-         <ng-container *ngFor="let author of ord.book.authors">
-           {{author.firstName}} {{author.lastName}}
-         </ng-container>
-<!--        </div>-->
-      </div>
-      </td>
-      <td data-th="Category" class="text-center hidden-xs"><div class="dropdown">
-<!--        <a class="authorHover">Categories</a>-->
-<!--        <div class="dropdown-inner">-->
+        </td>
+        <td data-th="Category" class="text-xs-center hidden-xs"><div class="dropdown">
+
           <ng-container *ngFor="let cat of ord.book.categories">
             {{cat.name}}
           </ng-container>
-<!--        </div>-->
-      </div></td>
-      <td data-th="Price" class="text-right hidden-xs">${{ord.book.price}}</td>
-      <td data-th="Quantity" class="text-right">
-        {{ord.quantity}}
-        <div class="btn-group" role="group" aria-label="...">
-          <ng-container *ngIf="ord.quantity == 1"><button type="button" disabled class="btn btn-sm btn-default" (click)="minusQuantity(ord)">-</button></ng-container>
-          <ng-container *ngIf="ord.quantity != 1"><button type="button" class="btn btn-sm btn-default" (click)="minusQuantity(ord)">-</button></ng-container>
-          <button type="button" class="btn btn-sm btn-default" (click)="plusQuantity(ord)">+</button>
-        </div>
-      </td>
-      <td data-th="Subtotal" class="text-right">${{ord.amount | number : '1.2-2'}}</td>
-      <td class="actions" data-th="">
-        <button class="btn btn-default btn-sm" (click)="deleteOrder(i)"><i class="fa fa-trash-o"></i></button>
-      </td>
-    </tr>
+          <!--        </div>-->
+        </div></td>
+        <td data-th="Price" class="text-xs-right hidden-xs">${{ord.book.price}}</td>
+        <td data-th="Quantity" class="text-xs-right">
+          {{ord.quantity}}
+          <div class="btn-group" role="group" aria-label="...">
+            <ng-container *ngIf="ord.quantity == 1"><button type="button" disabled class="btn btn-sm btn-secondary" (click)="minusQuantity(ord)">-</button></ng-container>
+            <ng-container *ngIf="ord.quantity != 1"><button type="button" class="btn btn-sm btn-secondary" (click)="minusQuantity(ord)">-</button></ng-container>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="plusQuantity(ord)">+</button>
+          </div>
+        </td>
+        <td data-th="Subtotal" class="text-xs-right">${{ord.amount | number : '1.2-2'}}</td>
+        <td class="actions" data-th="">
+          <button class="btn btn-secondary btn-sm" (click)="deleteOrder(i)"><i class="fa fa-trash-o"></i></button>
+        </td>
+      </tr>
     </ng-container>
     </tbody>
     <tfoot>
     <tr>
       <td></td>
       <td class="hidden-xs" colspan="2"></td>
-      <td class="text-right">Total</td>
-      <td class="text-right"><strong>${{order.total | number : '1.2-2'}}</strong></td>
+      <td class="text-xs-right">Total</td>
+      <td class="text-xs-right"><strong>${{order.total | number : '1.2-2'}}</strong></td>
       <td></td>
     </tr>
     <tr class="no-border">
-      <td><a href="#" class="btn btn-default "><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+      <td><a href="#" class="btn btn-secondary "><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
       <td colspan="2" class="hidden-xs"></td>
       <td></td>
-      <td colspan="2"><a  class="btn btn-danger btn-block" (click)="deleteAllItems()">Empty cart <i class="fa fa-trash-o"></i></a></td>
-      <td colspan="2"><a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModalCenter" (click)="makePurchase()">Pay <i class="fa fa-angle-right"></i></a></td>
+      <td colspan="2"><a class="btn btn-danger btn-block" (click)="deleteAllItems()">Empty cart <i class="fa fa-trash-o"></i></a></td>
+      <td colspan="2"><a href="#" class="btn btn-success btn-block" style="width: 80px" data-toggle="modal" data-target="#exampleModalCenter" [ngClass]="{disabled: orderItems.length==0}" (click)="makePurchase()">Pay <i class="fa fa-angle-right"></i></a></td>
     </tr>
     </tfoot>
   </table>
 
   <!-- Modal UPDATE -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLongTitle">Payment information</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLongTitle">Payment information</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="errorOrder" class="c-flash_icon c-flash_icon--error animate font-normal"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div>
+          <div *ngIf="succesOrder" class="c-flash_icon c-flash_icon--success animate font-normal"><span class="line tip"></span><span class="line long"></span><div class="placeholder"></div><div class="fix"></div></div>
+          <i>{{message}}</i>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <i>{{message}}</i>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div> 
     </div>
   </div>
-</div>
 </div>

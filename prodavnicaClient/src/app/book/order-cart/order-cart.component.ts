@@ -26,7 +26,9 @@ export class OrderCartComponent implements OnInit {
   order: OrderBook = new OrderBook();
   orderList: OrderList = new OrderList();
   message:string;
-  
+  succesOrder :boolean;
+  errorOrder: boolean;
+
 
   constructor(private bookService: BookService, private toastr: ToastrService, private orderService: OrderService) { }
 
@@ -101,23 +103,26 @@ export class OrderCartComponent implements OnInit {
     for(let ord of this.orderItems) {
       let addOrder: AddOrder = new AddOrder();
       addOrder.amount = ord.quantity;
-      addOrder.bookId = ord.book.bookId;  
+      addOrder.bookId = ord.book.bookId;
       selectedOrderList.orders.push(addOrder);
     }
     selectedOrderList.total = this.order.total;
     console.log('selectedOrderList:', selectedOrderList);
-    
+
 
     this.orderService.orderBook(selectedOrderList).subscribe(
-      response => {        
+      response => {
         this.message = "Purchase has been successfuly completed!\nID of this order: #"+ response.orderId;
         this.orderItems = new Array();
-        this.order.total = 0;    
+        this.order.total = 0;
         this.orderService.saveOrderItems(this.orderItems);
+        this.succesOrder = true;
+        this.errorOrder = false;
       },
       error => {
-        console.log("error:", error);        
         this.message = "You have selected more books than it's possible!\n" + error.error.message;
+        this.succesOrder = false;
+        this.errorOrder = true;
       }
     );
   }
