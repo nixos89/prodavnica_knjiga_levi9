@@ -33,6 +33,8 @@ export class HomepageComponent implements OnInit {
   orderItems: OrderItem[] = [];
   searchSubscription: Subscription;
   message : string;
+  successOrder:boolean;
+  errorOrder : boolean;
 
   @ViewChild("bookSearchInput", { static: true })
   bookSearchInput: ElementRef;
@@ -156,9 +158,13 @@ export class HomepageComponent implements OnInit {
     this.orderService.orderBook(orderList).subscribe(
       data => {
         this.message = "Purchase has been successfuly completed!\nID of this order: #"+ data.orderId;
+        this.successOrder = true;
+        this.errorOrder =false;
       },
       error => {
         this.message = "You have selected more books than it's possible!\n" + error.error.message;
+        this.successOrder = true;
+        this.errorOrder =false;
       }
     );
   }

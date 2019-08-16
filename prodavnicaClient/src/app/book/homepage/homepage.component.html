@@ -181,7 +181,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="c-flash_icon c-flash_icon--success animate font-normal"><span class="line tip"></span><span class="line long"></span><div class="placeholder"></div><div class="fix"></div></div>
+        <div *ngIf="errorOrder" class="c-flash_icon c-flash_icon--error animate font-normal"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div>
+        <div *ngIf="successOrder" class="c-flash_icon c-flash_icon--success animate font-normal"><span class="line tip"></span><span class="line long"></span><div class="placeholder"></div><div class="fix"></div></div>
         <i>{{message}}</i>
       </div>
       <div class="modal-footer">
