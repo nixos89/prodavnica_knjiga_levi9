@@ -20,5 +20,5 @@ public interface BookService {
 	
 	public BookListDTO getTop10SellingBooks();
 	
-	public TopSellingBookListDTO getTopSellingBooks(Long topSellingBooksLimit); //  use this one
+	public TopSellingBookListDTO getTopSellingBooks(int topSellingBooksLimit); //  use this one
 }
