@@ -36,6 +36,7 @@ export class HomepageComponent implements OnInit {
   successOrder:boolean;
   errorOrder : boolean;
   topSellingBookData: TopSellingBookInfo = new TopSellingBookInfo();
+  errorMessage = '';
 
   @ViewChild("bookSearchInput", { static: true })
   bookSearchInput: ElementRef;
@@ -90,18 +91,11 @@ export class HomepageComponent implements OnInit {
 
   getTopSellingBooks() {
     this.bookService.getTopSellingBooks()
-      .subscribe(response => {
-        console.log('response: ', response);
-        
+      .subscribe(response => {        
         this.topSellingBookData = response;
-        console.log(' this.topSellingBookData: ',  this.topSellingBookData);
-        // this.topSellingBookData.topSellingBooks.forEach(
-        //   x => console.log();
-          
-        //   );
       },
         error => {
-          console.log("error: ", error);
+          this.errorMessage = 'Could not fetch data because NO book has been sold!'
         }
       )
   }
