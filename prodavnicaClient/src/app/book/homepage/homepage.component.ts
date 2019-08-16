@@ -124,7 +124,7 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  getAllBooksFromCategories() {
+  getBooksFilter() {
     this.newBooksForCat = this.categoryData.categories
       .filter(x => x.checked)
       .map(x => x);
@@ -138,7 +138,7 @@ export class HomepageComponent implements OnInit {
 
     console.log("catIds: ", catIds);
 
-    this.categoryService.getAllBooksFromCategories(catIds).subscribe(
+    this.bookService.getBooksFilter(catIds).subscribe(
       response => {
         this.bookData = response;
       },

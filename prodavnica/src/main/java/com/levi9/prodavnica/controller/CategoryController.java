@@ -1,7 +1,5 @@
 package com.levi9.prodavnica.controller;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.levi9.prodavnica.dto.AddCategoryDTO;
@@ -51,11 +47,6 @@ public class CategoryController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.deleteCategory(id));
-	}
-
-	@RequestMapping(value = "/getAllBooksFromCategories", method = RequestMethod.GET)
-	public ResponseEntity<?> getAllBooksFromCategories(@RequestParam("id") Set<Long> id) {
-		return ResponseEntity.ok(categoryService.getAllBooksFromCategories(id));
 	}
 
 }
