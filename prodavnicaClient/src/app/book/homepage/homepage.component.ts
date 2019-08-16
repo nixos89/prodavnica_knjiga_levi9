@@ -67,7 +67,7 @@ export class HomepageComponent implements OnInit {
         map((event: any) => {
           return event.target.value;
         }),
-        debounceTime(500),
+        debounceTime(200),
         distinctUntilChanged()
       )
       .subscribe((text: string) => {
