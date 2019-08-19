@@ -1,6 +1,5 @@
 package com.levi9.prodavnica.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.levi9.prodavnica.dto.AddCategoryDTO;
-import com.levi9.prodavnica.dto.BookDTO;
-import com.levi9.prodavnica.dto.BookListDTO;
 import com.levi9.prodavnica.dto.CategoryDTO;
 import com.levi9.prodavnica.dto.CategoryListDTO;
 import com.levi9.prodavnica.exception.StoreException;
@@ -90,21 +87,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 		category.setDeleted(true);
 		return true;
-	}
-
-	@Override
-	public BookListDTO getAllBooksFromCategories(Set<Long> ids) {
-		List<BookDTO> books = new ArrayList<>();
-		if (!categoryRepository.getBooksFromCategories(ids).isEmpty()) {
-			for (Long idBook : categoryRepository.getBooksFromCategories(ids)) {
-				BookDTO book = bookMapper.map(bookRepository.getOne(idBook));
-				if (!book.isDeleted() && !books.stream().anyMatch(x -> x.getBookId() == idBook))
-					books.add(book);
-			}
-		} else
-			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
-
-		return new BookListDTO(books);
 	}
 	
 }

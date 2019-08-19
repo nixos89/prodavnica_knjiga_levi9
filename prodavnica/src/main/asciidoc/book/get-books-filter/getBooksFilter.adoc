@@ -1,0 +1,18 @@
+[[get_books_filter_success]]
+==== Get Books Filter
+
+[[get_books_filter_success_curl]]
+===== cURL
+include::{snippets}book-controller-test/get-books-filter-test/curl-request.adoc[]
+
+[[get_books_filter_success_request]]
+===== Request
+include::{snippets}book-controller-test/get-books-filter-test/http-request.adoc[]
+
+[[get_books_filter_success_response]]
+===== Response
+include::{snippets}book-controller-test/get-books-filter-test/http-response.adoc[]
+
+[[get_book_filter_success_response_fields]]
+===== Response fields
+include::{snippets}book-controller-test/get-books-filter-test/response-fields.adoc[]

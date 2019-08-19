@@ -17,8 +17,8 @@ public interface BookService {
 	public boolean updateBook(AddUpdateBookDTO bookRequest, long idBook);
 
 	boolean addBook(AddUpdateBookDTO addUpdateBookDTO);
+		
+	BookListDTO getBooksFilter(Set<Long> id, String search);
 	
-	public BookListDTO getTop10SellingBooks();
-	
-	public TopSellingBookListDTO getTopSellingBooks(int topSellingBooksLimit); //  use this one
+	public TopSellingBookListDTO getTopSellingBooks(int topSellingBooksLimit);
 }

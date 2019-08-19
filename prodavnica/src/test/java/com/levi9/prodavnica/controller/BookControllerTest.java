@@ -1,5 +1,6 @@
 package com.levi9.prodavnica.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -17,6 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.assertj.core.util.Lists;
+import org.assertj.core.util.Sets;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +108,28 @@ public class BookControllerTest {
 				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk())
 				.andDo(document("{class-name}/{method-name}"));
 	}
+
+	@Test
+	public void getBooksFilterTest() throws Exception{
+		when(bookService.getBooksFilter(any(),any())).thenReturn(new BookListDTO(Lists.newArrayList(
+				new BookDTO(BookConstants.book0id, BookConstants.book0name, BookConstants.book0price,
+						BookConstants.book0amount, BookConstants.book0deleted),
+				new BookDTO(BookConstants.book1id, BookConstants.book1name, BookConstants.book1price,
+						BookConstants.book1amount, BookConstants.book1deleted))));
+		mockMvc.perform(get(UrlPrefix.SEARCH_BOOKS).param("ids", "1").param("search","").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
+				.andExpect(jsonPath("$.books.[0].bookId").value(BookConstants.book0id))
+				.andExpect(jsonPath("$.books.[0].name").value(BookConstants.book0name))
+				.andExpect(jsonPath("$.books.[0].price").value(BookConstants.book0price))
+				.andExpect(jsonPath("$.books.[0].amount").value(BookConstants.book0amount))
+				.andExpect(jsonPath("$.books.[0].deleted").value(BookConstants.book0deleted))
+				.andExpect(jsonPath("$.books.[1].bookId").value(BookConstants.book1id))
+				.andExpect(jsonPath("$.books.[1].name").value(BookConstants.book1name))
+				.andExpect(jsonPath("$.books.[1].price").value(BookConstants.book1price))
+				.andExpect(jsonPath("$.books.[1].amount").value(BookConstants.book1amount))
+				.andExpect(jsonPath("$.books.[1].deleted").value(BookConstants.book1deleted))
+				.andDo(document("{class-name}/{method-name}",booksListResponseFields()));
+	}
+
 
 	private ResponseFieldsSnippet booksListResponseFields() {
 		return responseFields(fieldWithPath("books.[].bookId").description("Id of the book"),

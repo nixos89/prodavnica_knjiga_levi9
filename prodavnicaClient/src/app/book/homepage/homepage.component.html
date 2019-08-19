@@ -3,8 +3,14 @@
   <div class="row">
     <div class="col-lg-2">
       <div class="input-group">
-        <input type="text" name="search" name="model" class="form-control" placeholder="Search title or author"
-          id="search" [(ngModel)]="search" (ngModelChange)="onSearch()" #bookSearchInput />
+        <input
+          type="text"
+          name="search"
+          name="model"
+          class="form-control"
+          placeholder="Search title or author"
+          #bookSearchInput
+        />
       </div>
       <h3><i>Categories</i></h3>
       <!-- <div class="pre-scrollable"> -->
@@ -12,8 +18,13 @@
         <input type="checkbox" name="categoryId" [value]="" (change)="getAllBooks()" />
         All
         <fieldset *ngFor="let category of categoryData.categories">
-          <input type="checkbox" name="categoryName" [value]="category.categoryId" [(ngModel)]="category.checked"
-            (ngModelChange)="getAllBooksFromCategories()" />
+          <input
+            type="checkbox"
+            name="categoryName"
+            [value]="category.categoryId"
+            [(ngModel)]="category.checked"
+            (ngModelChange)="getBooksFilter()"
+          />
           {{ category.name }}
         </fieldset>
       </nav>
