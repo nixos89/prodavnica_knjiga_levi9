@@ -5,6 +5,7 @@ import java.util.Set;
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
 import com.levi9.prodavnica.dto.BookDTO;
 import com.levi9.prodavnica.dto.BookListDTO;
+import com.levi9.prodavnica.dto.TopSellingBookListDTO;
 
 public interface BookService {
 
@@ -17,4 +18,6 @@ public interface BookService {
 	boolean addBook(AddUpdateBookDTO addUpdateBookDTO);
 	
 	BookListDTO getBooksFilter(Set<Long> id, String search);
+	
+	public TopSellingBookListDTO getTopSellingBooks(int topSellingBooksLimit);
 }

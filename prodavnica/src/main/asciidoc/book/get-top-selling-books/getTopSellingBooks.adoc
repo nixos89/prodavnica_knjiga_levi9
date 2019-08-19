@@ -1,0 +1,18 @@
+[[get_top_selling_books_success]]
+==== Get top selling books
+
+[[get_top_selling_books_success_curl]]
+===== cURL
+include::{snippets}book-controller-test/get-top-selling-books/curl-request.adoc[]
+
+[[get_top_selling_books_success_request]]
+===== Request
+include::{snippets}book-controller-test/get-top-selling-books/http-request.adoc[]
+
+[[get_top_selling_books_success_request_body]]
+===== Request body
+include::{snippets}book-controller-test/get-top-selling-books/request-body.adoc[]
+
+[[get_top_selling_books_success_response]]
+===== Response
+include::{snippets}book-controller-test/get-top-selling-books/http-response.adoc[]

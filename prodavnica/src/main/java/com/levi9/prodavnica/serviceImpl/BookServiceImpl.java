@@ -1,9 +1,17 @@
 package com.levi9.prodavnica.serviceImpl;
 
 import java.util.ArrayList;
+
+import java.util.Comparator;
+import java.util.HashMap;
+
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -12,8 +20,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
+import com.levi9.prodavnica.dto.AuthorDTO;
 import com.levi9.prodavnica.dto.BookDTO;
 import com.levi9.prodavnica.dto.BookListDTO;
+import com.levi9.prodavnica.dto.TopSellingBookDTO;
+import com.levi9.prodavnica.dto.TopSellingBookListDTO;
 import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.mapper.BookMapper;
 import com.levi9.prodavnica.model.Author;
@@ -22,6 +33,7 @@ import com.levi9.prodavnica.model.Category;
 import com.levi9.prodavnica.repository.AuthorRepository;
 import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.CategoryRepository;
+import com.levi9.prodavnica.repository.OrderItemRepository;
 import com.levi9.prodavnica.service.BookService;
 
 @Service
@@ -34,6 +46,9 @@ public class BookServiceImpl implements BookService {
 	AuthorRepository authorRepository;
 	@Autowired
 	CategoryRepository categoryRepository;
+
+	@Autowired
+	OrderItemRepository orderItemRepository;
 
 	@Autowired
 	BookMapper bookMapper;
@@ -129,6 +144,44 @@ public class BookServiceImpl implements BookService {
 		return true;
 	}
 
+
+	@Override
+	public TopSellingBookListDTO getTopSellingBooks(int topSellingBooksLimit) {		
+		Map<Long, Long> topSellingBooksMap = new HashMap<>();
+		LinkedList<TopSellingBookDTO> topSellingBooksList = new LinkedList<TopSellingBookDTO>();
+		
+		orderItemRepository.getTopSellingBooks().stream()
+			.limit(topSellingBooksLimit)
+			.forEach(obj -> topSellingBooksMap.put((Long) obj[0], (Long) obj[1]));
+				
+		for (Entry<Long, Long> topBook : topSellingBooksMap.entrySet()) {						
+			
+			Book book = bookRepository.getOne(topBook.getKey());
+			if (book != null) {
+				Set<AuthorDTO> authorDTOSet = new HashSet<>();
+				for(Author a: book.getAuthors()) {
+					AuthorDTO authorDTO = new AuthorDTO();
+					authorDTO.setAuthorId(a.getAuthorId());
+					authorDTO.setFirstName(a.getFirstName());
+					authorDTO.setLastName(a.getLastName());
+					authorDTOSet.add(authorDTO);
+				}
+									
+				TopSellingBookDTO topSellingBookDTO = new TopSellingBookDTO(book.getName(), authorDTOSet,
+						(int) (long) topBook.getValue());
+				topSellingBooksList.add(topSellingBookDTO);
+			} else {
+				throw new StoreException(HttpStatus.NOT_FOUND, "No book has been found in TOP selling books!");
+			}			
+		}
+
+		TopSellingBookListDTO topSellingBookListDTO = new TopSellingBookListDTO();
+		topSellingBookListDTO.setTopSellingBookList(
+				topSellingBooksList.stream().sorted(Comparator.comparingInt(TopSellingBookDTO::getAmount).reversed()).collect(Collectors.toList()));		
+		
+		return topSellingBookListDTO;
+	}
+	
 	@Override
 	public BookListDTO getBooksFilter(Set<Long> ids, String search) {
 		List<BookDTO> books = new ArrayList<>();
@@ -147,8 +200,6 @@ public class BookServiceImpl implements BookService {
 
 		return new BookListDTO(books);
 	}
-
-
 
 
 }

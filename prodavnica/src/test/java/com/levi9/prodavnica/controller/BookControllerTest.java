@@ -11,6 +11,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
@@ -23,12 +29,17 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.levi9.prodavnica.config.AuthorConstants;
 import com.levi9.prodavnica.config.BookConstants;
 import com.levi9.prodavnica.config.UrlPrefix;
+import com.levi9.prodavnica.dto.AuthorDTO;
 import com.levi9.prodavnica.dto.BookDTO;
 import com.levi9.prodavnica.dto.BookListDTO;
+import com.levi9.prodavnica.dto.TopSellingBookDTO;
+import com.levi9.prodavnica.dto.TopSellingBookListDTO;
 import com.levi9.prodavnica.service.BookService;
 
 @RunWith(SpringRunner.class)
@@ -129,5 +140,65 @@ public class BookControllerTest {
 				fieldWithPath("books.[].authors").description("Authors of the book"),
 				fieldWithPath("books.[].categories").description("Categories of the book"));
 	}
+	
+	private ResponseFieldsSnippet topSellingBooksListResponseFields() {
+		return responseFields(
+				fieldWithPath("topSellingBookList.[].bookName").description("Title/name of first top selling book"),
+				fieldWithPath("topSellingBookList.[].authors.[].authorId").description("Id of first book author"),
+				fieldWithPath("topSellingBookList.[].authors.[].firstName").description("First name of first book author"),
+				fieldWithPath("topSellingBookList.[].authors.[].lastName").description("Last name of first book author"),
+				fieldWithPath("topSellingBookList.[].amount").description("Amount of first top selling book"));			
+	}
+	
+	@Test
+	public void getTopSellingBooks() throws Exception {
+		Set<AuthorDTO> authorsBook0DTO = new LinkedHashSet<AuthorDTO>(); 
+		authorsBook0DTO.add(new AuthorDTO(AuthorConstants.JOVA_ID, AuthorConstants.FIRST_NAME_JOVA, AuthorConstants.LAST_NAME_JOVA));
+		authorsBook0DTO.add(new AuthorDTO(AuthorConstants.PERA_ID, AuthorConstants.FIRST_NAME_PERA, AuthorConstants.LAST_NAME_PERA));
+		
+		
+		Set<AuthorDTO> authorsBook1DTO = new LinkedHashSet<AuthorDTO>(); 
+		authorsBook1DTO.add(new AuthorDTO(AuthorConstants.DESA_ID, AuthorConstants.FIRST_NAME_DESA, AuthorConstants.LAST_NAME_DESA));
+		authorsBook1DTO.add(new AuthorDTO(AuthorConstants.PERA_ID, AuthorConstants.FIRST_NAME_PERA, AuthorConstants.LAST_NAME_PERA));
+		
+		
+		when(bookService.getTopSellingBooks(5)).thenReturn(new TopSellingBookListDTO(Lists.newArrayList(
+					new TopSellingBookDTO(BookConstants.book0name, 
+							authorsBook0DTO,
+							BookConstants.book0amount
+						)
+					, new TopSellingBookDTO(BookConstants.book1name, 
+							authorsBook1DTO,
+							BookConstants.book1amount
+						)				
+				)
+		));
+		
+		
+		mockMvc.perform(get(UrlPrefix.GET_TOP_SELLING_BOOKS).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
+			.andExpect(jsonPath("$.topSellingBookList.[0].bookName").value(BookConstants.book0name))									
+			.andExpect(jsonPath("$.topSellingBookList.[0].authors.[0].authorId").value(AuthorConstants.JOVA_ID))
+			.andExpect(jsonPath("$.topSellingBookList.[0].authors.[0].firstName").value(AuthorConstants.FIRST_NAME_JOVA))
+			.andExpect(jsonPath("$.topSellingBookList.[0].authors.[0].lastName").value(AuthorConstants.LAST_NAME_JOVA))
+			.andExpect(jsonPath("$.topSellingBookList.[0].authors.[1].authorId").value(AuthorConstants.PERA_ID))
+			.andExpect(jsonPath("$.topSellingBookList.[0].authors.[1].firstName").value(AuthorConstants.FIRST_NAME_PERA))
+			.andExpect(jsonPath("$.topSellingBookList.[0].authors.[1].lastName").value(AuthorConstants.LAST_NAME_PERA))
+			.andExpect(jsonPath("$.topSellingBookList.[0].amount").value(BookConstants.book0amount))
+			
+			.andExpect(jsonPath("$.topSellingBookList.[1].bookName").value(BookConstants.book1name))
+			.andExpect(jsonPath("$.topSellingBookList.[1].authors.[0].authorId").value(AuthorConstants.DESA_ID))
+			.andExpect(jsonPath("$.topSellingBookList.[1].authors.[0].firstName").value(AuthorConstants.FIRST_NAME_DESA))
+			.andExpect(jsonPath("$.topSellingBookList.[1].authors.[0].lastName").value(AuthorConstants.LAST_NAME_DESA))			
+			.andExpect(jsonPath("$.topSellingBookList.[1].authors.[1].authorId").value(AuthorConstants.PERA_ID))
+			.andExpect(jsonPath("$.topSellingBookList.[1].authors.[1].firstName").value(AuthorConstants.FIRST_NAME_PERA))
+			.andExpect(jsonPath("$.topSellingBookList.[1].authors.[1].lastName").value(AuthorConstants.LAST_NAME_PERA))			
+			.andExpect(jsonPath("$.topSellingBookList.[1].amount").value(BookConstants.book1amount))
+			.andDo(document("{class-name}/{method-name}", topSellingBooksListResponseFields()));;
+			
+			
+		
+	}// getTopSellingBooks
+	
+	
 
 }

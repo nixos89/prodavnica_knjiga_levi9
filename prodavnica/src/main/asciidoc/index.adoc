@@ -10,6 +10,7 @@ include::book/find-one-book/findOneBook.adoc[]
 include::book/add-book/addBook.adoc[]
 include::book/update-book/updateBook.adoc[]
 include::book/get-books-filter/getBooksFilter.adoc[]
+include::book/get-top-selling-books/getTopSellingBooks.adoc[] 
 
 === Category API
 

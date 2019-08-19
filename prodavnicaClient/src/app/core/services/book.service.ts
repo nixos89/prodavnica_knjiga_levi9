@@ -17,6 +17,11 @@ export class BookService {
     return this.http.get(environment.url + "api/books");
   }
 
+
+  public getTopSellingBooks(): Observable<any> {
+    return this.http.get(environment.url + "api/books/topSellingBooksLimit");
+  }
+  
   public getBooksFilter(categories: number[], searchString): Observable<any> {
     let categoryIdsSet = new Set<number>();
     categories.forEach(x => categoryIdsSet.add(x));

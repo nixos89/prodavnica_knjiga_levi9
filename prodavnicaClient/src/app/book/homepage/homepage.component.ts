@@ -15,6 +15,7 @@ import { OrderList } from "../../core/models/orderList.model";
 import { OrderItem } from "src/app/core/models/orderItem.model";
 import { debounceTime, map, distinctUntilChanged } from "rxjs/operators";
 import { fromEvent, Subscription } from "rxjs";
+import { TopSellingBookInfo } from 'src/app/core/models/topSellingBookInfo.model';
 
 @Component({
   selector: "app-homepage",
@@ -24,7 +25,6 @@ import { fromEvent, Subscription } from "rxjs";
 })
 export class HomepageComponent implements OnInit {
   bookData: BookInfo = new BookInfo();
-  top10Books: Book[]; // = getTop10Books();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
   newBooksForCat: Category[] = [];
@@ -35,6 +35,8 @@ export class HomepageComponent implements OnInit {
   successOrder: boolean;
   errorOrder: boolean;
   searchString: String = "";
+  topSellingBookData: TopSellingBookInfo = new TopSellingBookInfo();
+  errorMessage = '';
 
   @ViewChild("bookSearchInput", { static: true })
   bookSearchInput: ElementRef;
@@ -55,7 +57,7 @@ export class HomepageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.getTop10Books();
+    this.getTopSellingBooks();
     this.getAllBooks();
     this.getAllCategories();
 
@@ -80,16 +82,17 @@ export class HomepageComponent implements OnInit {
     this.searchSubscription.unsubscribe();
   }
 
-  // getTop10Books() {
-  //   this.bookService.getTop10Books()
-  //     .subscribe(bookData => {
-  //       this.bookData = bookData;
-  //     },
-  //       err => {
-  //         console.log(err);
-  //       }
-  //     )
-  // }
+
+  getTopSellingBooks() {
+    this.bookService.getTopSellingBooks()
+      .subscribe(response => {        
+        this.topSellingBookData = response;
+      },
+        error => {
+          this.errorMessage = 'Could not fetch data because NO book has been sold!'
+        }
+      )
+  }
 
   getAllBooks() {
     this.bookService.getAllBooks().subscribe(
