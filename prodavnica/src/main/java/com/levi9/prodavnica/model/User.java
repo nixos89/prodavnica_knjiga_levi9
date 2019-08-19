@@ -1,6 +1,5 @@
 package com.levi9.prodavnica.model;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,29 +20,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "orders")
-public class Order {
-
+@Table(name = "user")
+public class User {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderId;
-
-	private double total;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date orderDate;
-
-	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private Set<OrderItem> orderItems;
+	private Long userId;
+	
+	private String firstName;
+	
+	private String lastName;
+	
+	private String username;
+	
+	private String email;
+	
+	private String password;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
-
-	public Order(Long orderId, double total, Date orderDate) {
-		this.orderId = orderId;
-		this.total = total;
-		this.orderDate = orderDate;
-	}
+	@JoinColumn(name="role_id")
+	private Role role;
+	
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private Set<Order> orders;
 
 }

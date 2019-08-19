@@ -40,5 +40,20 @@
 		<sqlFile path="changelogs/addMoreBooksAndAuthors.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
+	
+	<changeSet id="addRoleTable" author="MM">
+		<sqlFile path="changelogs/addRoleTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+	
+	<changeSet id="addUserTable" author="MM">
+		<sqlFile path="changelogs/addUserTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+	
+	<changeSet id="addUserInOrdersTable" author="MM">
+		<sqlFile path="changelogs/addUserInOrdersTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
 
 </databaseChangeLog>
