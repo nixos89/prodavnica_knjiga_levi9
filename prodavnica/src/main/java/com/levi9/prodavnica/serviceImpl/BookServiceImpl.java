@@ -40,18 +40,25 @@ import com.levi9.prodavnica.service.BookService;
 @Transactional
 public class BookServiceImpl implements BookService {
 
-	@Autowired
 	BookRepository bookRepository;
-	@Autowired
+
 	AuthorRepository authorRepository;
-	@Autowired
+	
 	CategoryRepository categoryRepository;
 
-	@Autowired
 	OrderItemRepository orderItemRepository;
 
-	@Autowired
 	BookMapper bookMapper;
+	
+	@Autowired
+	public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository,
+			CategoryRepository categoryRepository, OrderItemRepository orderItemRepository, BookMapper bookMapper) {
+		this.bookRepository = bookRepository;
+		this.authorRepository = authorRepository;
+		this.categoryRepository = categoryRepository;
+		this.orderItemRepository = orderItemRepository;
+		this.bookMapper = bookMapper;
+	}
 
 	@Override
 	public BookListDTO findAllBooks() {
@@ -152,7 +159,7 @@ public class BookServiceImpl implements BookService {
 		
 		orderItemRepository.getTopSellingBooks().stream()
 			.limit(topSellingBooksLimit)
-			.forEach(obj -> topSellingBooksMap.put((Long) obj[0], (Long) obj[1]));
+			.forEach(obj -> topSellingBooksMap.put(obj.getBookId(), obj.getSoldAmount()));
 				
 		for (Entry<Long, Long> topBook : topSellingBooksMap.entrySet()) {						
 			
@@ -168,7 +175,7 @@ public class BookServiceImpl implements BookService {
 				}
 									
 				TopSellingBookDTO topSellingBookDTO = new TopSellingBookDTO(book.getName(), authorDTOSet,
-						(int) (long) topBook.getValue());
+						 (int)(long)topBook.getValue());
 				topSellingBooksList.add(topSellingBookDTO);
 			} else {
 				throw new StoreException(HttpStatus.NOT_FOUND, "No book has been found in TOP selling books!");
