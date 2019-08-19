@@ -8,6 +8,7 @@ import com.levi9.prodavnica.model.Book;
 import com.levi9.prodavnica.repository.AuthorRepository;
 import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.CategoryRepository;
+import com.levi9.prodavnica.repository.OrderItemRepository;
 import com.levi9.prodavnica.serviceImpl.BookServiceImpl;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
@@ -35,6 +36,9 @@ public class BookServiceImplTest {
     CategoryRepository categoryRepository;
     @MockBean
     BookMapper bookMapper;
+    
+    @MockBean
+    OrderItemRepository orderItemRepository;
 
     @Autowired
     BookServiceImpl bookService;
