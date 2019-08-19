@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewChild, ElementRef, OnDestroy, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { Book } from "src/app/core/models/book.model";
 import { BookService } from "src/app/core/services/book.service";
 import { AuthorService } from "src/app/core/services/author.service";
 import { CategoryService } from "src/app/core/services/category.service";
 import { ToastrService } from "ngx-toastr";
-import { Router, ActivatedRoute } from "@angular/router";
 import { BookInfo } from "src/app/core/models/bookInfo.model";
 import { AuthorInfo } from "src/app/core/models/authorInfo.model";
 import { CategoryInfo } from "src/app/core/models/categoryInfo.model";
@@ -32,9 +31,10 @@ export class HomepageComponent implements OnInit {
   activeAddToCart: Number[] = [];
   orderItems: OrderItem[] = [];
   searchSubscription: Subscription;
-  message : string;
-  successOrder:boolean;
-  errorOrder : boolean;
+  message: string;
+  successOrder: boolean;
+  errorOrder: boolean;
+  searchString: String = "";
 
   @ViewChild("bookSearchInput", { static: true })
   bookSearchInput: ElementRef;
@@ -49,11 +49,8 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private authorService: AuthorService,
     private categoryService: CategoryService,
     private toastr: ToastrService,
-    private router: Router,
-    private route: ActivatedRoute,
     private orderService: OrderService
   ) {}
 
@@ -70,21 +67,17 @@ export class HomepageComponent implements OnInit {
         map((event: any) => {
           return event.target.value;
         }),
-        debounceTime(500),
+        debounceTime(200),
         distinctUntilChanged()
       )
       .subscribe((text: string) => {
-        this.onSearch(text);
-        console.log(text)
+        this.searchString = text;
+        this.getBooksFilter();
       });
   }
 
   ngOnDestroy() {
     this.searchSubscription.unsubscribe();
-  }
-
-  onSearch(text){
-
   }
 
   // getTop10Books() {
@@ -124,7 +117,7 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  getAllBooksFromCategories() {
+  getBooksFilter() {
     this.newBooksForCat = this.categoryData.categories
       .filter(x => x.checked)
       .map(x => x);
@@ -136,9 +129,7 @@ export class HomepageComponent implements OnInit {
       catIds.push(x.categoryId);
     });
 
-    console.log("catIds: ", catIds);
-
-    this.categoryService.getAllBooksFromCategories(catIds).subscribe(
+    this.bookService.getBooksFilter(catIds, this.searchString).subscribe(
       response => {
         this.bookData = response;
       },
@@ -157,14 +148,18 @@ export class HomepageComponent implements OnInit {
     orderList.orders.push(orderItem);
     this.orderService.orderBook(orderList).subscribe(
       data => {
-        this.message = "Purchase has been successfuly completed!\nID of this order: #"+ data.orderId;
+        this.message =
+          "Purchase has been successfuly completed!\nID of this order: #" +
+          data.orderId;
         this.successOrder = true;
-        this.errorOrder =false;
+        this.errorOrder = false;
       },
       error => {
-        this.message = "You have selected more books than it's possible!\n" + error.error.message;
+        this.message =
+          "You have selected more books than it's possible!\n" +
+          error.error.message;
         this.successOrder = true;
-        this.errorOrder =false;
+        this.errorOrder = false;
       }
     );
   }

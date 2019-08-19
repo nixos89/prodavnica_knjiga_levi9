@@ -1,9 +1,9 @@
 package com.levi9.prodavnica.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -41,14 +41,13 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public BookListDTO findAllBooks() {
 		BookListDTO bookDTOS = new BookListDTO();
-		List<Book> books = bookRepository.findAll().stream().filter(x -> x.isDeleted() == false)
-				.collect(Collectors.toList());
+		List<Book> books = bookRepository.getAllBooks();
 		if (!books.isEmpty()) {
 			for (Book book : books) {
 				bookDTOS.getBooks().add(bookMapper.map(book));
 			}
 		} else
-			throw new StoreException(HttpStatus.NOT_FOUND, "Book doesn't exist!");
+			return new BookListDTO();
 
 		return bookDTOS;
 	}
@@ -129,5 +128,27 @@ public class BookServiceImpl implements BookService {
 
 		return true;
 	}
+
+	@Override
+	public BookListDTO getBooksFilter(Set<Long> ids, String search) {
+		List<BookDTO> books = new ArrayList<>();
+		List<Long> booksId = new ArrayList<>();
+
+		 booksId = ids == null ? bookRepository.getBooksFilterSearch(search) : bookRepository.getBooksFilterAll(ids,search);
+
+		 if (!booksId.isEmpty()) {
+			for (Long idBook : booksId) {
+				BookDTO book = bookMapper.map(bookRepository.getOne(idBook));
+				if (!books.stream().anyMatch(x -> x.getBookId() == idBook))
+					books.add(book);
+			}
+		} else
+			return new BookListDTO();
+
+		return new BookListDTO(books);
+	}
+
+
+
 
 }
