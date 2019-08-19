@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	@Autowired
-	AuthenticationManager authenticationManager;
+//	@Autowired
+//	AuthenticationManager authenticationManager;
 	@Autowired
 	UserDetailsService userDetailsService;
 	@Autowired
@@ -38,12 +38,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public JwtAuthenticationResponse login(LoginDTO userRequest) {
 		try {
-			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
+//			Authentication authentication = authenticationManager.authenticate(
+//					new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
 
 			System.out.println("aaaa" + userRequest.getPassword());
 
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+//			SecurityContextHolder.getContext().setAuthentication(authentication);
 
 			UserDetails userDetails = userDetailsService.loadUserByUsername(userRequest.getUsername());
 
