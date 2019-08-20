@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,6 +35,13 @@ import com.levi9.prodavnica.service.OrderService;
 @AutoConfigureRestDocs(outputDir = "target/generated-sources/snippets")
 public class OrderControllerTest {
 
+	String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
+	HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+	CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+
+	@MockBean
+	CustomUserDetailsService userDetailsService;
+
 	@Autowired
 	MockMvc mockMvc;
 
@@ -40,11 +52,13 @@ public class OrderControllerTest {
 	ObjectMapper objectMapper;
 
 	@Test
+	@WithMockUser
 	public void addOrder() throws Exception {
 		when(orderService.addOrder(any())).thenReturn(new OrderResponseDTO(OrderConstants.order0orderId));
 		mockMvc.perform(post(UrlPrefix.GET_ORDERS).accept(MediaType.APPLICATION_JSON_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(OrderConstants.orderListDTO))).andExpect(status().isOk()).andDo(print())
+				.content(objectMapper.writeValueAsString(OrderConstants.orderListDTO)).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+				.param(csrfToken.getParameterName(), csrfToken.getToken())).andExpect(status().isOk()).andDo(print())
 				.andExpect(jsonPath("$.orderId").value(OrderConstants.order0orderId))
 				.andDo(document("{class-name}/{method-name}"));
 	}

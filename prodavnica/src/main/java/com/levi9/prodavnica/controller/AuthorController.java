@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.levi9.prodavnica.service.AuthorService;
 
+import javax.annotation.security.PermitAll;
+
 @RestController
 @RequestMapping("api/authors")
 @CrossOrigin(origins = "*")
@@ -18,11 +20,13 @@ public class AuthorController {
 	@Autowired
 	AuthorService authorService;
 
+	@PermitAll
 	@GetMapping
 	public ResponseEntity<?> getAllAuthors() {
 		return ResponseEntity.ok(authorService.findAllAuthors());
 	}
 
+	@PermitAll
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getAuthor(@PathVariable Long id) {
 		return ResponseEntity.ok(authorService.getOne(id));
