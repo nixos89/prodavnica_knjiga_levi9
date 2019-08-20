@@ -11,6 +11,7 @@ import com.levi9.prodavnica.model.Category;
 import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.CategoryRepository;
 import com.levi9.prodavnica.serviceImpl.CategoryServiceImpl;
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +36,8 @@ import static org.mockito.Mockito.when;
 @WebMvcTest(CategoryServiceImpl.class)
 public class CategoryServiceImplTest {
 
+    @MockBean
+    CustomUserDetailsService userDetailsService;
 
 
     @Autowired

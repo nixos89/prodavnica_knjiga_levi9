@@ -11,25 +11,39 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.levi9.prodavnica.ProdavnicaApplication;
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levi9.prodavnica.config.AuthorConstants;
@@ -47,6 +61,13 @@ import com.levi9.prodavnica.service.BookService;
 @AutoConfigureRestDocs(outputDir = "target/generated-sources/snippets")
 public class BookControllerTest {
 
+	String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
+	HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+	CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+
+	@MockBean
+	CustomUserDetailsService userDetailsService;
+
 	@Autowired
 	MockMvc mockMvc;
 
@@ -57,7 +78,9 @@ public class BookControllerTest {
 	ObjectMapper objectMapper;
 
 	@Test
+	@WithMockUser
 	public void findAllBooks() throws Exception {
+
 		when(bookService.findAllBooks()).thenReturn(new BookListDTO(Lists.newArrayList(
 				new BookDTO(BookConstants.book0id, BookConstants.book0name, BookConstants.book0price,
 						BookConstants.book0amount, BookConstants.book0deleted),
@@ -78,6 +101,7 @@ public class BookControllerTest {
 	}
 
 	@Test
+	@WithMockUser
 	public void findOneBook() throws Exception {
 		when(bookService.findBook(BookConstants.book0id))
 				.thenReturn(new BookDTO(BookConstants.book0id, BookConstants.book0name, BookConstants.book0price,
@@ -92,24 +116,28 @@ public class BookControllerTest {
 	}
 
 	@Test
+	@WithMockUser(roles = "ADMIN")
 	public void addBook() throws Exception {
 		when(bookService.addBook(BookConstants.addUpdateDTO)).thenReturn(true);
-		mockMvc.perform(post(UrlPrefix.GET_BOOKS).accept(MediaType.APPLICATION_JSON_VALUE)
+		mockMvc.perform(post(UrlPrefix.GET_BOOKS).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+				.param(csrfToken.getParameterName(), csrfToken.getToken()).accept(MediaType.APPLICATION_JSON_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk())
 				.andDo(document("{class-name}/{method-name}"));
 	}
-
 	@Test
+	@WithMockUser(roles = "ADMIN")
 	public void updateBook() throws Exception {
 		when(bookService.updateBook(BookConstants.addUpdateDTO, BookConstants.book0id)).thenReturn(true);
-		mockMvc.perform(put(UrlPrefix.GET_BOOKS + "/" + BookConstants.book0id).accept(MediaType.APPLICATION_JSON_VALUE)
+		mockMvc.perform(put(UrlPrefix.GET_BOOKS + "/" + BookConstants.book0id).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+				.param(csrfToken.getParameterName(), csrfToken.getToken()).accept(MediaType.APPLICATION_JSON_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(BookConstants.addUpdateDTO))).andExpect(status().isOk())
 				.andDo(document("{class-name}/{method-name}"));
 	}
 
 	@Test
+	@WithMockUser
 	public void getBooksFilterTest() throws Exception{
 		when(bookService.getBooksFilter(any(),any())).thenReturn(new BookListDTO(Lists.newArrayList(
 				new BookDTO(BookConstants.book0id, BookConstants.book0name, BookConstants.book0price,
@@ -151,6 +179,7 @@ public class BookControllerTest {
 	}
 	
 	@Test
+	@WithMockUser(roles = "Admin")
 	public void getTopSellingBooks() throws Exception {
 		Set<AuthorDTO> authorsBook0DTO = new LinkedHashSet<AuthorDTO>(); 
 		authorsBook0DTO.add(new AuthorDTO(AuthorConstants.JOVA_ID, AuthorConstants.FIRST_NAME_JOVA, AuthorConstants.LAST_NAME_JOVA));
@@ -175,7 +204,8 @@ public class BookControllerTest {
 		));
 		
 		
-		mockMvc.perform(get(UrlPrefix.GET_TOP_SELLING_BOOKS).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
+		mockMvc.perform(get(UrlPrefix.GET_TOP_SELLING_BOOKS).accept(MediaType.APPLICATION_JSON_VALUE).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+				.param(csrfToken.getParameterName(), csrfToken.getToken())).andExpect(status().isOk())
 			.andExpect(jsonPath("$.topSellingBookList.[0].bookName").value(BookConstants.book0name))									
 			.andExpect(jsonPath("$.topSellingBookList.[0].authors.[0].authorId").value(AuthorConstants.JOVA_ID))
 			.andExpect(jsonPath("$.topSellingBookList.[0].authors.[0].firstName").value(AuthorConstants.FIRST_NAME_JOVA))

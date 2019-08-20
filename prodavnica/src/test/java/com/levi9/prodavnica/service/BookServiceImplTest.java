@@ -10,6 +10,7 @@ import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.CategoryRepository;
 
 import com.levi9.prodavnica.serviceImpl.BookServiceImpl;
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
@@ -45,6 +46,8 @@ import static org.mockito.Mockito.when;
 @WebMvcTest(BookServiceImpl.class)
 public class BookServiceImplTest {
 
+    @MockBean
+    CustomUserDetailsService userDetailsService;
     @MockBean
     BookRepository bookRepository;
     @MockBean

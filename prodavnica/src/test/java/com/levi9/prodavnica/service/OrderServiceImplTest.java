@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Set;
 
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,6 +34,9 @@ import com.levi9.prodavnica.serviceImpl.OrderServiceImpl;
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrderServiceImpl.class)
 public class OrderServiceImplTest {
+
+	@MockBean
+	CustomUserDetailsService userDetailsService;
 
 	@Autowired
 	MockMvc mockMvc;
