@@ -150,33 +150,27 @@ public class BookServiceImplTest {
 		
 	}
 
-//	@Test
-//	public void getTopSellingBooks_throwsException() throws Exception {
-//		int limit = 2;
-//
-//		Map<Long, Long> topSellingBooksMap = new LinkedHashMap<Long, Long>();
-//		topSellingBooksMap.put(BookConstants.book0id, (long) BookConstants.book0amount);
-//		topSellingBooksMap.put(BookConstants.book1id, (long) BookConstants.book1amount);
-//		
-//		List<SalesDetails> salesDetailsList = new LinkedList<SalesDetails>();		
-//		
-//		for (Entry<Long, Long> entry : topSellingBooksMap.entrySet()) {
-//			salesDetailsList.add(new SalesDetails(entry.getKey(), entry.getValue()));
-//		}
-//		
-//		Map<Long, Long> newTopSellingBooksMap = new LinkedHashMap<Long, Long>();
-//		salesDetailsList.stream()
-//			.limit(limit)
-//			.forEach(obj -> newTopSellingBooksMap.put(obj.getBookId(), obj.getSoldAmount()));				
-//		
-//		when(bookRepository.getOne(any())).thenReturn(null);	
-//		for (Entry<Long, Long> entry : newTopSellingBooksMap.entrySet()) {
-//			Book book = new Book(7L, "Some book", 15.7, 12, false);
-//			when(bookRepository.getOne(book.getBookId())).thenReturn(null);			
-//			thrown.expect(StoreException.class);	
-//		}
-//				
-//		bookService.getTopSellingBooks(0);			
-//	}
+	@Test
+	public void getTopSellingBooks_throwsException() throws Exception {
+		int limit = 2;
+
+		Map<Long, Long> topSellingBooksMap = new LinkedHashMap<Long, Long>();
+		topSellingBooksMap.put(BookConstants.book0id, (long) BookConstants.book0amount);
+		topSellingBooksMap.put(BookConstants.book1id, (long) BookConstants.book1amount);
+		
+		List<SalesDetails> salesDetailsList = new LinkedList<SalesDetails>();		
+		
+		for (Entry<Long, Long> entry : topSellingBooksMap.entrySet()) {
+			salesDetailsList.add(new SalesDetails(entry.getKey(), entry.getValue()));
+		}
+		
+		Map<Long, Long> newTopSellingBooksMap = new LinkedHashMap<Long, Long>();
+		salesDetailsList.stream()
+			.limit(limit)
+			.forEach(obj -> newTopSellingBooksMap.put(obj.getBookId(), obj.getSoldAmount()));				
+				
+		bookService.getTopSellingBooks(0);
+		assertEquals(bookRepository.getOne(any()), null);
+	}
 
 }
