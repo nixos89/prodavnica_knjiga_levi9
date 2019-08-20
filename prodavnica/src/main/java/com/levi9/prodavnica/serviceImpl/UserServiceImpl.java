@@ -7,13 +7,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.levi9.prodavnica.dto.JwtAuthenticationResponse;
 import com.levi9.prodavnica.dto.LoginDTO;
 import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.repository.UserRepository;
@@ -27,33 +24,24 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
-	PasswordEncoder passwordEncoder;
-//	@Autowired
-//	AuthenticationManager authenticationManager;
+	AuthenticationManager authenticationManager;
 	@Autowired
 	UserDetailsService userDetailsService;
 	@Autowired
-	AuthenticatedUser authentication;
+	AuthenticatedUser authenticationUser;
 
 	@Override
-	public JwtAuthenticationResponse login(LoginDTO userRequest) {
+	public boolean login(LoginDTO loginRequest) {
 		try {
-//			Authentication authentication = authenticationManager.authenticate(
-//					new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
-
-			System.out.println("aaaa" + userRequest.getPassword());
-
-//			SecurityContextHolder.getContext().setAuthentication(authentication);
-
-			UserDetails userDetails = userDetailsService.loadUserByUsername(userRequest.getUsername());
-
-//			String jwt = jwtProvired.createToken(userDetails);
-			String jwt = "";
-
-			return new JwtAuthenticationResponse(jwt);
+			Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			
+			return true;
 		} catch (BadCredentialsException e) {
 			throw new StoreException(HttpStatus.BAD_REQUEST, "Incorrect password!");
 		}
+
 	}
 
 }

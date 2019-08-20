@@ -3,8 +3,10 @@ package com.levi9.prodavnica.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -13,6 +15,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableAuthorizationServer
@@ -54,6 +59,20 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 		endpoints.authenticationManager(authenticationManager).userDetailsService(userDetailsService)
 				.accessTokenConverter(accessTokenConverter());
+	}
+
+	@Bean
+	public FilterRegistrationBean corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration("/**", config);
+		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return bean;
 	}
 
 }
