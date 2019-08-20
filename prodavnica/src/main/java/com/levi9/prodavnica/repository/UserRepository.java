@@ -8,6 +8,6 @@ import com.levi9.prodavnica.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	User findByUsername(String username);
+	User findOneByUsername(String username);
 
 }
