@@ -4,8 +4,11 @@ import { Routes, RouterModule } from "@angular/router";
 const routes: Routes = [
   {
     path: "",
-    loadChildren:
-      "./book/book.module#BookModule"
+    loadChildren: "./book/book.module#BookModule"
+  },
+  {
+    path: "",
+    loadChildren: "./authentication/authentication.module#AuthenticationModule"
   },
   {
     path: "admin",
@@ -13,11 +16,9 @@ const routes: Routes = [
       "./admin-management/admin-management.module#AdminManagementModule"
   },
   {
-    path:"categories",
-    loadChildren:
-      "./category/category.module#CategoryModule"
+    path: "categories",
+    loadChildren: "./category/category.module#CategoryModule"
   }
-
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
