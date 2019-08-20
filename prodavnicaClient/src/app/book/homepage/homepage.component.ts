@@ -37,6 +37,9 @@ export class HomepageComponent implements OnInit {
   searchString: String = "";
   topSellingBookData: TopSellingBookInfo = new TopSellingBookInfo();
   errorMessage = '';
+  // following 3 vars have been added for select all/none
+  masterSelected: boolean;
+  checkedList: any;
 
   @ViewChild("bookSearchInput", { static: true })
   bookSearchInput: ElementRef;
@@ -54,7 +57,7 @@ export class HomepageComponent implements OnInit {
     private categoryService: CategoryService,
     private toastr: ToastrService,
     private orderService: OrderService
-  ) {}
+  ) { this.masterSelected = false; }
 
   ngOnInit() {
     this.getTopSellingBooks();
@@ -85,7 +88,7 @@ export class HomepageComponent implements OnInit {
 
   getTopSellingBooks() {
     this.bookService.getTopSellingBooks()
-      .subscribe(response => {        
+      .subscribe(response => {
         this.topSellingBookData = response;
       },
         error => {
@@ -95,6 +98,7 @@ export class HomepageComponent implements OnInit {
   }
 
   getAllBooks() {
+    this.checkUncheckAll();
     this.bookService.getAllBooks().subscribe(
       response => {
         this.bookData = response;
@@ -109,10 +113,34 @@ export class HomepageComponent implements OnInit {
     );
   }
 
+  checkUncheckAll() {
+    for (var i = 0; i < this.categoryData.categories.length; i++) {
+      console.log('this.categoryData.categories[i].checked:', this.categoryData.categories[i].checked);
+      this.categoryData.categories[i].checked = this.masterSelected;
+    }
+    this.getCheckedItemList();
+  }
+
+  getCheckedItemList() {
+    this.checkedList = [];
+    for (var i = 0; i < this.categoryData.categories.length; i++) {
+      if (this.categoryData.categories[i].checked)
+        this.checkedList.push(this.categoryData.categories[i]);
+    }
+  }
+
+  isAllSelected() {
+    this.masterSelected = this.categoryData.categories.every(function (item: any) {
+      return item.checked == true;
+    })
+    this.getCheckedItemList();
+  }
+
+
   getAllCategories() {
     this.categoryService.getAll().subscribe(
       response => {
-        this.categoryData = response; //.categories;
+        this.categoryData = response;
       },
       error => {
         this.toastr.error("Failed to get categories");
@@ -121,11 +149,14 @@ export class HomepageComponent implements OnInit {
   }
 
   getBooksFilter() {
+    this.masterSelected = this.categoryData.categories.every(function (item: any) {
+      return item.checked == true;
+    })
+    this.getCheckedItemList();
+
     this.newBooksForCat = this.categoryData.categories
       .filter(x => x.checked)
       .map(x => x);
-
-    this.newBooksForCat.forEach(x => {});
 
     let catIds: number[] = [];
     this.newBooksForCat.forEach(x => {
@@ -135,6 +166,8 @@ export class HomepageComponent implements OnInit {
     this.bookService.getBooksFilter(catIds, this.searchString).subscribe(
       response => {
         this.bookData = response;
+        console.log('this.bookData: ', this.bookData); // for debbugging
+        
       },
       error => {
         this.toastr.error("Failed to get books for selected categories");
