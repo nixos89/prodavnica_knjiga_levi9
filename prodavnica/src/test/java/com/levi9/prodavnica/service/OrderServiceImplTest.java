@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Set;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levi9.prodavnica.config.OrderConstants;
 import com.levi9.prodavnica.dto.OrderResponseDTO;
 import com.levi9.prodavnica.exception.StoreException;
+import com.levi9.prodavnica.mapper.BookMapper;
 import com.levi9.prodavnica.model.Book;
 import com.levi9.prodavnica.model.Order;
 import com.levi9.prodavnica.model.OrderItem;
@@ -46,15 +46,19 @@ public class OrderServiceImplTest {
 	@MockBean
 	BookRepository bookRepository;
 
+	@Autowired
 	OrderService orderService;
 
-	@Autowired
+	@MockBean
 	ObjectMapper objectMapper;
+	
+	@MockBean
+	BookMapper bookMapper;
 
-	@Before
-	public void setUp() {
-		this.orderService = new OrderServiceImpl(orderRepository, bookRepository);
-	}
+//	@Before
+//	public void setUp() {
+//		this.orderService = new OrderServiceImpl(orderRepository, bookRepository);
+//	}
 
 	@Test
 	public void whenCreateOrder_returnSuccess() throws Exception {
