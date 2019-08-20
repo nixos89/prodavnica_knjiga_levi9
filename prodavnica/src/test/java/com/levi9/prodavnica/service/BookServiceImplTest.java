@@ -78,20 +78,13 @@ public class BookServiceImplTest {
     CategoryRepository categoryRepository;
     @MockBean
     BookMapper bookMapper;
-    
     @MockBean
     OrderItemRepository orderItemRepository;
-
-	@Rule
+    @Rule
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Autowired
 	BookServiceImpl bookService;
-
-	@Before
-	public void setUp() {
-		this.bookService = new BookServiceImpl(bookRepository,authorRepository,categoryRepository,orderItemRepository,bookMapper);
-	}
 
 	@Test
 	public void getFilterSearch_returnSuccess() throws Exception {
