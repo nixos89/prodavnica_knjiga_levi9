@@ -166,8 +166,6 @@ export class HomepageComponent implements OnInit {
     this.bookService.getBooksFilter(catIds, this.searchString).subscribe(
       response => {
         this.bookData = response;
-        console.log('this.bookData: ', this.bookData); // for debbugging
-        
       },
       error => {
         this.toastr.error("Failed to get books for selected categories");
