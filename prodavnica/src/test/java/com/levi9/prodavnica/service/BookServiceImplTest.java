@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -34,6 +35,7 @@ import com.levi9.prodavnica.dto.TopSellingBookDTO;
 import com.levi9.prodavnica.dto.TopSellingBookListDTO;
 import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.mapper.BookMapper;
+import com.levi9.prodavnica.model.Author;
 import com.levi9.prodavnica.model.Book;
 import com.levi9.prodavnica.repository.AuthorRepository;
 import com.levi9.prodavnica.repository.BookRepository;
@@ -110,30 +112,35 @@ public class BookServiceImplTest {
 		for (Entry<Long, Long> entry : topSellingBooksMap.entrySet()) {
 			salesDetailsList.add(new SalesDetails(entry.getKey(), entry.getValue()));
 		}
-
+		
+		when(orderItemRepository.getTopSellingBooks()).thenReturn(salesDetailsList);		
+		
+		Book book1 = new Book(BookConstants.book0id, BookConstants.book0name, BookConstants.book0price, 
+				BookConstants.book0amount, BookConstants.book0deleted);
+		Book book2 = new Book(BookConstants.book1id, BookConstants.book1name, BookConstants.book1price, 
+				BookConstants.book1amount, BookConstants.book1deleted);
+		
+		when(bookRepository.getOne(1L)).thenReturn(book1);
+		when(bookRepository.getOne(2L)).thenReturn(book2);
+		
+		Set<Author> authorSetBook1 = new LinkedHashSet<>();
+		authorSetBook1.add(AuthorConstants.authors().get(0));
+		authorSetBook1.add(AuthorConstants.authors().get(1));
+		book1.setAuthors(authorSetBook1);
+		
+		Set<Author> authorSetBook2 = new LinkedHashSet<>();
+		authorSetBook2.add(AuthorConstants.authors().get(2));
+		authorSetBook2.add(AuthorConstants.authors().get(1));
+		book2.setAuthors(authorSetBook2);						
+		
 		Set<AuthorDTO> authorDTOSetBook0Mock = new LinkedHashSet<AuthorDTO>();
-		Set<AuthorDTO> authorDTOSetBook1Mock = new LinkedHashSet<AuthorDTO>();
+		Set<AuthorDTO> authorDTOSetBook1Mock = new LinkedHashSet<AuthorDTO>();		 
 		
-		AuthorDTO authPera = new AuthorDTO(
-				AuthorConstants.PERA_ID, 
-				AuthorConstants.FIRST_NAME_PERA, 
-				AuthorConstants.LAST_NAME_PERA);
+		authorDTOSetBook0Mock.add(AuthorConstants.authorDTOs().get(0));
+		authorDTOSetBook0Mock.add(AuthorConstants.authorDTOs().get(1));
 		
-		AuthorDTO authDesa = new AuthorDTO(
-				AuthorConstants.DESA_ID, 
-				AuthorConstants.FIRST_NAME_DESA, 
-				AuthorConstants.LAST_NAME_DESA);
-		
-		AuthorDTO authJova = new AuthorDTO(
-				AuthorConstants.JOVA_ID, 
-				AuthorConstants.FIRST_NAME_JOVA, 
-				AuthorConstants.LAST_NAME_JOVA); 
-		
-		authorDTOSetBook0Mock.add(authDesa);
-		authorDTOSetBook0Mock.add(authPera);
-		
-		authorDTOSetBook1Mock.add(authPera);
-		authorDTOSetBook1Mock.add(authJova);
+		authorDTOSetBook1Mock.add(AuthorConstants.authorDTOs().get(2));
+		authorDTOSetBook1Mock.add(AuthorConstants.authorDTOs().get(1));
 		
 		TopSellingBookDTO topSellingBook0DTO = new TopSellingBookDTO(BookConstants.book0name, 
 				authorDTOSetBook0Mock, BookConstants.book0amount);
@@ -141,13 +148,19 @@ public class BookServiceImplTest {
 		TopSellingBookDTO topSellingBook1DTO = new TopSellingBookDTO(BookConstants.book1name, 
 				authorDTOSetBook1Mock, BookConstants.book1amount);
 		
-		TopSellingBookListDTO topSellingBookListDTOMock = new TopSellingBookListDTO(Lists.newArrayList(
-				topSellingBook0DTO, topSellingBook1DTO));
+		
+		LinkedList<TopSellingBookDTO> topSellingBookDTOs = new LinkedList<>();
+		topSellingBookDTOs.add(topSellingBook0DTO);
+		topSellingBookDTOs.add(topSellingBook1DTO);
+		
+		TopSellingBookListDTO topSellingBookListDTOMock = new TopSellingBookListDTO();
+		topSellingBookListDTOMock.setTopSellingBookList(topSellingBookDTOs);		
 		
 		int listSize = 2;
+		int limit = 2;
 		
-		assertEquals(topSellingBookListDTOMock.getTopSellingBookList().size(), listSize);
-		
+		topSellingBookListDTOMock = bookService.getTopSellingBooks(limit);			
+		assertEquals(topSellingBookListDTOMock.getTopSellingBookList().size(), listSize);		
 	}
 
 	@Test
@@ -163,14 +176,17 @@ public class BookServiceImplTest {
 		for (Entry<Long, Long> entry : topSellingBooksMap.entrySet()) {
 			salesDetailsList.add(new SalesDetails(entry.getKey(), entry.getValue()));
 		}
-		
+
+		when(orderItemRepository.getTopSellingBooks()).thenReturn(salesDetailsList);
+				
 		Map<Long, Long> newTopSellingBooksMap = new LinkedHashMap<Long, Long>();
 		salesDetailsList.stream()
 			.limit(limit)
 			.forEach(obj -> newTopSellingBooksMap.put(obj.getBookId(), obj.getSoldAmount()));				
 				
-		bookService.getTopSellingBooks(0);
-		assertEquals(bookRepository.getOne(any()), null);
+		thrown.expect(StoreException.class);
+		
+		bookService.getTopSellingBooks(limit);
 	}
 
 }
