@@ -21,7 +21,7 @@ public class BookConstants {
 		book0categories.add(2L);
 	}
 
-	public static final Long book1id = 1L;
+	public static final Long book1id = 2L;
 	public static final String book1name = "test1";
 	public static final double book1price = 100;
 	public static final int book1amount = 100;
