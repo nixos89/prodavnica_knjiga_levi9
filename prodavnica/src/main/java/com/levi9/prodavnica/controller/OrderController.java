@@ -34,12 +34,12 @@ public class OrderController {
 	}
 
 	@GetMapping()
-	public ResponseEntity<?> getOrderReport(){
+	public ResponseEntity<?> getProcessedOrders(){
 		return ResponseEntity.ok(orderService.getOrderReport());
 	}
 	
 	@GetMapping("/pdf")
-	public ResponseEntity<InputStreamResource> orderReportPdf() throws IOException{
+	public ResponseEntity<InputStreamResource> orderReportPdf() throws IOException {
 		OrderReportDTO orderReportDTO = orderService.getOrderReport();
 		ByteArrayInputStream bis = PDFGenerator.ordersPDFReport(orderReportDTO);
 		
