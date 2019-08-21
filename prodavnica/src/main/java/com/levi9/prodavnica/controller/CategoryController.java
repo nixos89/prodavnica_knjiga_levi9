@@ -39,19 +39,19 @@ public class CategoryController {
 		return ResponseEntity.ok(categoryService.getOne(id));
 	}
 
-	@PreAuthorize(value = "hasAuthority('ADMIN')")
+	@PreAuthorize(value = "hasAuthority('ADMIN') or hasRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<?> addCategory(@RequestBody AddCategoryDTO addCategoryDTO) {
 		return new ResponseEntity<>(categoryService.addCategory(addCategoryDTO), HttpStatus.CREATED);
 	}
 
-	@PreAuthorize(value = "hasAuthority('ADMIN')")
+	@PreAuthorize(value = "hasAuthority('ADMIN') or hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateCategory(@RequestBody AddCategoryDTO addCategoryDTO, @PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.updateCategory(addCategoryDTO, id));
 	}
 
-	@PreAuthorize(value = "hasAuthority('ADMIN')")
+	@PreAuthorize(value = "hasAuthority('ADMIN') or hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.deleteCategory(id));

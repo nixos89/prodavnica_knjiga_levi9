@@ -20,7 +20,7 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 
-	@PreAuthorize(value = "hasAuthority('USER')")
+	@PreAuthorize(value = "hasAuthority('USER') or hasRole('USER')")
 	@PostMapping
 	public ResponseEntity<?> addOrder(@RequestBody OrderListDTO orderRequest) {
 		return ResponseEntity.ok(orderService.addOrder(orderRequest));
