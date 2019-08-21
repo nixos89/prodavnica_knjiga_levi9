@@ -119,6 +119,7 @@ public class OrderServiceImpl implements OrderService {
 				oiDTO.setBookDTO(bookDTO);
 				oiDTO.setOrderedAmount(oi.getAmount());
 				
+				// TODO: refactor - create static method for limiting double to 2 decimal digits with BigDecimal transformation 
 				BigDecimal bd = new BigDecimal((double) (oi.getBook().getPrice() * oi.getAmount())).setScale(2, RoundingMode.HALF_UP);
 				double booksPriceNew = bd.doubleValue();
 				oiDTO.setTotalOrderedItemPrice(booksPriceNew);
