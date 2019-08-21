@@ -16,6 +16,7 @@ import { OrderItem } from "src/app/core/models/orderItem.model";
 import { debounceTime, map, distinctUntilChanged } from "rxjs/operators";
 import { fromEvent, Subscription } from "rxjs";
 import { TopSellingBookInfo } from 'src/app/core/models/topSellingBookInfo.model';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: "app-homepage",
@@ -52,8 +53,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
   constructor(
     private bookService: BookService,
     private categoryService: CategoryService,
-    private toastr: ToastrService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    public authService: AuthenticationService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -85,7 +87,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   getTopSellingBooks() {
     this.bookService.getTopSellingBooks()
-      .subscribe(response => {        
+      .subscribe(response => {
         this.topSellingBookData = response;
       },
         error => {
@@ -148,6 +150,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     orderItem.amount = 1;
     let orderList: OrderList = new OrderList();
     orderList.total = book.price;
+    orderList.username = this.authService.getUsernameFromToken();
     orderList.orders.push(orderItem);
     this.orderService.orderBook(orderList).subscribe(
       data => {
@@ -168,6 +171,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   onAddToCart(book) {
+
+    if(!this.authService.isUser()){
+      this.toastr.warning("You must login first. :)")
+      return;
+    }
+
     let orderItem: OrderItem = new OrderItem();
     for (let activeCart of this.activeAddToCart) {
       if (activeCart == book.bookId) {

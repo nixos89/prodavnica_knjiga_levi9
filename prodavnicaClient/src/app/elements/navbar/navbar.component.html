@@ -18,20 +18,21 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
+        <li *ngIf="authService.isAdmin()" class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/categories"
             >Categories</a
           >
         </li>
         <li class="nav-item">
           <a
+            *ngIf="authService.isAdmin()"
             class="nav-link"
             routerLinkActive="active"
             routerLink="/admin/add-book"
             >Add book</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="authService.isUser()">
           <div id="ex4">
             <span
               class="p1 fa-stack fa-2x has-badge"
@@ -54,6 +55,15 @@
             (click)="onLogin()"
           >
             Login
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            *ngIf="authService.isAuthenticated()"
+            type="submit"
+            class="btn btn-link no-click"
+          >
+            Hello, {{authService.getUsernameFromToken()}}
           </button>
         </li>
         <li class="nav-item">

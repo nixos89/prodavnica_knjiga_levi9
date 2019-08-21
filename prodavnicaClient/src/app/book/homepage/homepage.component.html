@@ -66,7 +66,7 @@
               <a href="#"><img class="card-img-top" src="assets/book.png" width="60" height="150" alt="" /></a>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a routerLink="admin/update-book/{{ book.bookId }}"><span>{{ book.name }}</span></a>
+                  <span style="color:#17a2b8;">{{ book.name }}</span>
                 </h4>
                 <h5>${{ book.price }}</h5>
                 <div *ngIf="book.authors.length > 1">
@@ -92,11 +92,12 @@
                 </div>
               </div>
               <div class="card-footer">
-                <button type="button" style="float: left;" class="btn btn-danger btn-sm" data-toggle="modal"
+                <button *ngIf="authService.isUser()" type="button" style="float: left;" class="btn btn-danger btn-sm" data-toggle="modal"
                   data-target="#exampleModalCenter" (click)="buyBook(book)">
                   Buy Now
                 </button>
-                <button *ngIf="activeAddToCart.includes(book.bookId)" type="button" style="float: right;"
+                <a class="btn btn-info btn-sm" *ngIf="authService.isAdmin()" routerLink="admin/update-book/{{ book.bookId }}"><span>Update</span></a>
+                <button *ngIf="activeAddToCart.includes(book.bookId) && !authService.isAdmin()" type="button" style="float: right;"
                   class="text-light btn btn-warning btn-sm" (click)="onAddToCart(book)">
                   Add to Cart
                 </button>

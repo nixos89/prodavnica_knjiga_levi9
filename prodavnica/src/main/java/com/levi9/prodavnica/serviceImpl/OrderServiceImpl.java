@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.levi9.prodavnica.model.User;
+import com.levi9.prodavnica.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,14 +26,12 @@ import com.levi9.prodavnica.service.OrderService;
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
-	private final OrderRepository orderRepository;
-	private final BookRepository bookRepository;
-
 	@Autowired
-	public OrderServiceImpl(OrderRepository orderRepository, BookRepository bookRepository) {
-		this.orderRepository = orderRepository;
-		this.bookRepository = bookRepository;
-	}
+	private  OrderRepository orderRepository;
+	@Autowired
+	private  BookRepository bookRepository;
+	@Autowired
+	private  UserRepository userRepository;
 
 	@Override
 	public OrderResponseDTO addOrder(OrderListDTO orderRequest) {
@@ -51,7 +51,8 @@ public class OrderServiceImpl implements OrderService {
 					book.setAmount(book.getAmount() - addOrder.getAmount());
 					order.setTotal(orderRequest.getTotal());
 					order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-
+					User user = userRepository.findOneByUsername(orderRequest.getUsername());
+					order.setUser(userRepository.findOneByUsername(orderRequest.getUsername()));
 					OrderItem orderItem = new OrderItem();
 					orderItem.setAmount(addOrder.getAmount());
 					orderItem.setBook(book);
