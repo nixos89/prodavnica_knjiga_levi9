@@ -1,10 +1,12 @@
 package com.levi9.prodavnica.serviceImpl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -41,12 +43,6 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	public BookMapper bookMaper;
 	
-
-//	@Autowired
-//	public OrderServiceImpl(OrderRepository orderRepository, BookRepository bookRepository) {
-//		this.orderRepository = orderRepository;
-//		this.bookRepository = bookRepository;
-//	}
 
 	@Override
 	public OrderResponseDTO addOrder(OrderListDTO orderRequest) {
@@ -88,16 +84,21 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public OrderReportDTO getOrderReport() {
-		OrderDTO orderDTO = new OrderDTO();
-		List<OrderItemDTO> orderItemDTOList = new ArrayList<OrderItemDTO>();
-		List<OrderDTO> orderDTOList = new ArrayList<OrderDTO>();
+		
+		List<OrderItemDTO> orderItemDTOList = new LinkedList<OrderItemDTO>();
+		List<OrderDTO> orderDTOList = new LinkedList<OrderDTO>();
 		
 		List<Order> orders = orderRepository.findAll();
+		OrderDTO orderDTO = new OrderDTO();
+		double orderPrice;
 		for (Order order : orders) {
+			orderDTO = new OrderDTO();
 			orderDTO.setOrderId(order.getOrderId());
+			
 			Date orderDate = order.getOrderDate();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:MM:ss");
 			String dateString = null;
+			
 			try {
 				dateString = sdf.format(orderDate);
 				orderDTO.setOrderDate(dateString);
@@ -108,20 +109,30 @@ public class OrderServiceImpl implements OrderService {
 				e.printStackTrace();
 			}
 			
+			orderPrice = 0.0;
 			for (OrderItem oi : order.getOrderItems()) {
 				OrderItemDTO oiDTO = new OrderItemDTO();
 				BookDTO bookDTO = bookMaper.map(oi.getBook());
-				oiDTO.setBookDTO(bookDTO);
+				
 				oiDTO.setOrderItemId(oi.getOrderItemId());
 				oiDTO.setOrderId(order.getOrderId());
+				oiDTO.setBookDTO(bookDTO);
 				oiDTO.setOrderedAmount(oi.getAmount());
-				oiDTO.setTotalOrderedItemPrice((double) (oi.getBook().getPrice() * oi.getAmount()));
 				
+				BigDecimal bd = new BigDecimal((double) (oi.getBook().getPrice() * oi.getAmount())).setScale(2, RoundingMode.HALF_UP);
+				double booksPriceNew = bd.doubleValue();
+				oiDTO.setTotalOrderedItemPrice(booksPriceNew);
+				orderPrice += booksPriceNew;
 				orderItemDTOList.add(oiDTO);
-			}
+			}			
+			BigDecimal bd2 = new BigDecimal(orderPrice).setScale(2, RoundingMode.HALF_UP);
+			double orderPriceNew = bd2.doubleValue();	
+			orderDTO.setOrderPrice(orderPriceNew);
+			orderDTO.setOrderItemDTOList(orderItemDTOList);			
 			orderDTOList.add(orderDTO);
-		}
-
+			orderItemDTOList = new LinkedList<OrderItemDTO>();
+		}		
+		
 		OrderReportDTO orderReportDTO = new OrderReportDTO();
 		orderReportDTO.setOrderDTOList(orderDTOList);
 		return orderReportDTO;
