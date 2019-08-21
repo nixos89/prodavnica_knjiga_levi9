@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Set;
 
+import com.levi9.prodavnica.repository.UserRepository;
 import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,6 +15,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,15 +52,15 @@ public class OrderServiceImplTest {
 	@MockBean
 	BookRepository bookRepository;
 
+	@MockBean
+	UserRepository userRepository;
+
+	@Autowired
 	OrderService orderService;
 
 	@Autowired
 	ObjectMapper objectMapper;
 
-	@Before
-	public void setUp() {
-		this.orderService = new OrderServiceImpl(orderRepository, bookRepository);
-	}
 
 	@Test
 	public void whenCreateOrder_returnSuccess() throws Exception {

@@ -15,5 +15,6 @@ public class OrderListDTO {
 
 	private Set<AddOrderDTO> orders;
 	private double total;
+	private String username;
 
 }

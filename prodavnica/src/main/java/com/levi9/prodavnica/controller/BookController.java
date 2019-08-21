@@ -48,12 +48,12 @@ public class BookController {
 		return ResponseEntity.ok(bookService.findBook(id));
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize(value = "hasAuthority('ADMIN')")
 	@PostMapping
 	public ResponseEntity<?> addBook(@RequestBody AddUpdateBookDTO addUpdateBookDTO) {
 		return ResponseEntity.ok(bookService.addBook(addUpdateBookDTO));
 	}
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize(value = "hasAuthority('ADMIN')")
 	@PutMapping("/{idBook}")
 	public ResponseEntity<?> updateBook(@RequestBody AddUpdateBookDTO bookRequest, @PathVariable long idBook) {
 		return ResponseEntity.ok(bookService.updateBook(bookRequest, idBook));
