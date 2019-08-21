@@ -87,7 +87,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   getTopSellingBooks() {
     this.bookService.getTopSellingBooks()
-      .subscribe(response => {        
+      .subscribe(response => {
         this.topSellingBookData = response;
       },
         error => {
@@ -150,6 +150,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     orderItem.amount = 1;
     let orderList: OrderList = new OrderList();
     orderList.total = book.price;
+    orderList.username = this.authService.getUsernameFromToken();
     orderList.orders.push(orderItem);
     this.orderService.orderBook(orderList).subscribe(
       data => {
@@ -170,6 +171,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   onAddToCart(book) {
+
+    if(!this.authService.isUser()){
+      this.toastr.warning("You must login first. :)")
+      return;
+    }
+
     let orderItem: OrderItem = new OrderItem();
     for (let activeCart of this.activeAddToCart) {
       if (activeCart == book.bookId) {

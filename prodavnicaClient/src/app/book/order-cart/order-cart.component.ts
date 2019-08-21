@@ -9,6 +9,7 @@ import { OrderBook } from '../../core/models/orderBook.model';
 import { OrderService } from '../../core/services/order.service';
 import { OrderList } from '../../core/models/orderList.model';
 import { AddOrder } from '../../core/models/addOrder.model';
+import {AuthenticationService} from '../../core/services/authentication.service';
 
 
 const GET_ORDERS = 'orderItems';
@@ -30,7 +31,7 @@ export class OrderCartComponent implements OnInit {
   errorOrder: boolean;
 
 
-  constructor(private bookService: BookService, private toastr: ToastrService, private orderService: OrderService) { }
+  constructor(private bookService: BookService, private toastr: ToastrService, private orderService: OrderService,private authService: AuthenticationService) { }
 
   ngOnInit() {
     this.getOrderItems();
@@ -106,6 +107,7 @@ export class OrderCartComponent implements OnInit {
       addOrder.bookId = ord.book.bookId;
       selectedOrderList.orders.push(addOrder);
     }
+    selectedOrderList.username = this.authService.getUsernameFromToken();
     selectedOrderList.total = this.order.total;
     console.log('selectedOrderList:', selectedOrderList);
 
