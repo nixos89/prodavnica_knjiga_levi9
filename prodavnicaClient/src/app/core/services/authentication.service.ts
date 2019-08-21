@@ -23,11 +23,8 @@ export class AuthenticationService {
     const decodedToken = helper.decodeToken(localStorage.getItem("token"));
 
     if (decodedToken != null) {
-      for (let role of decodedToken.roles) {
-        if (role.authority === "USER") {
-          return true;
-          break;
-        }
+      if (decodedToken.authorities[0] === "USER") {
+        return true;
       }
     }
     return false;
@@ -38,11 +35,8 @@ export class AuthenticationService {
     const decodedToken = helper.decodeToken(localStorage.getItem("token"));
 
     if (decodedToken != null) {
-      for (let role of decodedToken.roles) {
-        if (role.authority === "ADMIN") {
-          return true;
-          break;
-        }
+      if (decodedToken.authorities[0] === "ADMIN") {
+        return true;
       }
     }
     return false;

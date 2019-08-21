@@ -16,6 +16,7 @@ import { OrderItem } from "src/app/core/models/orderItem.model";
 import { debounceTime, map, distinctUntilChanged } from "rxjs/operators";
 import { fromEvent, Subscription } from "rxjs";
 import { TopSellingBookInfo } from 'src/app/core/models/topSellingBookInfo.model';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: "app-homepage",
@@ -52,8 +53,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
   constructor(
     private bookService: BookService,
     private categoryService: CategoryService,
-    private toastr: ToastrService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    public authService: AuthenticationService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
