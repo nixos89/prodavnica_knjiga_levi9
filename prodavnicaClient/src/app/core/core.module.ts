@@ -6,6 +6,7 @@ import {
   HTTP_INTERCEPTORS
 } from "@angular/common/http";
 import { HttpTokenInterceptor } from "./interceptor/httpTokenInterceptor";
+import { AuthenticationGuard } from "./guards/authentication.guard";
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,8 @@ import { HttpTokenInterceptor } from "./interceptor/httpTokenInterceptor";
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     HttpParams,
-    Set
+    Set,
+    AuthenticationGuard
   ]
 })
 export class CoreModule {}

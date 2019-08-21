@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this.authService.getAccessToken(this.loginData.username,this.loginData.password).subscribe(
       response => {
-        console.log(response);
         this.tokenService.saveToken(response.access_token);
          this.router.navigate(["/"]);
       },
