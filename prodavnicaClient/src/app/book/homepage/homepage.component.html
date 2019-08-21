@@ -15,7 +15,7 @@
       <h3><i>Categories</i></h3>
       <!-- <div class="pre-scrollable"> -->
       <nav>
-        <input type="checkbox" name="categoryId" [value]="" (change)="getAllBooks()" />
+        <input type="checkbox" name="categoryId" [(ngModel)]="masterSelected" value="m1" (change)="getAllBooks()" checked />
         All
         <fieldset *ngFor="let category of categoryData.categories">
           <input

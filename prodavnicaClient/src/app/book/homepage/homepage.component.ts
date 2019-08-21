@@ -38,6 +38,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
   searchString: String = "";
   topSellingBookData: TopSellingBookInfo = new TopSellingBookInfo();
   errorMessage = '';
+  // following 3 vars have been added for select all/none
+  masterSelected: boolean;
+  checkedList: any;
 
   @ViewChild("bookSearchInput", { static: true })
   bookSearchInput: ElementRef;
@@ -56,7 +59,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     public authService: AuthenticationService,
     private toastr: ToastrService
-  ) {}
+  ) { this.masterSelected = false; }
 
   ngOnInit() {
     this.getTopSellingBooks();
@@ -97,6 +100,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   getAllBooks() {
+    this.checkUncheckAll();
     this.bookService.getAllBooks().subscribe(
       response => {
         this.bookData = response;
@@ -111,10 +115,34 @@ export class HomepageComponent implements OnInit, OnDestroy {
     );
   }
 
+  checkUncheckAll() {
+    for (var i = 0; i < this.categoryData.categories.length; i++) {
+      console.log('this.categoryData.categories[i].checked:', this.categoryData.categories[i].checked);
+      this.categoryData.categories[i].checked = this.masterSelected;
+    }
+    this.getCheckedItemList();
+  }
+
+  getCheckedItemList() {
+    this.checkedList = [];
+    for (var i = 0; i < this.categoryData.categories.length; i++) {
+      if (this.categoryData.categories[i].checked)
+        this.checkedList.push(this.categoryData.categories[i]);
+    }
+  }
+
+  isAllSelected() {
+    this.masterSelected = this.categoryData.categories.every(function (item: any) {
+      return item.checked == true;
+    })
+    this.getCheckedItemList();
+  }
+
+
   getAllCategories() {
     this.categoryService.getAll().subscribe(
       response => {
-        this.categoryData = response; //.categories;
+        this.categoryData = response;
       },
       error => {
         this.toastr.error("Failed to get categories");
@@ -123,11 +151,14 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   getBooksFilter() {
+    this.masterSelected = this.categoryData.categories.every(function (item: any) {
+      return item.checked == true;
+    })
+    this.getCheckedItemList();
+
     this.newBooksForCat = this.categoryData.categories
       .filter(x => x.checked)
       .map(x => x);
-
-    this.newBooksForCat.forEach(x => {});
 
     let catIds: number[] = [];
     this.newBooksForCat.forEach(x => {
