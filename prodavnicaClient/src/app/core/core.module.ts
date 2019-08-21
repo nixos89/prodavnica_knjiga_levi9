@@ -8,6 +8,7 @@ import {
 import { HttpTokenInterceptor } from "./interceptor/httpTokenInterceptor";
 import { AuthenticationGuard } from "./guards/authentication.guard";
 import { IsAdminGuard } from './guards/isAdmin.guard';
+import {IsUserGuard} from './guards/isUser.guard';
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,8 @@ import { IsAdminGuard } from './guards/isAdmin.guard';
     HttpParams,
     Set,
     AuthenticationGuard,
-    IsAdminGuard
+    IsAdminGuard,
+    IsUserGuard
   ]
 })
 export class CoreModule {}

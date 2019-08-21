@@ -26,13 +26,13 @@ public class OrderConstants {
 		addOrders.add(addOrderRequestExpected);
 	}
 
-	public static final OrderListDTO orderRequest = new OrderListDTO(addOrders, OrderConstants.order0total);
+	public static final OrderListDTO orderRequest = new OrderListDTO(addOrders, OrderConstants.order0total,"test");
 	public static final OrderResponseDTO createResponseExpected = new OrderResponseDTO(order0orderId);
 
 	public static final Book bookResponseExpected = new Book(BookConstants.book0id, BookConstants.book0name,
 			BookConstants.book0price, BookConstants.book0amount, BookConstants.book0deleted);
 	public static final Order orderResponseExpected = new Order(1L, 10.5, new Date());
-	public static final OrderListDTO orderListDTO = new OrderListDTO(addOrders, order0total);
+	public static final OrderListDTO orderListDTO = new OrderListDTO(addOrders, order0total,"test");
 
 	public static final OrderListDTO orderListNull = null;
 

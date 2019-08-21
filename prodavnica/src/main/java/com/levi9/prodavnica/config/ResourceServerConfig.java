@@ -23,7 +23,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/oauth/token", "/api/books", "/api/books/topSellingBooksLimit", "/api/books/getBooksFilter", "/api/categories").permitAll().anyRequest()
+		http.authorizeRequests().antMatchers("/oauth/token", "/api/books", "/api/books/topSellingBooksLimit", "/api/books/getBooksFilter", "/api/categories").permitAll().antMatchers(HttpMethod.POST,"/api/orders").permitAll().anyRequest()
 				.authenticated().and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 	}
 
