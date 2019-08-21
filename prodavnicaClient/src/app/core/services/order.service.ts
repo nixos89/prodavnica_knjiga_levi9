@@ -33,4 +33,13 @@ export class OrderService {
     return this.orderItems;
   }
 
+  public getProcessedOrders(): Observable<any> {
+    return this.http.get(environment.url + 'api/orders');
+  }
+
+  
+  public getProcessedOrdersPDF(): Observable<any> {
+    return this.http.get(environment.url + 'api/orders/pdf');
+  }
+
 }

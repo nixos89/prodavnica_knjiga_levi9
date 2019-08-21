@@ -1,0 +1,55 @@
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container" style="margin-top: 50px">
+    <table id="cart" class="table table-responsive">
+        <thead>
+            <tr class="names">
+                <th style="width:10%" class="text-xs-left">Order ID</th>
+                <th style="width:25%" class="text-xs-center">Order Date</th>
+                <th style="width:25%" class="text-xs-center">Book Title (Book ID)</th>
+                <th style="width:10%" class="text-xs-left">Book Amount</th>
+                <th style="width:15%" class="text-xs-right">Total Book Price</th>
+                <th style="width:15%" class="text-xs-right">Full Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let os of orderSingleList; let i=index">
+                <ng-container *ngFor="let oir of os.orderItemDTOList; let j=index">
+                    <tr class="item">
+                        <td data-th="Order ID">
+                            <div class="row">
+                                <p class="text-xs-left">{{os.orderId}}</p>
+                            </div>
+                        </td>
+                        <td data-th="Order Date">
+                            <div class="row">
+                                <p class="text-xs-center">{{os.orderDate}}</p>
+                            </div>
+                        </td>
+                        <td data-th="Book Title (Book ID)">
+                            <div class="row">
+                                <p class="text-xs-center"><i>{{oir.bookDTO.name}}</i> ({{oir.bookDTO.bookId}})</p>
+                            </div>
+                        </td>
+                        <td data-th="Book Amount">
+                            <div class="row">
+                                <p class="text-xs-left"> {{oir.orderedAmount}} </p>
+                            </div>
+                        </td>
+                        <td data-th="Total Book Price">
+                            <div class="row">
+                                <p class="text-xs-right">{{oir.totalOrderedItemPrice}}</p>
+                            </div>
+                        </td>
+                        <td data-th="Full Price">
+                            <div class="row">
+                                <p class="text-xs-right">{{os.orderPrice}}</p>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </table>
+    <br/><br/><br/>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="downloadPDF()">Download PDF version</button>
+</div>
