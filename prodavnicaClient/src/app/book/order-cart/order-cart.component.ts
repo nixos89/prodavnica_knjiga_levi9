@@ -106,9 +106,7 @@ export class OrderCartComponent implements OnInit {
       addOrder.bookId = ord.book.bookId;
       selectedOrderList.orders.push(addOrder);
     }
-    selectedOrderList.total = this.order.total;
-    console.log('selectedOrderList:', selectedOrderList);
-
+    selectedOrderList.total = Math.round(this.order.total * 100) / 100;    
 
     this.orderService.orderBook(selectedOrderList).subscribe(
       response => {
