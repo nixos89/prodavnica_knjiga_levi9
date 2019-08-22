@@ -6,10 +6,10 @@
     <table id="cart" class="table table-responsive">
         <thead>
             <tr class="names">
-                <th style="width:10%" class="text-xs-left">Order ID</th>
+                <th style="width:10%" class="text-xs-right">Order ID</th>
                 <th style="width:25%" class="text-xs-center">Order Date</th>
                 <th style="width:25%" class="text-xs-center">Book Title (Book ID)</th>
-                <th style="width:10%" class="text-xs-left">Book Amount</th>
+                <th style="width:10%" class="text-xs-right">Book Amount</th>
                 <th style="width:15%" class="text-xs-right">Total Book Price</th>
                 <th style="width:15%" class="text-xs-right">Full Price</th>
             </tr>
@@ -20,7 +20,7 @@
                     <tr class="item">
                         <td data-th="Order ID">
                             <div class="row">
-                                <p class="text-xs-left">{{os.orderId}}</p>
+                                <p class="text-xs-right move-order-id-right">{{os.orderId}}</p>
                             </div>
                         </td>
                         <td data-th="Order Date">
@@ -35,17 +35,17 @@
                         </td>
                         <td data-th="Book Amount">
                             <div class="row">
-                                <p class="text-xs-left"> {{oir.orderedAmount}} </p>
+                                <p class="text-xs-right"> {{oir.orderedAmount}} </p>
                             </div>
                         </td>
                         <td data-th="Total Book Price">
                             <div class="row">
-                                <p class="text-xs-right">{{oir.totalOrderedItemPrice}}</p>
+                                <p class="text-xs-right">${{oir.totalOrderedItemPrice}}</p>
                             </div>
                         </td>
                         <td data-th="Full Price">
                             <div class="row">
-                                <p class="text-xs-right">{{os.orderPrice}}</p>
+                                <p class="text-xs-right">${{os.orderPrice}}</p>
                             </div>
                         </td>
                     </tr>
