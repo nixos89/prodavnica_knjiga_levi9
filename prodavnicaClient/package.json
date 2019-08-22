@@ -21,6 +21,7 @@
     "@angular/router": "~8.2.0",
     "angular2-toaster": "^8.0.0",
     "bootstrap": "^4.3.1",
+    "file-saver": "^2.0.2",
     "jquery": "^3.4.1",
     "ngx-toastr": "^10.0.4",
     "popper": "^1.0.1",

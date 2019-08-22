@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
-import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levi9.prodavnica.config.AuthorConstants;
 import com.levi9.prodavnica.config.UrlPrefix;
 import com.levi9.prodavnica.dto.AuthorDTO;
@@ -42,32 +42,32 @@ public class AuthorControllerTest {
 
 	@MockBean
 	AuthorService authorService;
+	
+	@Autowired
+	ObjectMapper objectMapper;
 
 	@Test
 	public void testGetAllAuthors() throws Exception {
-		when(authorService.findAllAuthors()).thenReturn(new AuthorListDTO(Lists.newArrayList(
-				new AuthorDTO(AuthorConstants.PERA_ID, AuthorConstants.FIRST_NAME_PERA, AuthorConstants.LAST_NAME_PERA),
-				new AuthorDTO(AuthorConstants.DESA_ID, AuthorConstants.FIRST_NAME_DESA, AuthorConstants.LAST_NAME_DESA),
-				new AuthorDTO(AuthorConstants.JOVA_ID, AuthorConstants.FIRST_NAME_JOVA,
-						AuthorConstants.LAST_NAME_JOVA))));
+		when(authorService.findAllAuthors()).thenReturn(new AuthorListDTO(AuthorConstants.authorDTOs()));
 
-		mockMvc.perform(get(UrlPrefix.GET_AUTHORS).accept(MediaType.APPLICATION_JSON_VALUE))
+		mockMvc.perform(get(UrlPrefix.GET_AUTHORS)
+					.accept(MediaType.APPLICATION_JSON_VALUE)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(objectMapper.writeValueAsString(AuthorConstants.authorDTOs())))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.authors.[0].authorId").value(AuthorConstants.PERA_ID))
 				.andExpect(jsonPath("$.authors.[0].firstName").value(AuthorConstants.FIRST_NAME_PERA))
 				.andExpect(jsonPath("$.authors.[0].lastName").value(AuthorConstants.LAST_NAME_PERA))
-
 				.andExpect(jsonPath("$.authors.[1].authorId").value(AuthorConstants.DESA_ID))
 				.andExpect(jsonPath("$.authors.[1].firstName").value(AuthorConstants.FIRST_NAME_DESA))
 				.andExpect(jsonPath("$.authors.[1].lastName").value(AuthorConstants.LAST_NAME_DESA))
-
 				.andExpect(jsonPath("$.authors.[2].authorId").value(AuthorConstants.JOVA_ID))
 				.andExpect(jsonPath("$.authors.[2].firstName").value(AuthorConstants.FIRST_NAME_JOVA))
 				.andExpect(jsonPath("$.authors.[2].lastName").value(AuthorConstants.LAST_NAME_JOVA))
 				.andDo(document("{class-name}/{method-name}", 
 									preprocessResponse(prettyPrint()),
 									responseFields(authorListResponseFields())
-						));				
+				));				
 	}
 
 	@Test

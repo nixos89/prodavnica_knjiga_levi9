@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
+import com.levi9.prodavnica.dto.BookDTO;
+import com.levi9.prodavnica.dto.CategoryDTO;
+import com.levi9.prodavnica.model.Book;
 
 public class BookConstants {
 
@@ -31,6 +34,12 @@ public class BookConstants {
 			BookConstants.book0price, BookConstants.book0amount, BookConstants.book0deleted, BookConstants.book0authors,
 			BookConstants.book0categories);
 
-
+	 public static final BookDTO createBookDTO(){
+		 return new BookDTO(book0id, book0name, book0price, book0amount, book0deleted);
+	 }
+	 
+	 public static final Book createBook(){
+		 return new Book(book0id, book0name, book0price, book0amount, book0deleted);
+	 }
 
 }

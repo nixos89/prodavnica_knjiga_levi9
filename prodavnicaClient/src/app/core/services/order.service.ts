@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment.prod';
 import {OrderList} from '../models/orderList.model';
@@ -39,7 +39,13 @@ export class OrderService {
 
   
   public getProcessedOrdersPDF(): Observable<any> {
-    return this.http.get(environment.url + 'api/orders/pdf');
+    let httpHeaders  = new HttpHeaders()
+      .set('Accept', 'application/pdf')  
+      .set('Content-type', 'application/pdf');     
+      // .set('Content-Disposition', 'inline; filename=orders.pdf');
+    console.log('headers:', httpHeaders);
+    
+    return this.http.get(environment.url + 'api/orders/pdf', { headers: httpHeaders, responseType: 'blob' });
   }
 
 }

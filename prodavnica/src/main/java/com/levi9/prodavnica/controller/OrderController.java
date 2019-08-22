@@ -2,6 +2,7 @@ package com.levi9.prodavnica.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -45,6 +46,8 @@ public class OrderController {
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Disposition", "inline; filename=orders.pdf");
+		
+		System.out.println(" ====== I orderReportPdf() have been summoned at " + LocalDateTime.now() + " ! ======== ");
 		
 		return ResponseEntity.ok()
 				.headers(headers)

@@ -3,6 +3,7 @@ package com.levi9.prodavnica.serviceImpl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -96,18 +97,15 @@ public class OrderServiceImpl implements OrderService {
 			orderDTO.setOrderId(order.getOrderId());
 			
 			Date orderDate = order.getOrderDate();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:MM:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			String dateString = null;
 			
-			try {
-				dateString = sdf.format(orderDate);
-				orderDTO.setOrderDate(dateString);
-			} catch (NumberFormatException nfe) {
-				System.out.println("Invalid date format");
-				nfe.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
+			if(orderDate == null) {
+				throw new StoreException(HttpStatus.BAD_REQUEST, "Error, date formatting failed!");
 			}
+			dateString = sdf.format(orderDate);
+			orderDTO.setOrderDate(dateString);
+
 			
 			orderPrice = 0.0;
 			for (OrderItem oi : order.getOrderItems()) {

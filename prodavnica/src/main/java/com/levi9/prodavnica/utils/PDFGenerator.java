@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -23,6 +24,7 @@ import com.levi9.prodavnica.dto.OrderDTO;
 import com.levi9.prodavnica.dto.OrderItemDTO;
 import com.levi9.prodavnica.dto.OrderReportDTO;
 
+@Component
 public class PDFGenerator {
 
 	private static Logger logger = LoggerFactory.getLogger(PDFGenerator.class);
@@ -109,7 +111,6 @@ public class PDFGenerator {
 					table.addCell(orderPriceCell);
 
 				}
-
 			}
 
 			document.add(table);

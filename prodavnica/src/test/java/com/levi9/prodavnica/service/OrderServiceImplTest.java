@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Rule;
@@ -20,6 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levi9.prodavnica.config.OrderConstants;
+import com.levi9.prodavnica.dto.OrderDTO;
+import com.levi9.prodavnica.dto.OrderReportDTO;
 import com.levi9.prodavnica.dto.OrderResponseDTO;
 import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.mapper.BookMapper;
@@ -49,16 +52,11 @@ public class OrderServiceImplTest {
 	@Autowired
 	OrderService orderService;
 
-	@MockBean
+	@Autowired
 	ObjectMapper objectMapper;
-	
+
 	@MockBean
 	BookMapper bookMapper;
-
-//	@Before
-//	public void setUp() {
-//		this.orderService = new OrderServiceImpl(orderRepository, bookRepository);
-//	}
 
 	@Test
 	public void whenCreateOrder_returnSuccess() throws Exception {
@@ -80,9 +78,9 @@ public class OrderServiceImplTest {
 		}
 
 		// Verify request fields
-		assertEquals(OrderConstants.order0total, orderRequestActual.getTotal(), 0.001);
-		assertEquals(OrderConstants.order0amount, orderItemRequestActual.getAmount(), 0.001);
-		assertEquals(OrderConstants.order0bookId, orderItemRequestActual.getBook().getBookId(), 0.001);
+		assertEquals(OrderConstants.order0total, orderRequestActual.getTotal(), 0.01);
+		assertEquals(OrderConstants.order0amount, orderItemRequestActual.getAmount(), 0.01);
+		assertEquals(OrderConstants.order0bookId, orderItemRequestActual.getBook().getBookId(), 0.01);
 
 		// Verify response fields
 		assertEquals(OrderConstants.order0orderId, responseReturned.getOrderId());
@@ -110,6 +108,27 @@ public class OrderServiceImplTest {
 		thrown.expect(StoreException.class);
 
 		orderService.addOrder(OrderConstants.orderListDTO);
+	}
+
+	@Test
+	public void getOrderReportTest_success() throws Exception {
+		when(orderRepository.findAll()).thenReturn(OrderConstants.getAllOrders());
+
+		OrderReportDTO reportDto = orderService.getOrderReport();
+		List<OrderDTO> orderDTOList = reportDto.getOrderDTOList();
+		assertEquals(orderDTOList.get(0).getOrderId(), OrderConstants.order0orderId);
+
+		assertEquals(orderDTOList.get(0).getOrderDate(), OrderConstants.order0Date);
+		assertEquals(orderDTOList.get(0).getOrderItemDTOList().get(0).getOrderItemId(),
+				OrderConstants.getOrderItemDTOList().get(0).getOrderItemId(), 0.001);
+		assertEquals(orderDTOList.get(0).getOrderPrice(), OrderConstants.order0Price, 0.001);
+	}
+
+	@Test
+	public void getOrderReportTest_throwException() throws Exception {
+		when(orderRepository.findAll()).thenReturn(OrderConstants.getAllOrders_withNullDate());
+		thrown.expect(StoreException.class);
+		orderService.getOrderReport();
 	}
 
 }

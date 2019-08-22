@@ -3,6 +3,7 @@ import { OrderService } from 'src/app/core/services/order.service';
 import { OrderReport } from 'src/app/core/models/orderReport.model';
 import { OrderItemReport } from 'src/app/core/models/orderItemReprot.model';
 import { OrderSingle } from 'src/app/core/models/orderSingle.model';
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-processed-orders',
@@ -20,34 +21,26 @@ export class ProcessedOrdersComponent implements OnInit {
     this.getAllOrders();
   }
 
-  getAllOrders(){
-    console.log('pozvao se getAllOrders()');
-    
+  getAllOrders(){    
     this.orderService.getProcessedOrders().subscribe(
       response => {
-        this.orderReport = response;
-        console.log('this.orderReport: ', this.orderReport);
-        
+        this.orderReport = response;        
         this.orderSingleList = response.orderDTOList;
-        // this.orderSingleList = this.orderReport.orderSingleList;
-        console.log('this.orderSingleList: ', this.orderSingleList);
-        
       },
       error => {
         console.log("Error! error message:", error.error.message  );
-        
       }
     );    
   }
 
-
   downloadPDF(){
     this.orderService.getProcessedOrdersPDF().subscribe(
       response => {
-         // TODO: do  something with response or just add routerLink in HTML Template        
+        let blob:any = new Blob([response], { type: 'application/pdf' });
+        fileSaver.saveAs(blob, 'orders.pdf');       
       },
       error => {
-
+        console.log('error message:', error.error.message);        
       }
     );
     
