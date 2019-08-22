@@ -20,7 +20,5 @@ public class OrderListDTO {
 	private Set<AddOrderDTO> orders;
 	@NotNull(message = "Total price is required")
 	private double total;
-	@NotEmpty(message = "Username is required")
-	private String username;
 
 }

@@ -1,7 +1,5 @@
 package com.levi9.prodavnica.controller;
 
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,6 @@ public class BookController {
 	
 	@Value("${topSellingBooks.limit:5}")
 	public int topSellingBooksLimit;
-	
 
 	@PermitAll
 	@GetMapping

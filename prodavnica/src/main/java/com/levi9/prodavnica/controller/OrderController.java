@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.levi9.prodavnica.dto.OrderListDTO;
 import com.levi9.prodavnica.service.OrderService;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("api/orders")
 @CrossOrigin(origins = "*")
@@ -23,8 +25,8 @@ public class OrderController {
 
 	@PreAuthorize(value = "hasAuthority('USER') or hasRole('USER')")
 	@PostMapping
-	public ResponseEntity<?> addOrder(@RequestBody @Validated OrderListDTO orderRequest) {
-		return ResponseEntity.ok(orderService.addOrder(orderRequest));
+	public ResponseEntity<?> addOrder(@RequestBody @Validated OrderListDTO orderRequest, Principal principal) {
+		return ResponseEntity.ok(orderService.addOrder(orderRequest, principal.getName()));
 	}
 
 }

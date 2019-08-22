@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
 	private  UserRepository userRepository;
 
 	@Override
-	public OrderResponseDTO addOrder(OrderListDTO orderRequest) {
+	public OrderResponseDTO addOrder(OrderListDTO orderRequest, String username) {
  
 		Set<OrderItem> orderItems = new HashSet<>();
 		Order order = new Order();
@@ -48,12 +48,12 @@ public class OrderServiceImpl implements OrderService {
 					throw new StoreException(HttpStatus.BAD_REQUEST, "Amount for book with title: '" + book.getName() + 
 							"' is more than on the stock!\nCurrent amount on stock is: " + book.getAmount());
 				else {
-					if(userRepository.findOneByUsername(orderRequest.getUsername())==null)
+					if(userRepository.findOneByUsername(username)==null)
 						throw new StoreException(HttpStatus.NOT_FOUND,"User not found");
 					book.setAmount(book.getAmount() - addOrder.getAmount());
 					order.setTotal(orderRequest.getTotal());
 					order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-					order.setUser(userRepository.findOneByUsername(orderRequest.getUsername()));
+					order.setUser(userRepository.findOneByUsername(username));
 					OrderItem orderItem = new OrderItem();
 					orderItem.setAmount(addOrder.getAmount());
 					orderItem.setBook(book);

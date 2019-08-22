@@ -107,7 +107,6 @@ export class OrderCartComponent implements OnInit {
       addOrder.bookId = ord.book.bookId;
       selectedOrderList.orders.push(addOrder);
     }
-    selectedOrderList.username = this.authService.getUsernameFromToken();
     selectedOrderList.total = this.order.total;
     console.log('selectedOrderList:', selectedOrderList);
 

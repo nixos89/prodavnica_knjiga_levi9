@@ -21,8 +21,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
 @Component({
   selector: "app-homepage",
   templateUrl: "./homepage.component.html",
-  styleUrls: ["./homepage.component.css"],
-  providers: [BookService, AuthorService, CategoryService]
+  styleUrls: ["./homepage.component.css"]
 })
 export class HomepageComponent implements OnInit, OnDestroy {
   bookData: BookInfo = new BookInfo();

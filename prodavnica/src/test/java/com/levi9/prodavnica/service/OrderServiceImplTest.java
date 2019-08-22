@@ -72,7 +72,7 @@ public class OrderServiceImplTest {
 
 		when(userRepository.findOneByUsername(any())).thenReturn(new User());
 
-		OrderResponseDTO responseReturned = orderService.addOrder(OrderConstants.orderRequest);
+		OrderResponseDTO responseReturned = orderService.addOrder(OrderConstants.orderRequest, "test");
 		verify(orderRepository).save(captor.capture());
 
 
@@ -99,7 +99,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(null);
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListNull);
+		orderService.addOrder(OrderConstants.orderListNull, "test");
 	}
 
 	@Test
@@ -107,7 +107,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(null);
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListDTO);
+		orderService.addOrder(OrderConstants.orderListDTO, "test");
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(new Book(1L, "test", 1, 1, false));
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListDTO);
+		orderService.addOrder(OrderConstants.orderListDTO, "test");
 	}
 
 }

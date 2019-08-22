@@ -54,7 +54,7 @@ public class OrderControllerTest {
 	@Test
 	@WithMockUser
 	public void addOrder() throws Exception {
-		when(orderService.addOrder(any())).thenReturn(new OrderResponseDTO(OrderConstants.order0orderId));
+		when(orderService.addOrder(any(), any())).thenReturn(new OrderResponseDTO(OrderConstants.order0orderId));
 		mockMvc.perform(post(UrlPrefix.GET_ORDERS).accept(MediaType.APPLICATION_JSON_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(OrderConstants.orderListDTO)).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
