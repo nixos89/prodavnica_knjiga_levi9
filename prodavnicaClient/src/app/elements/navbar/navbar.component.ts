@@ -30,6 +30,7 @@ export class NavbarComponent implements OnInit {
   onLogout() {
     // this.authService.logout().subscribe(response => {});
     this.tokenService.destroyToken();
-    this.router.navigate(["/"]);
+    this.orderService.saveOrderItems([]);
+    location.reload();
   }
 }

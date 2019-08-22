@@ -20,9 +20,9 @@ export class CategoryService {
   }
 
   deleteCategory(id: number): Observable<any> {
-    return this.http.delete(environment.url + "/api/categories/" + id);
+    return this.http.delete(environment.url + "api/categories/" + id);
   }
   addCategory(addCat: AddUpdateCategory): Observable<any> {
-    return this.http.post(environment.url + "/api/categories", addCat);
+    return this.http.post(environment.url + "api/categories", addCat);
   }
 }

@@ -61,6 +61,10 @@
 		<sqlFile path="changelogs/addUserRoleData.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
+	<changeSet id="addOrders" author="AJ">
+		<sqlFile path="changelogs/addOrders.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
 
 
 </databaseChangeLog>

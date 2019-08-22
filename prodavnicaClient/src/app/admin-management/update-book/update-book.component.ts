@@ -115,6 +115,6 @@ export class UpdateBookComponent implements OnInit {
   }
 
   onChangeStatus(deleted){
-    this.active = deleted ? "Active" : "Deactivate"
+    this.active = deleted ? "Active" : "Deactive"
   }
 }

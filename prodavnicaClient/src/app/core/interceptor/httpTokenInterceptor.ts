@@ -16,12 +16,14 @@ export class HttpTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    request = request.clone({
+    let authReq = request;
+    if (this.tokenService.getToken() !== undefined)
+    authReq = request.clone({
       setHeaders: {
         Authorization: `Bearer ${this.tokenService.getToken()}`
       }
     });
 
-    return next.handle(request);
+    return next.handle(authReq);
   }
 }

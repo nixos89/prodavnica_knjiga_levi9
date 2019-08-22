@@ -180,7 +180,6 @@ export class HomepageComponent implements OnInit, OnDestroy {
     orderItem.amount = 1;
     let orderList: OrderList = new OrderList();
     orderList.total = book.price;
-    orderList.username = this.authService.getUsernameFromToken();
     orderList.orders.push(orderItem);
     this.orderService.orderBook(orderList).subscribe(
       data => {

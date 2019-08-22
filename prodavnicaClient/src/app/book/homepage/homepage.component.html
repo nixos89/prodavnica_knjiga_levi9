@@ -78,7 +78,7 @@
                 <div *ngIf="book.authors.length == 1">
                   <h6>Author:</h6>
                   <i>{{ book.authors[0].firstName
-                    }}{{ book.authors[0].lastName }}</i>
+                    }} {{ book.authors[0].lastName }}</i>
                 </div>
                 <div *ngIf="book.categories.length > 1">
                   <h6>Categories:</h6>
@@ -118,7 +118,7 @@
           <h4>Top Selling Books</h4>
           <div *ngIf="errorMessage" class="alert alert-warning">
             <strong>Warning!</strong> {{errorMessage}}
-          </div> 
+          </div>
           <ng-container *ngFor="let tsb of topSellingBookData.topSellingBookList; let i=index">
             <div *ngIf="tsb.authors.length > 1" class="list-group-item">
               {{i+1}}. <span class="topselling">"{{tsb.bookName}}"</span> by <i>(mulitple authors)</i> sold {{tsb.amount}} copies
