@@ -1,14 +1,5 @@
 package com.levi9.prodavnica.serviceImpl;
 
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.levi9.prodavnica.dto.AddOrderDTO;
 import com.levi9.prodavnica.dto.OrderListDTO;
 import com.levi9.prodavnica.dto.OrderResponseDTO;
@@ -18,23 +9,30 @@ import com.levi9.prodavnica.model.Order;
 import com.levi9.prodavnica.model.OrderItem;
 import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.OrderRepository;
+import com.levi9.prodavnica.repository.UserRepository;
 import com.levi9.prodavnica.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
-	private final OrderRepository orderRepository;
-	private final BookRepository bookRepository;
-
 	@Autowired
-	public OrderServiceImpl(OrderRepository orderRepository, BookRepository bookRepository) {
-		this.orderRepository = orderRepository;
-		this.bookRepository = bookRepository;
-	}
+	private  OrderRepository orderRepository;
+	@Autowired
+	private  BookRepository bookRepository;
+	@Autowired
+	private  UserRepository userRepository;
 
 	@Override
-	public OrderResponseDTO addOrder(OrderListDTO orderRequest) {
+	public OrderResponseDTO addOrder(OrderListDTO orderRequest, String username) {
  
 		Set<OrderItem> orderItems = new HashSet<>();
 		Order order = new Order();
@@ -48,10 +46,12 @@ public class OrderServiceImpl implements OrderService {
 					throw new StoreException(HttpStatus.BAD_REQUEST, "Amount for book with title: '" + book.getName() + 
 							"' is more than on the stock!\nCurrent amount on stock is: " + book.getAmount());
 				else {
+					if(userRepository.findOneByUsername(username)==null)
+						throw new StoreException(HttpStatus.NOT_FOUND,"User not found");
 					book.setAmount(book.getAmount() - addOrder.getAmount());
 					order.setTotal(orderRequest.getTotal());
 					order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-
+					order.setUser(userRepository.findOneByUsername(username));
 					OrderItem orderItem = new OrderItem();
 					orderItem.setAmount(addOrder.getAmount());
 					orderItem.setBook(book);
@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
 				}
 			}
 		} else {
-			throw new StoreException(HttpStatus.INTERNAL_SERVER_ERROR, "Empty request!");
+			throw new StoreException(HttpStatus.BAD_REQUEST, "Empty request!");
 		}
 
 		return new OrderResponseDTO(order.getOrderId());

@@ -1,0 +1,2 @@
+INSERT INTO `role` VALUES (1,'USER'),(2,'ADMIN');
+INSERT INTO `user` VALUES (1,'test','test','test','test@test.com','{bcrypt}$2a$10$livl.GRKgXNnUxCg6z3bhu0Xj.KeGnINWRhqYFvgaVnFkEBKUMXB.',1),(2,'admin','admin','admin','admin@admin.com','{bcrypt}$2a$10$livl.GRKgXNnUxCg6z3bhu0Xj.KeGnINWRhqYFvgaVnFkEBKUMXB.',2);

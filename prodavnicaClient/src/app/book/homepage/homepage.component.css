@@ -3,6 +3,8 @@
   margin-top: 3%;
 }
 
+
+
 .input-group{
   margin-top: 10%;
 }
@@ -290,7 +292,7 @@ h4.from-da-top{
 }
 
 span[data-text="*"]:after {
-  content: attr(data-text);  
+  content: attr(data-text);
   height: 15px;
   width: 15px;
   color: #375e97;

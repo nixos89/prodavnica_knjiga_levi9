@@ -5,6 +5,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Category} from '../../core/models/category.model';
 import {AddUpdateCategory} from '../../core/models/addUpdateCategory.model';
 import {error} from 'util';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-category-page',
@@ -18,7 +19,7 @@ export class CategoryPageComponent implements OnInit {
   upCat: AddUpdateCategory = new AddUpdateCategory();
   addCat: AddUpdateCategory= new AddUpdateCategory();
 
-  constructor(private categoryService: CategoryService, private toastr: ToastrService) { }
+  constructor(private categoryService: CategoryService, public authService: AuthenticationService ,private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getAllCategories();

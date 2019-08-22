@@ -61,8 +61,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="updateCategory(category)">Save changes</button>
+        <button *ngIf="authService.isAdmin()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button *ngIf="authService.isAdmin()" type="button" class="btn btn-primary" (click)="updateCategory(category)">Save changes</button>
       </div>
     </div>
   </div>

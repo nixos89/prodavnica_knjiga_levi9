@@ -1,13 +1,18 @@
 package com.levi9.prodavnica.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Set;
-
-import org.junit.Before;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.levi9.prodavnica.config.OrderConstants;
+import com.levi9.prodavnica.dto.OrderResponseDTO;
+import com.levi9.prodavnica.exception.StoreException;
+import com.levi9.prodavnica.model.Book;
+import com.levi9.prodavnica.model.Order;
+import com.levi9.prodavnica.model.OrderItem;
+import com.levi9.prodavnica.model.User;
+import com.levi9.prodavnica.repository.BookRepository;
+import com.levi9.prodavnica.repository.OrderRepository;
+import com.levi9.prodavnica.repository.UserRepository;
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
+import com.levi9.prodavnica.serviceImpl.OrderServiceImpl;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,20 +24,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.levi9.prodavnica.config.OrderConstants;
-import com.levi9.prodavnica.dto.OrderResponseDTO;
-import com.levi9.prodavnica.exception.StoreException;
-import com.levi9.prodavnica.model.Book;
-import com.levi9.prodavnica.model.Order;
-import com.levi9.prodavnica.model.OrderItem;
-import com.levi9.prodavnica.repository.BookRepository;
-import com.levi9.prodavnica.repository.OrderRepository;
-import com.levi9.prodavnica.serviceImpl.OrderServiceImpl;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrderServiceImpl.class)
 public class OrderServiceImplTest {
+
+	@MockBean
+	CustomUserDetailsService userDetailsService;
 
 	@Autowired
 	MockMvc mockMvc;
@@ -46,15 +50,15 @@ public class OrderServiceImplTest {
 	@MockBean
 	BookRepository bookRepository;
 
+	@MockBean
+	UserRepository userRepository;
+
+	@Autowired
 	OrderService orderService;
 
 	@Autowired
 	ObjectMapper objectMapper;
 
-	@Before
-	public void setUp() {
-		this.orderService = new OrderServiceImpl(orderRepository, bookRepository);
-	}
 
 	@Test
 	public void whenCreateOrder_returnSuccess() throws Exception {
@@ -63,8 +67,11 @@ public class OrderServiceImplTest {
 		ArgumentCaptor<Order> captor = ArgumentCaptor.forClass(Order.class);
 		when(orderRepository.save(any())).thenReturn(OrderConstants.orderResponseExpected);
 
-		OrderResponseDTO responseReturned = orderService.addOrder(OrderConstants.orderRequest);
+		when(userRepository.findOneByUsername(any())).thenReturn(new User());
+
+		OrderResponseDTO responseReturned = orderService.addOrder(OrderConstants.orderRequest, "test");
 		verify(orderRepository).save(captor.capture());
+
 
 		Order orderRequestActual = captor.getValue();
 		Set<OrderItem> orderItems = orderRequestActual.getOrderItems();
@@ -89,7 +96,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(null);
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListNull);
+		orderService.addOrder(OrderConstants.orderListNull, "test");
 	}
 
 	@Test
@@ -97,7 +104,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(null);
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListDTO);
+		orderService.addOrder(OrderConstants.orderListDTO, "test");
 	}
 
 	@Test
@@ -105,7 +112,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(new Book(1L, "test", 1, 1, false));
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListDTO);
+		orderService.addOrder(OrderConstants.orderListDTO, "test");
 	}
 
 }

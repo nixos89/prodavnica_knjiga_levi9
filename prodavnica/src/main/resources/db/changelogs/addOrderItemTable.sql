@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS `order_item` (
   `book_id` BIGINT(20) NOT NULL,
   `order_id` BIGINT(20) NOT NULL,
   PRIMARY KEY (`order_item_id`),
-  INDEX `fk_Order_book_idx` (`book_id` ASC) VISIBLE,
-  INDEX `fk_order_item_order1_idx` (`order_id` ASC) VISIBLE,
+  INDEX `fk_Order_book_idx` (`book_id` ASC),
+  INDEX `fk_order_item_order1_idx` (`order_id` ASC),
   CONSTRAINT `fk_Order_book`
     FOREIGN KEY (`book_id`)
     REFERENCES `book` (`book_id`),

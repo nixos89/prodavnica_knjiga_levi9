@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -37,6 +39,9 @@ import com.levi9.prodavnica.service.AuthorService;
 @AutoConfigureRestDocs(outputDir = "target/generated-sources/snippets")
 public class AuthorControllerTest {
 
+	@MockBean
+	CustomUserDetailsService userDetailsService;
+
 	@Autowired
 	MockMvc mockMvc;
 
@@ -44,6 +49,7 @@ public class AuthorControllerTest {
 	AuthorService authorService;
 
 	@Test
+	@WithMockUser
 	public void testGetAllAuthors() throws Exception {
 		when(authorService.findAllAuthors()).thenReturn(new AuthorListDTO(Lists.newArrayList(
 				new AuthorDTO(AuthorConstants.PERA_ID, AuthorConstants.FIRST_NAME_PERA, AuthorConstants.LAST_NAME_PERA),
@@ -71,6 +77,7 @@ public class AuthorControllerTest {
 	}
 
 	@Test
+	@WithMockUser
 	public void testGetAuthor() throws Exception {
 		when(authorService.getOne(AuthorConstants.DESA_ID)).thenReturn(
 				new AuthorDTO(
