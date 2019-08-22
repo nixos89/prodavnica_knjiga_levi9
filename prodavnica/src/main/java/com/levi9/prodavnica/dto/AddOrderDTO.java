@@ -5,13 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddOrderDTO {
 
+	@NotNull(message = "Amount is required")
 	private int amount;
+	@NotNull(message = "Book is required")
 	private Long bookId;
 
 }

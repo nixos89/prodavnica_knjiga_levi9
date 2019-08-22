@@ -3,6 +3,7 @@ package com.levi9.prodavnica.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class OrderController {
 
 	@PreAuthorize(value = "hasAuthority('USER') or hasRole('USER')")
 	@PostMapping
-	public ResponseEntity<?> addOrder(@RequestBody OrderListDTO orderRequest) {
+	public ResponseEntity<?> addOrder(@RequestBody @Validated OrderListDTO orderRequest) {
 		return ResponseEntity.ok(orderService.addOrder(orderRequest));
 	}
 

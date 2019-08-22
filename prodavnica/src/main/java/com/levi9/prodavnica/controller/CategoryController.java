@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.levi9.prodavnica.dto.AddCategoryDTO;
 import com.levi9.prodavnica.service.CategoryService;
 
 import javax.annotation.security.PermitAll;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/categories")
@@ -41,13 +43,13 @@ public class CategoryController {
 
 	@PreAuthorize(value = "hasAuthority('ADMIN') or hasRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<?> addCategory(@RequestBody AddCategoryDTO addCategoryDTO) {
+	public ResponseEntity<?> addCategory(@RequestBody @Validated AddCategoryDTO addCategoryDTO) {
 		return new ResponseEntity<>(categoryService.addCategory(addCategoryDTO), HttpStatus.CREATED);
 	}
 
 	@PreAuthorize(value = "hasAuthority('ADMIN') or hasRole('ADMIN')")
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateCategory(@RequestBody AddCategoryDTO addCategoryDTO, @PathVariable Long id) {
+	public ResponseEntity<?> updateCategory(@RequestBody @Validated AddCategoryDTO addCategoryDTO, @PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.updateCategory(addCategoryDTO, id));
 	}
 
