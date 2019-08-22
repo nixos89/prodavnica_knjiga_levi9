@@ -5,12 +5,13 @@ import { IsAdminGuard } from './core/guards/isAdmin.guard';
 const routes: Routes = [
   {
     path: "",
-    loadChildren: "./book/book.module#BookModule"
+    loadChildren: "./book/book.module#BookModule",
   },
   {
     path: "",
     loadChildren: "./authentication/authentication.module#AuthenticationModule"
   },
+
   {
     path: "admin",
     loadChildren:
@@ -20,7 +21,11 @@ const routes: Routes = [
   {
     path: "categories",
     loadChildren: "./category/category.module#CategoryModule"
-  }
+  },
+{
+    path:"**",
+    redirectTo:'/'
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

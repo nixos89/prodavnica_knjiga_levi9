@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Set;
 
+import com.levi9.prodavnica.model.User;
 import com.levi9.prodavnica.repository.UserRepository;
 import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.junit.Before;
@@ -69,8 +70,11 @@ public class OrderServiceImplTest {
 		ArgumentCaptor<Order> captor = ArgumentCaptor.forClass(Order.class);
 		when(orderRepository.save(any())).thenReturn(OrderConstants.orderResponseExpected);
 
+		when(userRepository.findOneByUsername(any())).thenReturn(new User());
+
 		OrderResponseDTO responseReturned = orderService.addOrder(OrderConstants.orderRequest);
 		verify(orderRepository).save(captor.capture());
+
 
 		Order orderRequestActual = captor.getValue();
 		Set<OrderItem> orderItems = orderRequestActual.getOrderItems();

@@ -48,10 +48,11 @@ public class OrderServiceImpl implements OrderService {
 					throw new StoreException(HttpStatus.BAD_REQUEST, "Amount for book with title: '" + book.getName() + 
 							"' is more than on the stock!\nCurrent amount on stock is: " + book.getAmount());
 				else {
+					if(userRepository.findOneByUsername(orderRequest.getUsername())==null)
+						throw new StoreException(HttpStatus.NOT_FOUND,"User not found");
 					book.setAmount(book.getAmount() - addOrder.getAmount());
 					order.setTotal(orderRequest.getTotal());
 					order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-					User user = userRepository.findOneByUsername(orderRequest.getUsername());
 					order.setUser(userRepository.findOneByUsername(orderRequest.getUsername()));
 					OrderItem orderItem = new OrderItem();
 					orderItem.setAmount(addOrder.getAmount());
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 				}
 			}
 		} else {
-			throw new StoreException(HttpStatus.INTERNAL_SERVER_ERROR, "Empty request!");
+			throw new StoreException(HttpStatus.BAD_REQUEST, "Empty request!");
 		}
 
 		return new OrderResponseDTO(order.getOrderId());
