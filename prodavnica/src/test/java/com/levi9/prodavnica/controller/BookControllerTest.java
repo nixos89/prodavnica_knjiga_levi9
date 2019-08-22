@@ -1,32 +1,15 @@
 package com.levi9.prodavnica.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import com.levi9.prodavnica.ProdavnicaApplication;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.levi9.prodavnica.config.AuthorConstants;
+import com.levi9.prodavnica.config.BookConstants;
+import com.levi9.prodavnica.config.UrlPrefix;
+import com.levi9.prodavnica.dto.*;
+import com.levi9.prodavnica.service.BookService;
 import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.assertj.core.util.Lists;
-import org.assertj.core.util.Sets;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,27 +17,23 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.security.test.context.support.WithMockUser;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.levi9.prodavnica.config.AuthorConstants;
-import com.levi9.prodavnica.config.BookConstants;
-import com.levi9.prodavnica.config.UrlPrefix;
-import com.levi9.prodavnica.dto.AuthorDTO;
-import com.levi9.prodavnica.dto.BookDTO;
-import com.levi9.prodavnica.dto.BookListDTO;
-import com.levi9.prodavnica.dto.TopSellingBookDTO;
-import com.levi9.prodavnica.dto.TopSellingBookListDTO;
-import com.levi9.prodavnica.service.BookService;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BookController.class)

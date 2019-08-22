@@ -1,16 +1,5 @@
 package com.levi9.prodavnica.serviceImpl;
 
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.levi9.prodavnica.model.User;
-import com.levi9.prodavnica.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.levi9.prodavnica.dto.AddOrderDTO;
 import com.levi9.prodavnica.dto.OrderListDTO;
 import com.levi9.prodavnica.dto.OrderResponseDTO;
@@ -20,7 +9,16 @@ import com.levi9.prodavnica.model.Order;
 import com.levi9.prodavnica.model.OrderItem;
 import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.OrderRepository;
+import com.levi9.prodavnica.repository.UserRepository;
 import com.levi9.prodavnica.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @Transactional
