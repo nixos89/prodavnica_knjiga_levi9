@@ -9,8 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
-
 @RestController
 @RequestMapping("api/categories")
 @CrossOrigin(origins = "*")
@@ -19,13 +17,11 @@ public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 
-	@PermitAll
 	@GetMapping
 	public ResponseEntity<?> getAllCategories() {
 		return ResponseEntity.ok(categoryService.findAllCategories());
 	}
 
-	@PermitAll
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getCategory(@PathVariable Long id) {
 		return ResponseEntity.ok(categoryService.getOne(id));

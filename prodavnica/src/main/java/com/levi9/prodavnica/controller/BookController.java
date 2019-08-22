@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
 import com.levi9.prodavnica.service.BookService;
 
-import javax.annotation.security.PermitAll;
-
 @RestController
 @RequestMapping("api/books")
 @CrossOrigin(origins = "*")
@@ -34,13 +32,11 @@ public class BookController {
 	@Value("${topSellingBooks.limit:5}")
 	public int topSellingBooksLimit;
 
-	@PermitAll
 	@GetMapping
 	public ResponseEntity<?> getAllBooks() {
 		return ResponseEntity.ok(bookService.findAllBooks());
 	}
 
-	@PermitAll
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getOneBook(@PathVariable Long id) {
 		return ResponseEntity.ok(bookService.findBook(id));
@@ -58,12 +54,11 @@ public class BookController {
 		return ResponseEntity.ok(bookService.updateBook(bookRequest, idBook));
 	}
 
-	@PermitAll
 	@GetMapping("/topSellingBooksLimit")
 	public ResponseEntity<?> getTopSellingBooks() {
 		return ResponseEntity.ok(bookService.getTopSellingBooks(topSellingBooksLimit));
 	}
-	@PermitAll
+
 	@RequestMapping(value = "/getBooksFilter", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllBooksFromCategories(@RequestParam(name = "id",required = false) Set<Long> id, @RequestParam("search") String search) {
 		return ResponseEntity.ok(bookService.getBooksFilter(id,search));
