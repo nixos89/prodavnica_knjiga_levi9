@@ -308,5 +308,14 @@
  /* for Order ID fields to be fully visible */  
 .table>tbody>tr.item>td>div.row>p.move-order-id-right{
   margin-right: -20px;
+  margin-left: 30px;
+}
+
+.table>tbody>tr.item>td>div.row>p.total-bp-a{
+  /* margin-right: -20px; */
   margin-left: 20px;
+}
+
+.container {
+  overflow-x: hidden;
 }

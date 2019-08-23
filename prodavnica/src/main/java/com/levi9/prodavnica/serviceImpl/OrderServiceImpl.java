@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
 		for (Order order : orders) {
 			orderDTO = new OrderDTO();
 			orderDTO.setOrderId(order.getOrderId());
-
+			orderDTO.setUser(new UserDTO(order.getUser()));
 			Date orderDate = order.getOrderDate();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			String dateString = null;

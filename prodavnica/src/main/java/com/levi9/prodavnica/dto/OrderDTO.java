@@ -15,6 +15,7 @@ public class OrderDTO {
 	private List<OrderItemDTO> orderItemDTOList;
 	private String orderDate;
 	private double orderPrice;
+	private UserDTO user;
 
 	public OrderDTO() {
 		this.orderItemDTOList = new ArrayList<>();

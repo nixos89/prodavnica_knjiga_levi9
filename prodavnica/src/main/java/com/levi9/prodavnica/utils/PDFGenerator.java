@@ -46,8 +46,8 @@ public class PDFGenerator {
 
 			PdfPTable table = new PdfPTable(6);
 			// adding PDF table Header
-			Stream.of("Order ID", "Order Date", "Book", "Book Qty",
-					"Books Price", "Full Price").forEach(headerTitle -> {
+			Stream.of("Order ID", "Order Date", "User", "Book", 
+					  "Book Price (amount)", "Full Price").forEach(headerTitle -> {
 						PdfPCell header = new PdfPCell();
 						Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
 						header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -66,12 +66,6 @@ public class PDFGenerator {
 					orderIdCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					table.addCell(orderIdCell);
 
-					// Order Item ID
-//					PdfPCell orderItemIdCell = new PdfPCell(new Phrase(oiDTO.getOrderItemId().toString()));
-//					orderItemIdCell.setPaddingLeft(2);
-//					orderItemIdCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-//					orderItemIdCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-//					table.addCell(orderItemIdCell);
 
 					// Order Date
 					PdfPCell orderDateCell = new PdfPCell(new Phrase(oDTO.getOrderDate()));
@@ -79,6 +73,14 @@ public class PDFGenerator {
 					orderDateCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					orderDateCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					table.addCell(orderDateCell);
+					
+					// Order Item Amount
+					PdfPCell orderUserCell = new PdfPCell(new Phrase(oDTO.getUser().getUsername()));
+					orderUserCell.setPaddingLeft(2);
+					orderUserCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					orderUserCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					table.addCell(orderUserCell);
+					
 
 					// Book details
 					PdfPCell orderedBookCell = new PdfPCell(new Phrase(
@@ -88,23 +90,18 @@ public class PDFGenerator {
 					orderedBookCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					table.addCell(orderedBookCell);
 
-					// Order Item Amount
-					PdfPCell orderItemAmountCell = new PdfPCell(new Phrase(Integer.toString(oiDTO.getOrderedAmount())));
-					orderItemAmountCell.setPaddingLeft(2);
-					orderItemAmountCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					orderItemAmountCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					table.addCell(orderItemAmountCell);
+				
 
 					// Ordered Books Price
-					PdfPCell orderBooksPriceCell = new PdfPCell(
-							new Phrase(Double.toString(oiDTO.getTotalOrderedItemPrice())));
-					orderBooksPriceCell.setPaddingLeft(2);
-					orderBooksPriceCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					orderBooksPriceCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					table.addCell(orderBooksPriceCell);
+					PdfPCell orderBooksPriceAndAmountCell = new PdfPCell(
+							new Phrase("$" + Double.toString(oiDTO.getTotalOrderedItemPrice()) + " (" +Integer.toString(oiDTO.getOrderedAmount()) + ")"));
+					orderBooksPriceAndAmountCell.setPaddingLeft(2);
+					orderBooksPriceAndAmountCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					orderBooksPriceAndAmountCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					table.addCell(orderBooksPriceAndAmountCell);
 
 					// Order Total Price
-					PdfPCell orderPriceCell = new PdfPCell(new Phrase(Double.toString(oDTO.getOrderPrice())));
+					PdfPCell orderPriceCell = new PdfPCell(new Phrase("$" + Double.toString(oDTO.getOrderPrice())));
 					orderPriceCell.setPaddingLeft(2);
 					orderPriceCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					orderPriceCell.setHorizontalAlignment(Element.ALIGN_CENTER);

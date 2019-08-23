@@ -2,15 +2,15 @@
 <div class="container" style="margin-top: 50px">
     <br/>
     <input type="button" value="Download PDF version" class="btn btn-sm btn-primary" (click)="downloadPDF()"/> &nbsp;
-    <table id="cart" class="table table-responsive">
+    <table id="cart" class="table ">
         <thead>
             <tr class="names">
                 <th style="width:10%" class="text-xs-right">Order ID</th>
                 <th style="width:25%" class="text-xs-right">Order Date</th>
-                <th style="width:25%" class="text-xs-center">Book Title (Book ID)</th>
-                <th style="width:10%" class="text-xs-right">Book Amount</th>
-                <th style="width:15%" class="text-xs-right">Total Book Price</th>
-                <th style="width:15%" class="text-xs-right">Full Price</th>
+                <th style="width:10%" class="text-xs-left">User</th>
+                <th style="width:20%" class="text-xs-center">Book Title (Book ID)</th>
+                <th style="width:20%" class="text-xs-right">Total book price (amount)</th>
+                <th style="width:15%" class="text-xs-left">Full Price</th>
             </tr>
         </thead>
         <tbody>
@@ -27,24 +27,24 @@
                                 <p class="text-xs-right">{{os.orderDate}}</p>
                             </div>
                         </td>
+                        <td data-th="User">
+                            <div class="row">
+                                <p class="text-xs-right">{{os.user.username}}</p>
+                            </div>
+                        </td>
                         <td data-th="Book Title (Book ID)">
                             <div class="row">
                                 <p class="text-xs-right"><i>{{oir.bookDTO.name}}</i> ({{oir.bookDTO.bookId}})</p>
                             </div>
-                        </td>
-                        <td data-th="Book Amount">
+                        </td>                       
+                        <td data-th="Total book price (amount)">
                             <div class="row">
-                                <p class="text-xs-right"> {{oir.orderedAmount}} </p>
-                            </div>
-                        </td>
-                        <td data-th="Total Book Price">
-                            <div class="row">
-                                <p class="text-xs-right">${{oir.totalOrderedItemPrice}}</p>
+                                <p class="text-xs-right total-bp-a">${{oir.totalOrderedItemPrice}} ({{oir.orderedAmount}})</p>
                             </div>
                         </td>
                         <td data-th="Full Price">
                             <div class="row">
-                                <p class="text-xs-right">${{os.orderPrice}}</p>
+                                <p class="text-xs-left total-bp-a">${{os.orderPrice}}</p>
                             </div>
                         </td>
                     </tr>

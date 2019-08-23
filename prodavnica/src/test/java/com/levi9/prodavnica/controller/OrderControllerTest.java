@@ -98,6 +98,8 @@ public class OrderControllerTest {
 			.andExpect(jsonPath("$.orderDTOList[0].orderItemDTOList[0].bookDTO.categories[0].categoryId").value(CategoryConstants.category0id))
 			.andExpect(jsonPath("$.orderDTOList[0].orderItemDTOList[0].bookDTO.categories[0].name").value(CategoryConstants.category0name))
 			.andExpect(jsonPath("$.orderDTOList[0].orderItemDTOList[0].bookDTO.categories[0].deleted").value(CategoryConstants.category0isDeleted))
+			.andExpect(jsonPath("$.orderDTOList[0].user.username").value("test"))
+			.andExpect(jsonPath("$.orderDTOList[0].user.userId").value(1L))
 			.andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint()),
 					responseFields(bookReportDTOResponseFields())));
 
@@ -123,6 +125,8 @@ public class OrderControllerTest {
 		    		fieldWithPath("orderDTOList.[].orderItemDTOList.[].bookDTO.categories.[].categoryId").description("Item/book category id"),
 		    		fieldWithPath("orderDTOList.[].orderItemDTOList.[].bookDTO.categories.[].name").description("Item/book category name"),
 		    		fieldWithPath("orderDTOList.[].orderItemDTOList.[].bookDTO.categories.[].deleted").description("Check if item/book  category has been deleted"),
+		    		fieldWithPath("orderDTOList.[].user.userId").description("ID of user who made the order"),
+		    		fieldWithPath("orderDTOList.[].user.username").description("Username of the user who made the order"),
 		    };
 		  }
 

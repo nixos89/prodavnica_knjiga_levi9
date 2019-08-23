@@ -44,4 +44,11 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Set<Order> orders;
 
+	public User(Long userId, String username) {
+		this.userId = userId;
+		this.username = username;
+	}
+
+	
+	
 }

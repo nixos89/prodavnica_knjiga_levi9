@@ -18,9 +18,11 @@ import com.levi9.prodavnica.dto.OrderItemDTO;
 import com.levi9.prodavnica.dto.OrderListDTO;
 import com.levi9.prodavnica.dto.OrderReportDTO;
 import com.levi9.prodavnica.dto.OrderResponseDTO;
+import com.levi9.prodavnica.dto.UserDTO;
 import com.levi9.prodavnica.model.Book;
 import com.levi9.prodavnica.model.Order;
 import com.levi9.prodavnica.model.OrderItem;
+import com.levi9.prodavnica.model.User;
 
 public class OrderConstants {
 
@@ -71,7 +73,7 @@ public class OrderConstants {
 		}
 		order1.setOrderDate(dateOrder1);
 		order1.setOrderId(order0orderId);
-
+		order1.setUser(new User(1L, "test"));
 		Set<OrderItem> order1Items = orderItems();
 
 		order1Items.addAll(order1Items);
@@ -85,7 +87,7 @@ public class OrderConstants {
 	
 	public static List<Order> getAllOrders_withNullDate() {
 		Order order1 = new Order();
-
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date dateOrder1 = null;
 		try {
@@ -101,10 +103,11 @@ public class OrderConstants {
 
 		order1Items.addAll(order1Items);
 		order1.setOrderItems(order1Items);
-
+		order1.setUser(new User(1L, "test"));
+		
 		LinkedList<Order> orders = new LinkedList<Order>();
 		orders.add(order1);
-
+		
 		return orders;
 	}
 
@@ -131,7 +134,8 @@ public class OrderConstants {
 
 	public static List<OrderDTO> orderDTOList() {
 		LinkedList<OrderItemDTO> orderItemDTOList = new LinkedList<OrderItemDTO>();
-
+		UserDTO userDTO = new UserDTO(1L, "test");
+		
 		OrderItemDTO oi0DTO1 = new OrderItemDTO();
 		oi0DTO1.setOrderId(order0orderId);
 		oi0DTO1.setOrderedAmount(order0orderItem0amount);
@@ -166,7 +170,7 @@ public class OrderConstants {
 		orderItemDTOList.add(oi0DTO2);
 
 		List<OrderDTO> orderDTOListNew = new ArrayList<>();
-		OrderDTO oDTO0 = new OrderDTO(order0orderId, orderItemDTOList, order0Date, order0Price);
+		OrderDTO oDTO0 = new OrderDTO(order0orderId, orderItemDTOList, order0Date, order0Price, userDTO);
 		orderDTOListNew.add(oDTO0);
 
 		return orderDTOListNew;
