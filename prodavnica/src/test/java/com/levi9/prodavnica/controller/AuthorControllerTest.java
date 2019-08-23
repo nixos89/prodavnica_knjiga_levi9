@@ -28,6 +28,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levi9.prodavnica.config.AuthorConstants;
 import com.levi9.prodavnica.config.UrlPrefix;
 import com.levi9.prodavnica.dto.AuthorDTO;
@@ -48,6 +49,9 @@ public class AuthorControllerTest {
 	@MockBean
 	AuthorService authorService;
 
+	@Autowired
+	ObjectMapper objectMapper;
+
 	@Test
 	@WithMockUser
 	public void testGetAllAuthors() throws Exception {
@@ -62,11 +66,9 @@ public class AuthorControllerTest {
 				.andExpect(jsonPath("$.authors.[0].authorId").value(AuthorConstants.PERA_ID))
 				.andExpect(jsonPath("$.authors.[0].firstName").value(AuthorConstants.FIRST_NAME_PERA))
 				.andExpect(jsonPath("$.authors.[0].lastName").value(AuthorConstants.LAST_NAME_PERA))
-
 				.andExpect(jsonPath("$.authors.[1].authorId").value(AuthorConstants.DESA_ID))
 				.andExpect(jsonPath("$.authors.[1].firstName").value(AuthorConstants.FIRST_NAME_DESA))
 				.andExpect(jsonPath("$.authors.[1].lastName").value(AuthorConstants.LAST_NAME_DESA))
-
 				.andExpect(jsonPath("$.authors.[2].authorId").value(AuthorConstants.JOVA_ID))
 				.andExpect(jsonPath("$.authors.[2].firstName").value(AuthorConstants.FIRST_NAME_JOVA))
 				.andExpect(jsonPath("$.authors.[2].lastName").value(AuthorConstants.LAST_NAME_JOVA))
