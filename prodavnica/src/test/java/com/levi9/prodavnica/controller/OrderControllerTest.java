@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -41,6 +46,13 @@ import com.levi9.prodavnica.service.OrderService;
 @AutoConfigureRestDocs(outputDir = "target/generated-sources/snippets")
 public class OrderControllerTest {
 
+	String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
+	HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+	CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+
+	@MockBean
+	CustomUserDetailsService userDetailsService;
+
 	@Autowired
 	MockMvc mockMvc;
 
@@ -50,25 +62,26 @@ public class OrderControllerTest {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	
 	@Test
+	@WithMockUser
 	public void addOrder() throws Exception {
-		when(orderService.addOrder(any())).thenReturn(new OrderResponseDTO(OrderConstants.order0orderId));
+		when(orderService.addOrder(any(), any())).thenReturn(new OrderResponseDTO(OrderConstants.order0orderId));
 		mockMvc.perform(post(UrlPrefix.GET_ORDERS).accept(MediaType.APPLICATION_JSON_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(OrderConstants.orderListDTO))).andExpect(status().isOk()).andDo(print())
+				.content(objectMapper.writeValueAsString(OrderConstants.orderListDTO)).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+				.param(csrfToken.getParameterName(), csrfToken.getToken())).andExpect(status().isOk()).andDo(print())
 				.andExpect(jsonPath("$.orderId").value(OrderConstants.order0orderId))
 				.andDo(document("{class-name}/{method-name}"));
 	}
-	
-		
+
+
 	@Test
 	public void getProcessedOrdersTest() throws Exception {
 		OrderReportDTO orDTO = new OrderReportDTO();
 		orDTO.setOrderDTOList(OrderConstants.orderDTOList);
 		when(orderService.getOrderReport()).thenReturn(orDTO);
-		
-		mockMvc.perform(get(UrlPrefix.GET_ORDERS)			
+
+		mockMvc.perform(get(UrlPrefix.GET_ORDERS)
 			.accept(MediaType.APPLICATION_JSON_VALUE)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(OrderConstants.orderDTOList)))
@@ -93,9 +106,9 @@ public class OrderControllerTest {
 			.andExpect(jsonPath("$.orderDTOList[0].orderItemDTOList[0].bookDTO.categories[0].deleted").value(CategoryConstants.category0isDeleted))
 			.andDo(document("{class-name}/{method-name}",preprocessResponse(prettyPrint()),
 					responseFields(bookReportDTOResponseFields())));
-				
+
 	}
-	
+
 	 private FieldDescriptor[] bookReportDTOResponseFields() {
 		    return new FieldDescriptor[] {
 		    		fieldWithPath("orderDTOList.[].orderId").description("The unique identifier of the order"),
@@ -118,7 +131,7 @@ public class OrderControllerTest {
 		    		fieldWithPath("orderDTOList.[].orderItemDTOList.[].bookDTO.categories.[].deleted").description("Check if item/book  category has been deleted"),
 		    };
 		  }
-	
+
 	@Test
 	public void getProcessedOrdersReportTest() throws Exception {
 		OrderReportDTO orDTO = new OrderReportDTO();
@@ -126,11 +139,11 @@ public class OrderControllerTest {
 		when(orderService.getOrderReport()).thenReturn(orDTO);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Disposition", "inline; filename=orders.pdf");
-//			ByteArrayInputStream bais = PDFGenerator.ordersPDFReport(orDTO);		
+//			ByteArrayInputStream bais = PDFGenerator.ordersPDFReport(orDTO);
 
 		mockMvc.perform(get(UrlPrefix.GET_ORDERS + "/pdf").accept(MediaType.APPLICATION_PDF)).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_PDF_VALUE))
 				.andDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())));
 	}
-	
+
 }

@@ -40,25 +40,16 @@ import com.levi9.prodavnica.service.BookService;
 @Transactional
 public class BookServiceImpl implements BookService {
 
-	BookRepository bookRepository;
-
-	AuthorRepository authorRepository;
-	
-	CategoryRepository categoryRepository;
-
-	OrderItemRepository orderItemRepository;
-
-	BookMapper bookMapper;
-	
 	@Autowired
-	public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository,
-			CategoryRepository categoryRepository, OrderItemRepository orderItemRepository, BookMapper bookMapper) {
-		this.bookRepository = bookRepository;
-		this.authorRepository = authorRepository;
-		this.categoryRepository = categoryRepository;
-		this.orderItemRepository = orderItemRepository;
-		this.bookMapper = bookMapper;
-	}
+	BookRepository bookRepository;
+	@Autowired
+	AuthorRepository authorRepository;
+	@Autowired
+	CategoryRepository categoryRepository;
+	@Autowired
+	OrderItemRepository orderItemRepository;
+	@Autowired
+	BookMapper bookMapper;
 
 	@Override
 	public BookListDTO findAllBooks() {

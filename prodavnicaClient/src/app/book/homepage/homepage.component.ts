@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from "@angular/core";
 import { Book } from "src/app/core/models/book.model";
 import { BookService } from "src/app/core/services/book.service";
 import { AuthorService } from "src/app/core/services/author.service";
@@ -16,14 +16,14 @@ import { OrderItem } from "src/app/core/models/orderItem.model";
 import { debounceTime, map, distinctUntilChanged } from "rxjs/operators";
 import { fromEvent, Subscription } from "rxjs";
 import { TopSellingBookInfo } from 'src/app/core/models/topSellingBookInfo.model';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: "app-homepage",
   templateUrl: "./homepage.component.html",
-  styleUrls: ["./homepage.component.css"],
-  providers: [BookService, AuthorService, CategoryService]
+  styleUrls: ["./homepage.component.css"]
 })
-export class HomepageComponent implements OnInit {
+export class HomepageComponent implements OnInit, OnDestroy {
   bookData: BookInfo = new BookInfo();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
@@ -55,8 +55,9 @@ export class HomepageComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private categoryService: CategoryService,
-    private toastr: ToastrService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    public authService: AuthenticationService,
+    private toastr: ToastrService
   ) { this.masterSelected = false; }
 
   ngOnInit() {
@@ -165,7 +166,7 @@ export class HomepageComponent implements OnInit {
 
     this.bookService.getBooksFilter(catIds, this.searchString).subscribe(
       response => {
-        this.bookData = response;        
+        this.bookData = response;
       },
       error => {
         this.toastr.error("Failed to get books for selected categories");
@@ -199,6 +200,12 @@ export class HomepageComponent implements OnInit {
   }
 
   onAddToCart(book) {
+
+    if(!this.authService.isUser()){
+      this.toastr.warning("You must login first. :)")
+      return;
+    }
+
     let orderItem: OrderItem = new OrderItem();
     for (let activeCart of this.activeAddToCart) {
       if (activeCart == book.bookId) {

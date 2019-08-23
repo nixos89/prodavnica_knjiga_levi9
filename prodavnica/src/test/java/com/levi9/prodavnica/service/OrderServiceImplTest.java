@@ -19,6 +19,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levi9.prodavnica.config.OrderConstants;
 import com.levi9.prodavnica.dto.OrderDTO;
@@ -37,6 +39,9 @@ import com.levi9.prodavnica.serviceImpl.OrderServiceImpl;
 @WebMvcTest(OrderServiceImpl.class)
 public class OrderServiceImplTest {
 
+	@MockBean
+	CustomUserDetailsService userDetailsService;
+
 	@Autowired
 	MockMvc mockMvc;
 
@@ -48,6 +53,9 @@ public class OrderServiceImplTest {
 
 	@MockBean
 	BookRepository bookRepository;
+
+	@MockBean
+	UserRepository userRepository;
 
 	@Autowired
 	OrderService orderService;
@@ -65,7 +73,9 @@ public class OrderServiceImplTest {
 		ArgumentCaptor<Order> captor = ArgumentCaptor.forClass(Order.class);
 		when(orderRepository.save(any())).thenReturn(OrderConstants.orderResponseExpected);
 
-		OrderResponseDTO responseReturned = orderService.addOrder(OrderConstants.orderRequest);
+		when(userRepository.findOneByUsername(any())).thenReturn(new User());
+
+		OrderResponseDTO responseReturned = orderService.addOrder(OrderConstants.orderRequest, "test");
 		verify(orderRepository).save(captor.capture());
 
 		Order orderRequestActual = captor.getValue();
@@ -78,9 +88,9 @@ public class OrderServiceImplTest {
 		}
 
 		// Verify request fields
-		assertEquals(OrderConstants.order0total, orderRequestActual.getTotal(), 0.01);
-		assertEquals(OrderConstants.order0amount, orderItemRequestActual.getAmount(), 0.01);
-		assertEquals(OrderConstants.order0bookId, orderItemRequestActual.getBook().getBookId(), 0.01);
+		assertEquals(OrderConstants.order0total, orderRequestActual.getTotal(), 0.001);
+		assertEquals(OrderConstants.order0amount, orderItemRequestActual.getAmount(), 0.001);
+		assertEquals(OrderConstants.order0bookId, orderItemRequestActual.getBook().getBookId(), 0.001);
 
 		// Verify response fields
 		assertEquals(OrderConstants.order0orderId, responseReturned.getOrderId());
@@ -91,7 +101,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(null);
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListNull);
+		orderService.addOrder(OrderConstants.orderListNull, "test");
 	}
 
 	@Test
@@ -99,7 +109,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(null);
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListDTO);
+		orderService.addOrder(OrderConstants.orderListDTO, "test");
 	}
 
 	@Test
@@ -107,7 +117,7 @@ public class OrderServiceImplTest {
 		when(bookRepository.getOne(any())).thenReturn(new Book(1L, "test", 1, 1, false));
 		thrown.expect(StoreException.class);
 
-		orderService.addOrder(OrderConstants.orderListDTO);
+		orderService.addOrder(OrderConstants.orderListDTO, "test");
 	}
 
 	@Test

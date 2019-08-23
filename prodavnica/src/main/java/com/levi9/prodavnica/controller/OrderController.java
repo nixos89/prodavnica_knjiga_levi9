@@ -9,6 +9,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,8 @@ import com.levi9.prodavnica.dto.OrderReportDTO;
 import com.levi9.prodavnica.service.OrderService;
 import com.levi9.prodavnica.utils.PDFGenerator;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("api/orders")
 @CrossOrigin(origins = "*")
@@ -29,9 +33,10 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 
+	@PreAuthorize(value = "hasAuthority('USER') or hasRole('USER')")
 	@PostMapping
-	public ResponseEntity<?> addOrder(@RequestBody OrderListDTO orderRequest) {
-		return ResponseEntity.ok(orderService.addOrder(orderRequest));
+	public ResponseEntity<?> addOrder(@RequestBody @Validated OrderListDTO orderRequest, Principal principal) {
+		return ResponseEntity.ok(orderService.addOrder(orderRequest, principal.getName()));
 	}
 
 	@GetMapping()

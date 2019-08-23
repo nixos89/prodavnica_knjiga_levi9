@@ -20,25 +20,51 @@
 		<sqlFile path="changelogs/fillDummyData.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
-	
+
 	<changeSet id="addMoreCategories" author="Nikola Stevanovic">
 		<sqlFile path="changelogs/addMoreCategories.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
-	
+
 	<changeSet id="addOrderTable" author="MM">
 		<sqlFile path="changelogs/addOrderTable.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
-	
+
 	<changeSet id="addOrderItemTable" author="MM">
 		<sqlFile path="changelogs/addOrderItemTable.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
-	
-	<changeSet id="addMoreBooksAndAuthors" author="Nikola Stevanovic">
+
+	<changeSet id="addMoreBooksAndAuthors"
+		author="Nikola Stevanovic">
 		<sqlFile path="changelogs/addMoreBooksAndAuthors.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
+
+	<changeSet id="addRoleTable" author="MM">
+		<sqlFile path="changelogs/addRoleTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+
+	<changeSet id="addUserTable" author="MM">
+		<sqlFile path="changelogs/addUserTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+
+	<changeSet id="addUserInOrdersTable" author="MM">
+		<sqlFile path="changelogs/addUserInOrdersTable.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+
+	<changeSet id="addUserRoleData" author="MM">
+		<sqlFile path="changelogs/addUserRoleData.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+	<changeSet id="addOrders" author="AJ">
+		<sqlFile path="changelogs/addOrders.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+
 
 </databaseChangeLog>

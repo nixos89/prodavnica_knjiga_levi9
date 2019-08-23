@@ -18,7 +18,7 @@ export class AddBookComponent implements OnInit {
   authors: Array<number> = new Array<number>();
   authorData: AuthorInfo = new AuthorInfo();
   categoryData: CategoryInfo = new CategoryInfo();
-  active = "Deactivate";
+  active = "Active";
 
   constructor(
     private adminService: AdminManagementService,
@@ -79,7 +79,7 @@ export class AddBookComponent implements OnInit {
   }
 
   onChangeStatus(deleted){
-    this.active = deleted ? "Active" : "Deactivate"
+    this.active = deleted ? "Active" : "Deactive"
   }
 
 }

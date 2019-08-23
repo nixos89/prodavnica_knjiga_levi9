@@ -11,20 +11,14 @@ import com.levi9.prodavnica.model.Category;
 import com.levi9.prodavnica.repository.BookRepository;
 import com.levi9.prodavnica.repository.CategoryRepository;
 import com.levi9.prodavnica.serviceImpl.CategoryServiceImpl;
-import org.junit.Before;
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,6 +29,8 @@ import static org.mockito.Mockito.when;
 @WebMvcTest(CategoryServiceImpl.class)
 public class CategoryServiceImplTest {
 
+    @MockBean
+    CustomUserDetailsService userDetailsService;
 
 
     @Autowired

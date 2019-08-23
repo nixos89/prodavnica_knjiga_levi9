@@ -6,6 +6,7 @@ import com.levi9.prodavnica.config.UrlPrefix;
 import com.levi9.prodavnica.dto.CategoryDTO;
 import com.levi9.prodavnica.dto.CategoryListDTO;
 import com.levi9.prodavnica.service.CategoryService;
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,24 +15,32 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
-import org.springframework.restdocs.request.RequestDocumentation;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.mockito.Mockito.when;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CategoryController.class)
 @AutoConfigureRestDocs(outputDir = "target/generated-sources/snippets")
 public class CategoryControllerTest {
+
+    String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
+    HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+    CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+
+    @MockBean
+    CustomUserDetailsService userDetailsService;
 
     @Autowired
     MockMvc mockMvc;
@@ -43,6 +52,7 @@ public class CategoryControllerTest {
     ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     public void findAllCategories() throws Exception{
         when(categoryService.findAllCategories()).thenReturn(new CategoryListDTO(Lists.newArrayList(
                 new CategoryDTO(CategoryConstants.category0id,CategoryConstants.category0name,CategoryConstants.category0isDeleted),
@@ -59,6 +69,7 @@ public class CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void findOneCategory() throws Exception{
         when(categoryService.getOne(CategoryConstants.category0id)).thenReturn(CategoryConstants.create());
         mockMvc.perform(get(UrlPrefix.GET_CATEGORIES+"/"+CategoryConstants.category0id).accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
@@ -69,8 +80,10 @@ public class CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void addCategory() throws Exception{
-        mockMvc.perform(post(UrlPrefix.GET_CATEGORIES).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())))
+        mockMvc.perform(post(UrlPrefix.GET_CATEGORIES).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken()))
                 .andExpect(status().isCreated())
                 .andDo(document("{class-name}/{method-name}",
                         requestFields(fieldWithPath("name").description("The name of category"),
@@ -78,8 +91,11 @@ public class CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void updateCategory() throws Exception{
-        mockMvc.perform(put(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())))
+        mockMvc.perform(put(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).
+                contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(CategoryConstants.createAdd())).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken()))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}",
                         requestFields(fieldWithPath("name").description("The name of category"),
@@ -87,8 +103,10 @@ public class CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void deleteCategory() throws Exception{
-        mockMvc.perform(delete(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id))
+        mockMvc.perform(delete(UrlPrefix.GET_CATEGORIES+"/"+ CategoryConstants.category0id).sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken()))
                 .andExpect(status().isOk())
                 .andDo(document("{class-name}/{method-name}"));
     }
