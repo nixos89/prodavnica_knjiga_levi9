@@ -60,7 +60,7 @@ public class BookControllerTest {
 	@WithMockUser
 	public void findAllBooks() throws Exception {
 
-		when(bookService.findAllBooks()).thenReturn(new BookListDTO(Lists.newArrayList(
+		when(bookService.findAllBooks(any())).thenReturn(new BookListDTO(Lists.newArrayList(
 				new BookDTO(BookConstants.book0id, BookConstants.book0name, BookConstants.book0price,
 						BookConstants.book0amount, BookConstants.book0deleted),
 				new BookDTO(BookConstants.book1id, BookConstants.book1name, BookConstants.book1price,

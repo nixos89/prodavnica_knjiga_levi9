@@ -20,10 +20,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	@Query("SELECT b.bookId FROM Book b RIGHT JOIN b.categories c RIGHT JOIN b.authors a WHERE b.isDeleted = 0 AND b.amount > 0 AND (a.firstName LIKE %:search% OR a.lastName LIKE %:search% or b.name LIKE %:search%)")
 	public List<Long> getBooksFilterSearch(@Param("search") String search);
 
-
-
-
 	@Query("SELECT b FROM Book b WHERE b.isDeleted = 0 AND b.amount > 0")
 	public List<Book> getAllBooks();
-
 }
