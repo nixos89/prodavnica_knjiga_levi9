@@ -66,7 +66,7 @@
       <td><a href="#" class="btn btn-secondary "><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
       <td colspan="2" class="hidden-xs"></td>
       <td></td>
-      <td colspan="2"><a class="btn btn-danger btn-block" (click)="deleteAllItems()">Empty cart <i class="fa fa-trash-o"></i></a></td>
+      <td colspan="2"><a class="btn btn-danger btn-block" [ngClass]="{disabled: orderItems.length==0}" (click)="deleteAllItems()">Empty cart <i class="fa fa-trash-o"></i></a></td>
       <td colspan="2"><a href="#" class="btn btn-success btn-block" style="width: 80px" data-toggle="modal" data-target="#exampleModalCenter" [ngClass]="{disabled: orderItems.length==0}" (click)="makePurchase()">Pay <i class="fa fa-angle-right"></i></a></td>
     </tr>
     </tfoot>

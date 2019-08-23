@@ -1,39 +1,23 @@
 package com.levi9.prodavnica.serviceImpl;
 
-import java.security.Principal;
-import java.util.ArrayList;
-
-import java.util.Comparator;
-import java.util.HashMap;
-
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-
-import com.levi9.prodavnica.model.User;
-import com.levi9.prodavnica.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-
-import com.levi9.prodavnica.dto.AddUpdateBookDTO;
-import com.levi9.prodavnica.dto.AuthorDTO;
-import com.levi9.prodavnica.dto.BookDTO;
-import com.levi9.prodavnica.dto.BookListDTO;
-import com.levi9.prodavnica.dto.TopSellingBookDTO;
-import com.levi9.prodavnica.dto.TopSellingBookListDTO;
+import com.levi9.prodavnica.dto.*;
 import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.mapper.BookMapper;
 import com.levi9.prodavnica.model.Author;
 import com.levi9.prodavnica.model.Book;
 import com.levi9.prodavnica.model.Category;
+import com.levi9.prodavnica.model.User;
+import com.levi9.prodavnica.repository.*;
 import com.levi9.prodavnica.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.security.Principal;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -192,7 +176,7 @@ public class BookServiceImpl implements BookService {
         List<BookDTO> books = new ArrayList<>();
         List<Long> booksId = new ArrayList<>();
 
-        booksId = ids == null ? bookRepository.getBooksFilterSearch(search) : bookRepository.getBooksFilterAll(ids, search);
+        booksId = ids == null ? bookRepository.getBooksFilterSearch(search.trim()) : bookRepository.getBooksFilterAll(ids, search.trim());
 
         if (!booksId.isEmpty()) {
             for (Long idBook : booksId) {
