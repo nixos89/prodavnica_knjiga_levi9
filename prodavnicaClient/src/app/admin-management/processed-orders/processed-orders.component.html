@@ -1,13 +1,12 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container" style="margin-top: 50px">
     <br/>
-    <input type="button" value="Download PDF version" class="btn btn-sm btn-primary" (click)="downloadPDF()"/>
-    <br/>
+    <input type="button" value="Download PDF version" class="btn btn-sm btn-primary" (click)="downloadPDF()"/> &nbsp;
     <table id="cart" class="table table-responsive">
         <thead>
             <tr class="names">
                 <th style="width:10%" class="text-xs-right">Order ID</th>
-                <th style="width:25%" class="text-xs-center">Order Date</th>
+                <th style="width:25%" class="text-xs-right">Order Date</th>
                 <th style="width:25%" class="text-xs-center">Book Title (Book ID)</th>
                 <th style="width:10%" class="text-xs-right">Book Amount</th>
                 <th style="width:15%" class="text-xs-right">Total Book Price</th>
@@ -25,12 +24,12 @@
                         </td>
                         <td data-th="Order Date">
                             <div class="row">
-                                <p class="text-xs-center">{{os.orderDate}}</p>
+                                <p class="text-xs-right">{{os.orderDate}}</p>
                             </div>
                         </td>
                         <td data-th="Book Title (Book ID)">
                             <div class="row">
-                                <p class="text-xs-center"><i>{{oir.bookDTO.name}}</i> ({{oir.bookDTO.bookId}})</p>
+                                <p class="text-xs-right"><i>{{oir.bookDTO.name}}</i> ({{oir.bookDTO.bookId}})</p>
                             </div>
                         </td>
                         <td data-th="Book Amount">

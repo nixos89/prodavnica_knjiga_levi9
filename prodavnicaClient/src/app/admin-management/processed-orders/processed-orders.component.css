@@ -304,7 +304,9 @@
       opacity: 1;
     }
   }
-  
-.move-order-id-right{
-    text-align: right;
+
+ /* for Order ID fields to be fully visible */  
+.table>tbody>tr.item>td>div.row>p.move-order-id-right{
+  margin-right: -20px;
+  margin-left: 20px;
 }

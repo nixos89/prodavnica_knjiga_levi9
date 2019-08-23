@@ -36,14 +36,18 @@ export class ProcessedOrdersComponent implements OnInit {
   downloadPDF(){
     this.orderService.getProcessedOrdersPDF().subscribe(
       response => {
-        let blob:any = new Blob([response], { type: 'application/pdf' });
-        fileSaver.saveAs(blob, 'orders.pdf');       
+        let blob:any = new Blob([response], { type: 'application/pdf' });   
+        const d: Date = new Date();
+        let dateStr: string =  d.getHours() + 'h' + d.getMinutes() + 'm'
+              + d.getSeconds()+ 's_'+ + d.getDate() + '.' + d.getMonth() + '.' + d.getFullYear();                     
+        fileSaver.saveAs(blob, 'processedOrders_'+dateStr+'.pdf');       
       },
       error => {
-        console.log('error message:', error.error.message);        
+        window.alert(error.error.message);        
       }
-    );
-    
+    );    
   }
+
+  
 
 }
