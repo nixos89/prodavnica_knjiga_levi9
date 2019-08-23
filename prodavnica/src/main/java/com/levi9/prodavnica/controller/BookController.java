@@ -1,5 +1,6 @@
 package com.levi9.prodavnica.controller;
 
+import java.security.Principal;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class BookController {
 	public int topSellingBooksLimit;
 
 	@GetMapping
-	public ResponseEntity<?> getAllBooks() {
-		return ResponseEntity.ok(bookService.findAllBooks());
+	public ResponseEntity<?> getAllBooks(Principal principal) {
+		return ResponseEntity.ok(bookService.findAllBooks(principal));
 	}
 
 	@GetMapping("/{id}")

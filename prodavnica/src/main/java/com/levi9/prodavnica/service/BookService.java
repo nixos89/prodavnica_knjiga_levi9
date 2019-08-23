@@ -1,5 +1,6 @@
 package com.levi9.prodavnica.service;
 
+import java.security.Principal;
 import java.util.Set;
 
 import com.levi9.prodavnica.dto.AddUpdateBookDTO;
@@ -9,7 +10,7 @@ import com.levi9.prodavnica.dto.TopSellingBookListDTO;
 
 public interface BookService {
 
-	public BookListDTO findAllBooks();
+	public BookListDTO findAllBooks(Principal principal);
 
 	public BookDTO findBook(Long id);
 

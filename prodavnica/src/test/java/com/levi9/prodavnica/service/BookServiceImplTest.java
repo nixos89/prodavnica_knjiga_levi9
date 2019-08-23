@@ -7,10 +7,7 @@ import com.levi9.prodavnica.exception.StoreException;
 import com.levi9.prodavnica.mapper.BookMapper;
 import com.levi9.prodavnica.model.Author;
 import com.levi9.prodavnica.model.Book;
-import com.levi9.prodavnica.repository.AuthorRepository;
-import com.levi9.prodavnica.repository.BookRepository;
-import com.levi9.prodavnica.repository.CategoryRepository;
-import com.levi9.prodavnica.repository.OrderItemRepository;
+import com.levi9.prodavnica.repository.*;
 import com.levi9.prodavnica.serviceImpl.BookServiceImpl;
 import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
 import com.levi9.prodavnica.utils.SalesDetails;
@@ -49,6 +46,8 @@ public class BookServiceImplTest {
     BookMapper bookMapper;
     @MockBean
     OrderItemRepository orderItemRepository;
+    @MockBean
+	UserRepository userRepository;
     @Rule
 	public ExpectedException thrown = ExpectedException.none();
 
