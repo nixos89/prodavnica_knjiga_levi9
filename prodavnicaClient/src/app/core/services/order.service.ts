@@ -41,10 +41,7 @@ export class OrderService {
   public getProcessedOrdersPDF(): Observable<any> {
     let httpHeaders  = new HttpHeaders()
       .set('Accept', 'application/pdf')  
-      .set('Content-type', 'application/pdf');     
-      // .set('Content-Disposition', 'inline; filename=orders.pdf');
-    console.log('headers:', httpHeaders);
-    
+      .set('Content-type', 'application/pdf');         
     return this.http.get(environment.url + 'api/orders/pdf', { headers: httpHeaders, responseType: 'blob' });
   }
 

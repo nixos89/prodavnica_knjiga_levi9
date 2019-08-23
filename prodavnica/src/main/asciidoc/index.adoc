@@ -1,3 +1,14 @@
+:sectnums:
+:sectnumlevels: 5
+:toc: left
+:toclevels: 3
+:page-layout: docs
+:doctype: book
+:icons: font
+
+= Books API
+
+
 === Author API
 
 include::author/get-all-authors/getAllAuthors.adoc[]
@@ -24,3 +35,5 @@ include::category/delete-category/deleteCategory.adoc[]
 === Order API
 
 include::order/add-order/addOrder.adoc[]
+include::order/get-processed-orders/getProcessedOrders.adoc[]
+include::order/get-processed-orders-report/getProcessedOrdersReport.adoc[]

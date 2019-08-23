@@ -193,8 +193,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
         this.message =
           "You have selected more books than it's possible!\n" +
           error.error.message;
-        this.successOrder = true;
-        this.errorOrder = false;
+        this.successOrder = false;
+        this.errorOrder = true;
       }
     );
   }

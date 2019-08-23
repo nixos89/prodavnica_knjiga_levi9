@@ -16,3 +16,7 @@ include::{snippets}book-controller-test/get-top-selling-books/request-body.adoc[
 [[get_top_selling_books_success_response]]
 ===== Response
 include::{snippets}book-controller-test/get-top-selling-books/http-response.adoc[]
+
+[[get_top_selling_books_success_response_fields]]
+===== Response Fields
+include::{snippets}book-controller-test/get-top-selling-books/response-fields.adoc[]
