@@ -176,7 +176,7 @@ public class BookServiceImpl implements BookService {
         List<BookDTO> books = new ArrayList<>();
         List<Long> booksId = new ArrayList<>();
 
-        booksId = ids == null ? bookRepository.getBooksFilterSearch(search.trim()) : bookRepository.getBooksFilterAll(ids, search.trim());
+        booksId = ids == null ? bookRepository.getBooksFilterSearch(search) : bookRepository.getBooksFilterAll(ids, search);
 
         if (!booksId.isEmpty()) {
             for (Long idBook : booksId) {
