@@ -1,0 +1,18 @@
+[[get_processed_orders_success]]
+==== Get processed orders
+
+[[get_processed_orders_success_curl]]
+===== cURL
+include::{snippets}/order-controller-test/get-processed-orders-test/curl-request.adoc[]
+
+[[get_processed_orders_success_request]]
+===== Request
+include::{snippets}/order-controller-test/get-processed-orders-test/http-request.adoc[]
+
+[[get_processed_orders_success_response]]
+===== Response
+include::{snippets}/order-controller-test/get-processed-orders-test/http-response.adoc[]
+
+[[get_processed_orders_success_response_fields]]
+===== Response fields
+include::{snippets}/order-controller-test/get-processed-orders-test/response-fields.adoc[]

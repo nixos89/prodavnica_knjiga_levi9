@@ -1,0 +1,12 @@
+[[get_processed_orders_report_success]]
+==== Get processed orders report
+
+[[get_processed_orders_report_success_curl]]
+===== cURL
+include::{snippets}order-controller-test/get-processed-orders-report-test/curl-request.adoc[]
+
+[[get_processed_orders_report_success_request]]
+===== Request
+include::{snippets}order-controller-test/get-processed-orders-report-test/http-request.adoc[]
+
+
