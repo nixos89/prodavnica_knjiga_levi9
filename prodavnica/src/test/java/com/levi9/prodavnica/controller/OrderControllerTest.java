@@ -1,5 +1,27 @@
 package com.levi9.prodavnica.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.levi9.prodavnica.config.*;
+import com.levi9.prodavnica.dto.OrderReportDTO;
+import com.levi9.prodavnica.dto.OrderResponseDTO;
+import com.levi9.prodavnica.service.OrderService;
+import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -10,36 +32,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.levi9.prodavnica.serviceImpl.CustomUserDetailsService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.levi9.prodavnica.config.AuthorConstants;
-import com.levi9.prodavnica.config.BookConstants;
-import com.levi9.prodavnica.config.CategoryConstants;
-import com.levi9.prodavnica.config.OrderConstants;
-import com.levi9.prodavnica.config.UrlPrefix;
-import com.levi9.prodavnica.dto.OrderReportDTO;
-import com.levi9.prodavnica.dto.OrderResponseDTO;
-import com.levi9.prodavnica.service.OrderService;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrderController.class)
@@ -76,6 +69,7 @@ public class OrderControllerTest {
 
 
 	@Test
+	@WithMockUser(roles = "ADMIN")
 	public void getProcessedOrdersTest() throws Exception {
 		OrderReportDTO orDTO = new OrderReportDTO();
 		orDTO.setOrderDTOList(OrderConstants.orderDTOList);
@@ -133,13 +127,13 @@ public class OrderControllerTest {
 		  }
 
 	@Test
+	@WithMockUser(roles = "ADMIN")
 	public void getProcessedOrdersReportTest() throws Exception {
 		OrderReportDTO orDTO = new OrderReportDTO();
 		orDTO.setOrderDTOList(OrderConstants.orderDTOList);
 		when(orderService.getOrderReport()).thenReturn(orDTO);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Disposition", "inline; filename=orders.pdf");
-//			ByteArrayInputStream bais = PDFGenerator.ordersPDFReport(orDTO);
 
 		mockMvc.perform(get(UrlPrefix.GET_ORDERS + "/pdf").accept(MediaType.APPLICATION_PDF)).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_PDF_VALUE))

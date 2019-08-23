@@ -1,9 +1,9 @@
 package com.levi9.prodavnica.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-
+import com.levi9.prodavnica.dto.OrderListDTO;
+import com.levi9.prodavnica.dto.OrderReportDTO;
+import com.levi9.prodavnica.service.OrderService;
+import com.levi9.prodavnica.utils.PDFGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -11,18 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.levi9.prodavnica.dto.OrderListDTO;
-import com.levi9.prodavnica.dto.OrderReportDTO;
-import com.levi9.prodavnica.service.OrderService;
-import com.levi9.prodavnica.utils.PDFGenerator;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.security.Principal;
 
 @RestController
@@ -39,11 +31,13 @@ public class OrderController {
 		return ResponseEntity.ok(orderService.addOrder(orderRequest, principal.getName()));
 	}
 
+	@PreAuthorize(value = "hasAuthority('ADMIN') or hasRole('ADMIN')")
 	@GetMapping()
 	public ResponseEntity<?> getProcessedOrders(){
 		return ResponseEntity.ok(orderService.getOrderReport());
 	}
-	
+
+	@PreAuthorize(value = "hasAuthority('ADMIN') or hasRole('ADMIN')")
 	@GetMapping("/pdf")
 	public ResponseEntity<InputStreamResource> orderReportPdf() throws IOException {
 		OrderReportDTO orderReportDTO = orderService.getOrderReport();
@@ -52,8 +46,7 @@ public class OrderController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Disposition", "inline; filename=orders.pdf");
 		
-		System.out.println(" ====== I orderReportPdf() have been summoned at " + LocalDateTime.now() + " ! ======== ");
-		
+
 		return ResponseEntity.ok()
 				.headers(headers)
 				.contentType(MediaType.APPLICATION_PDF)
