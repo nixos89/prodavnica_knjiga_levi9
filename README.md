@@ -10,11 +10,14 @@ This is a RESTful full-stack web application for online book purchasing which su
 This app utilizes following technologies:
 - **Spring Boot** framework as main backend tech stack including:
   * Spring Data JPA
-  * Spring Security
+  * Hibernate + JPA
   * MySQL
+  * Spring Security
   * Lombok
   * Liquibase (DB migration tool)
   * OAuth2
+  * JWT
+  * Mockito
   * Spring RESTDocs.
   * [itextpdf](https://github.com/itext/itextpdf), etc.
 - **Angular** framework as main frontend tech stack including:
